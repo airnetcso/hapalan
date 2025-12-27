@@ -3,37 +3,29 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Login Vocabulary Test</title>
+<title>Login Siswa</title>
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
-<div class="login-container">
-  <h2>Login Siswa / Admin</h2>
-  <input id="username" type="text" placeholder="Username">
-  <input id="password" type="password" placeholder="Password">
+<div class="center">
+  <h1>Login Siswa</h1>
+  <input type="text" id="username" placeholder="Nama Siswa">
+  <select id="role">
+    <option value="student">Siswa</option>
+    <option value="admin">Admin</option>
+  </select>
   <button onclick="login()">Login</button>
-  <div id="error" style="color:red;margin-top:10px;"></div>
 </div>
 
 <script>
-const users = [
-  {username: "siswa1", password: "1234", role: "student"},
-  {username: "admin", password: "admin", role: "admin"}
-];
-
-function login(){
-  const u = document.getElementById("username").value;
-  const p = document.getElementById("password").value;
-  const e = document.getElementById("error");
-
-  const user = users.find(x => x.username === u && x.password === p);
-  if(user){
-    localStorage.setItem("user", JSON.stringify(user));
-    if(user.role === "student") location.href="student.html";
-    else location.href="admin.html";
-  } else {
-    e.innerText = "Username atau password salah!";
-  }
+function login() {
+  const name = document.getElementById('username').value.trim();
+  const role = document.getElementById('role').value;
+  if(!name){ alert("Masukkan nama!"); return;}
+  localStorage.setItem("user", name);
+  localStorage.setItem("role", role);
+  if(role === "admin") location.href = "admin.html";
+  else location.href = "dashboard.html";
 }
 </script>
 </body>
