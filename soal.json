@@ -1,0 +1,41 @@
+[
+  {"id":1,"type":"vocab","question":"사람","answer":"사람","meaning":"orang"},
+  {"id":2,"type":"vocab","question":"학생","answer":"학생","meaning":"siswa"},
+  {"id":3,"type":"vocab","question":"선생님","answer":"선생님","meaning":"guru"},
+  {"id":4,"type":"vocab","question":"의사","answer":"의사","meaning":"dokter"},
+  {"id":5,"type":"vocab","question":"회사원","answer":"회사원","meaning":"pegawai"},
+
+  {"id":6,"type":"vocab","question":"책","answer":"책","meaning":"buku"},
+  {"id":7,"type":"vocab","question":"의자","answer":"의자","meaning":"kursi"},
+  {"id":8,"type":"vocab","question":"책상","answer":"책상","meaning":"meja"},
+  {"id":9,"type":"vocab","question":"가방","answer":"가방","meaning":"tas"},
+  {"id":10,"type":"vocab","question":"전화","answer":"전화","meaning":"telepon"},
+
+  {"id":11,"type":"vocab","question":"학교","answer":"학교","meaning":"sekolah"},
+  {"id":12,"type":"vocab","question":"병원","answer":"병원","meaning":"rumah sakit"},
+  {"id":13,"type":"vocab","question":"회사","answer":"회사","meaning":"perusahaan"},
+  {"id":14,"type":"vocab","question":"시장","answer":"시장","meaning":"pasar"},
+  {"id":15,"type":"vocab","question":"식당","answer":"식당","meaning":"restoran"},
+
+  {"id":16,"type":"vocab","question":"빨간색","answer":"빨간색","meaning":"merah"},
+  {"id":17,"type":"vocab","question":"파란색","answer":"파란색","meaning":"biru"},
+  {"id":18,"type":"vocab","question":"노란색","answer":"노란색","meaning":"kuning"},
+  {"id":19,"type":"vocab","question":"검은색","answer":"검은색","meaning":"hitam"},
+  {"id":20,"type":"vocab","question":"하얀색","answer":"하얀색","meaning":"putih"},
+
+  {"id":21,"type":"vocab","question":"오늘","answer":"오늘","meaning":"hari ini"},
+  {"id":22,"type":"vocab","question":"내일","answer":"내일","meaning":"besok"},
+  {"id":23,"type":"vocab","question":"어제","answer":"어제","meaning":"kemarin"},
+  {"id":24,"type":"vocab","question":"아침","answer":"아침","meaning":"pagi"},
+  {"id":25,"type":"vocab","question":"저녁","answer":"저녁","meaning":"malam"},
+
+  {"id":26,"type":"vocab","question":"먹다","answer":"먹다","meaning":"makan"},
+  {"id":27,"type":"vocab","question":"마시다","answer":"마시다","meaning":"minum"},
+  {"id":28,"type":"vocab","question":"가다","answer":"가다","meaning":"pergi"},
+  {"id":29,"type":"vocab","question":"오다","answer":"오다","meaning":"datang"},
+  {"id":30,"type":"vocab","question":"보다","answer":"보다","meaning":"melihat"},
+
+  {"id":31,"type":"vocab","question":"일하다","answer":"일하다","meaning":"bekerja"},
+  {"id":32,"type":"vocab","question":"공부하다","answer":"공부하다","meaning":"belajar"},
+  {"id":33,"type":"vocab","question":"쉬다","answer":"쉬다","meaning":"istirahat"},
+  {"id":34,"type":"vocab","question":"자다","answer":"자

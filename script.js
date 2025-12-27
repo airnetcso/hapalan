@@ -1,48 +1,85 @@
-const SpeechRecognition =
-  window.SpeechRecognition || window.webkitSpeechRecognition;
-
-const recognition = new SpeechRecognition();
-recognition.lang = "ko-KR";
-recognition.interimResults = false;
-
+let allQuestions = [];
+let questions = [];
 let index = 0;
-let score = 0;
+let correct = 0;
+let wrong = 0;
+let repeatCount = 0;
 
-const questionEl = document.getElementById("question");
-const resultEl = document.getElementById("result");
-const scoreEl = document.getElementById("score");
-const micBtn = document.getElementById("micBtn");
+const MAX_REPEAT = 3;
+let time = 30 * 60;
 
-const vocab = [
-  { indo: "makan", korea: "먹다" },
-  { indo: "minum", korea: "마시다" },
-  { indo: "pergi", korea: "가다" }
-];
+/* LOAD */
+fetch("soal.json")
+  .then(r=>r.json())
+  .then(data=>{
+    allQuestions = data;
+    questions = data.sort(()=>0.5-Math.random()).slice(0,50);
+    loadQuestion();
+  });
 
+/* TIMER */
+setInterval(()=>{
+  time--;
+  document.getElementById("timer").innerText =
+    Math.floor(time/60)+":"+String(time%60).padStart(2,"0");
+  if(time<=0) finish();
+},1000);
+
+/* LOAD SOAL */
 function loadQuestion(){
-  resultEl.textContent = "";
-  questionEl.textContent = "🇮🇩 " + vocab[index].indo;
+  if(index>=questions.length) return finish();
+
+  repeatCount = 0;
+  const q = questions[index];
+  document.getElementById("question").innerText = q.question;
+  document.getElementById("meaning").innerText = q.meaning;
 }
 
-micBtn.onclick = () => {
-  recognition.start();
-  resultEl.textContent = "🎧 Mendengarkan...";
-};
+/* SPEECH */
+const rec = new webkitSpeechRecognition();
+rec.lang = "ko-KR";
 
-recognition.onresult = (e) => {
-  const spoken = e.results[0][0].transcript.trim();
-  const correct = vocab[index].korea;
+rec.onresult = e=>{
+  const spoken = e.results[0][0].transcript.replace(/\s/g,"");
+  const ans = questions[index].answer.replace(/\s/g,"");
 
-  if(spoken === correct){
-    resultEl.textContent = "✅ Benar: " + spoken;
-    score++;
+  if(spoken === ans){
+    correct++;
+    next();
   }else{
-    resultEl.textContent = `❌ Salah. Kamu: ${spoken} | Jawaban: ${correct}`;
+    repeatCount++;
+    if(repeatCount < MAX_REPEAT){
+      alert("❗ 다시 말해 보세요 ("+repeatCount+"/3)");
+      rec.start();
+    }else{
+      wrong++;
+      alert("❌ 오답");
+      next();
+    }
   }
-
-  scoreEl.textContent = "Skor: " + score;
-  index = (index + 1) % vocab.length;
-  loadQuestion();
 };
 
-loadQuestion();
+function startVoice(){
+  rec.start();
+}
+
+/* TEXT */
+function submitText(){
+  const val = document.getElementById("text").value.trim();
+  if(val === questions[index].answer) correct++;
+  else wrong++;
+  next();
+}
+
+function next(){
+  index++;
+  document.getElementById("text").value="";
+  loadQuestion();
+}
+
+function finish(){
+  alert(
+    "시험 종료\n정답: "+correct+
+    "\n오답: "+wrong
+  );
+}
