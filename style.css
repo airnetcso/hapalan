@@ -1,0 +1,150 @@
+/* ================= MOBILE PORTRAIT UI ================= */
+@media (max-width: 600px) {
+
+  body {
+    background: linear-gradient(180deg, #f4f6f9, #e3f2fd);
+  }
+
+  header {
+    font-size: 16px;
+    padding: 12px;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+  }
+
+  /* TIMER */
+  #timerBox {
+    top: auto;
+    bottom: 10px;
+    right: 50%;
+    transform: translateX(50%);
+    font-size: 15px;
+    padding: 8px 16px;
+    border-radius: 20px;
+    background: #111;
+    box-shadow: 0 0 10px rgba(0,255,0,0.6);
+  }
+
+  /* DASHBOARD GRID */
+  .grid {
+    grid-template-columns: repeat(5, 1fr);
+    gap: 8px;
+    padding: 10px;
+  }
+
+  .qbox {
+    height: 48px;
+    border-radius: 14px;
+    font-size: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .qbox.done {
+    background: linear-gradient(135deg, #66bb6a, #43a047);
+    color: #fff;
+  }
+
+  /* QUESTION CARD */
+  #questionBox {
+    margin: 10px;
+    padding: 16px;
+    border-radius: 16px;
+    animation: fadeIn 0.3s ease;
+  }
+
+  #questionBox h3 {
+    font-size: 17px;
+    line-height: 1.4;
+  }
+
+  #questionBox img {
+    border-radius: 14px;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.25);
+  }
+
+  /* ANSWERS */
+  #answers {
+    padding: 0 12px 90px;
+  }
+
+  #answers > div {
+    border-radius: 14px;
+    padding: 12px;
+    font-size: 15px;
+    transition: 0.2s;
+  }
+
+  #answers > div:active {
+    transform: scale(0.98);
+  }
+
+  #answers button {
+    width: 40px;
+    height: 40px;
+    font-size: 15px;
+    background: #eceff1;
+  }
+
+  #answers button.selected {
+    background: linear-gradient(135deg, #1e88e5, #1565c0);
+  }
+
+  /* AUDIO */
+  audio {
+    margin-top: 14px;
+    border-radius: 12px;
+  }
+
+  /* NAVIGATION BAR */
+  .nav-buttons {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+    gap: 10px;
+    padding: 10px;
+    background: rgba(255,255,255,0.95);
+    backdrop-filter: blur(6px);
+    box-shadow: 0 -3px 10px rgba(0,0,0,0.2);
+  }
+
+  .nav-buttons button {
+    flex: 1;
+    padding: 14px 0;
+    font-size: 14px;
+    border-radius: 20px;
+    font-weight: bold;
+  }
+
+  .nav-buttons button:nth-child(2) {
+    background: #ff7043;
+  }
+
+  /* VOCAB SPEAK */
+  .speak-box {
+    margin: 14px;
+    padding: 20px;
+    border-radius: 20px;
+  }
+
+  .speak-word {
+    font-size: 30px;
+  }
+
+  .speak-btn {
+    width: 100%;
+    border-radius: 30px;
+    padding: 14px;
+    font-size: 17px;
+  }
+
+  /* ANIMATION */
+  @keyframes fadeIn {
+    from {opacity: 0; transform: translateY(10px);}
+    to {opacity: 1; transform: translateY(0);}
+  }
+}
