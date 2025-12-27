@@ -3,24 +3,23 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Test Kosa Kata</title>
+<title>Quiz Dashboard</title>
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
 <div class="center">
-  <h1>Selamat Datang</h1>
-  <input type="text" id="username" placeholder="Nama Siswa">
-  <button onclick="login()">Login</button>
+  <h1>Selamat datang!</h1>
+  <input type="text" id="username" placeholder="Nama siswa">
+  <button id="startBtn">Mulai Quiz</button>
 </div>
 
 <script>
-function login(){
-  const user = document.getElementById('username').value.trim();
-  if(user) {
-    localStorage.setItem('user', user);
-    location.href='dashboard.html';
-  } else alert('Tulis nama dulu!');
-}
+document.getElementById("startBtn").onclick = () => {
+  const name = document.getElementById("username").value.trim();
+  if(!name) return alert("Isi nama dulu!");
+  localStorage.setItem("user", name);
+  location.href = "question.html";
+};
 </script>
 </body>
 </html>
