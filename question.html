@@ -5,17 +5,18 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Soal</title>
 <link rel="stylesheet" href="style.css">
-<script defer src="script.js"></script>
 </head>
 <body>
-<div class="header">
-  <button onclick="prevQuestion()">⏮ Sebelumnya</button>
-  <button onclick="nextQuestion()">Selanjutnya ⏭</button>
-  <button onclick="back()">Dashboard</button>
+<div class="center">
+  <div id="questionBox"></div>
+  <div id="answers"></div>
+  <div class="nav-buttons">
+    <button onclick="prevQuestion()">Sebelumnya</button>
+    <button onclick="nextQuestion()">Berikutnya</button>
+    <button onclick="manualSubmit()">Submit</button>
+  </div>
+  <div>Timer: <span id="timerBox">30:00</span></div>
 </div>
-<div class="content question-page">
-  <div class="col-left" id="answers"></div>
-  <div class="col-right" id="questionBox"></div>
-</div>
+<script src="script.js"></script>
 </body>
 </html>
