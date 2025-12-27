@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dashboard Soal</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="header">
+  <div id="timerBox" class="box">30:00</div>
+  <div class="header-right">
+    <button onclick="manualSubmit()" id="submitBtn">Submit</button>
+  </div>
+</div>
+
+<div class="content">
+  <div class="section-box listening">Listening</div>
+  <div id="listen" class="grid"></div>
+
+  <div class="section-box reading">Reading</div>
+  <div id="read" class="grid"></div>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>

@@ -3,40 +3,30 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Admin Panel</title>
+<title>Admin</title>
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
-<h2>Admin Panel - Hasil Siswa</h2>
-<table border="1" id="resultTable">
-  <tr>
-    <th>Nama</th>
-    <th>Skor</th>
-    <th>Waktu</th>
-    <th>Tanggal</th>
-  </tr>
-</table>
+<div class="center">
+  <h1>Admin Panel</h1>
+  <button onclick="loadResults()">Tampilkan Hasil</button>
+  <div id="results"></div>
+</div>
 
 <script>
 function loadResults(){
-  const results = JSON.parse(localStorage.getItem("results") || "[]");
-  const table = document.getElementById("resultTable");
-
-  results.forEach(r=>{
-    const tr = document.createElement("tr");
-    tr.innerHTML = `<td>${r.name}</td><td>${r.score}</td><td>${r.time}</td><td>${r.date}</td>`;
-    table.appendChild(tr);
+  const res = JSON.parse(localStorage.getItem("results") || "[]");
+  const rDiv = document.getElementById("results");
+  rDiv.innerHTML = "";
+  if(res.length === 0){ rDiv.textContent = "Belum ada hasil"; return; }
+  res.forEach(r=>{
+    const div = document.createElement("div");
+    div.style.padding="5px";
+    div.style.borderBottom="1px solid #ccc";
+    div.textContent = `${r.name} | Score: ${r.score} | Waktu: ${r.time} | Tanggal: ${r.date}`;
+    rDiv.appendChild(div);
   });
 }
-
-// cek login admin
-const user = JSON.parse(localStorage.getItem("user") || "{}");
-if(!user || user.role !== "admin"){
-  alert("Hanya admin yang bisa akses!");
-  location.href="index.html";
-}
-
-loadResults();
 </script>
 </body>
 </html>

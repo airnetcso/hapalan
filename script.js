@@ -1,85 +1,103 @@
-let allQuestions = [];
-let questions = [];
-let index = 0;
-let correct = 0;
-let wrong = 0;
-let repeatCount = 0;
+let questions=[], answered=JSON.parse(localStorage.getItem("answered")||"{}"), currentIndex=0;
+const MAX_PLAY = 3;
+const TOTAL_TIME = 30*60; // 30 menit
+let time = TOTAL_TIME;
 
-const MAX_REPEAT = 3;
-let time = 30 * 60;
+// Load soal
+async function loadSoal(){
+  try{
+    const res = await fetch("soal.json");
+    questions = await res.json();
 
-/* LOAD */
-fetch("soal.json")
-  .then(r=>r.json())
-  .then(data=>{
-    allQuestions = data;
-    questions = data.sort(()=>0.5-Math.random()).slice(0,50);
-    loadQuestion();
+    if(document.getElementById("listen")) buildGrid();
+    if(document.getElementById("questionBox")) loadQuestionPage();
+  }catch(e){alert("Gagal load soal"); console.error(e);}
+}
+
+// Build grid dashboard
+function buildGrid(){
+  const L=document.getElementById("listen"), R=document.getElementById("read");
+  if(!L||!R) return;
+  L.innerHTML=""; R.innerHTML="";
+  questions.forEach(q=>{
+    if(!q.id||!q.type) return;
+    const box=document.createElement("div"); box.className="qbox"; box.textContent=q.id;
+    if(answered[q.id]!==undefined) box.classList.add("done");
+    box.onclick=()=>{localStorage.setItem("current",q.id); location.href="question.html";}
+    if(q.type.toLowerCase()==="listening") L.appendChild(box); else R.appendChild(box);
   });
+}
 
-/* TIMER */
+// Load halaman soal
+function loadQuestionPage(){
+  const id=parseInt(localStorage.getItem("current"));
+  if(!id) return;
+  const idx=questions.findIndex(q=>q.id===id);
+  if(idx<0) return;
+  const q=questions[idx]; currentIndex=idx;
+  const qArea=document.getElementById("questionBox"), ansDiv=document.getElementById("answers");
+  if(!qArea||!ansDiv) return;
+  qArea.innerHTML=""; ansDiv.innerHTML="";
+
+  const h=document.createElement("h3"); h.textContent=q.id+". "+q.question; qArea.appendChild(h);
+  if(q.image){const img=document.createElement("img"); img.src=q.image; img.style.maxWidth="100%"; qArea.appendChild(img);}
+  if(q.audio){
+    const aud=document.createElement("audio");
+    aud.src=q.audio; aud.preload="auto"; aud.controls=true;
+    let playCount=0;
+    aud.addEventListener("play", ()=>{
+      if(playCount>=MAX_PLAY){aud.pause(); aud.currentTime=0; alert("Sudah maksimal play!");}
+    });
+    aud.addEventListener("ended", ()=>{playCount++; if(playCount>=MAX_PLAY){aud.controls=false; aud.style.opacity=0.6;}});
+    qArea.appendChild(aud);
+  }
+
+  q.options.forEach((opt,i)=>{
+    const btn=document.createElement("button"); btn.textContent=i+1;
+    if(answered[q.id]==i) btn.classList.add("selected");
+    btn.onclick=()=>{
+      answered[q.id]=i; localStorage.setItem("answered",JSON.stringify(answered));
+      ansDiv.querySelectorAll("button").forEach(b=>b.classList.remove("selected"));
+      btn.classList.add("selected");
+    };
+    const label=document.createElement("div"); label.style.display="flex"; label.style.alignItems="center"; label.style.gap="10px";
+    label.appendChild(btn);
+    const txt=document.createElement("span"); txt.textContent=opt; label.appendChild(txt);
+    ansDiv.appendChild(label);
+  });
+}
+
+// Navigasi
+function nextQuestion(){if(currentIndex+1<questions.length){localStorage.setItem("current",questions[currentIndex+1].id); loadQuestionPage();}else alert("Ini soal terakhir")}
+function prevQuestion(){if(currentIndex>0){localStorage.setItem("current",questions[currentIndex-1].id); loadQuestionPage();}else alert("Ini soal pertama")}
+function back(){location.href="dashboard.html"}
+
+// Timer
 setInterval(()=>{
-  time--;
-  document.getElementById("timer").innerText =
-    Math.floor(time/60)+":"+String(time%60).padStart(2,"0");
-  if(time<=0) finish();
+  time--; const m=String(Math.floor(time/60)).padStart(2,"0"), s=String(time%60).padStart(2,"0");
+  const t=document.getElementById("timerBox"); if(t) t.innerText=m+":"+s;
+  if(time<=0) autoSubmit();
 },1000);
 
-/* LOAD SOAL */
-function loadQuestion(){
-  if(index>=questions.length) return finish();
-
-  repeatCount = 0;
-  const q = questions[index];
-  document.getElementById("question").innerText = q.question;
-  document.getElementById("meaning").innerText = q.meaning;
+function calculateScore(){
+  let score=0;
+  questions.forEach(q=>{if(answered[q.id]==q.answer) score+=2.5;});
+  return score;
 }
 
-/* SPEECH */
-const rec = new webkitSpeechRecognition();
-rec.lang = "ko-KR";
-
-rec.onresult = e=>{
-  const spoken = e.results[0][0].transcript.replace(/\s/g,"");
-  const ans = questions[index].answer.replace(/\s/g,"");
-
-  if(spoken === ans){
-    correct++;
-    next();
-  }else{
-    repeatCount++;
-    if(repeatCount < MAX_REPEAT){
-      alert("❗ 다시 말해 보세요 ("+repeatCount+"/3)");
-      rec.start();
-    }else{
-      wrong++;
-      alert("❌ 오답");
-      next();
-    }
-  }
-};
-
-function startVoice(){
-  rec.start();
-}
-
-/* TEXT */
-function submitText(){
-  const val = document.getElementById("text").value.trim();
-  if(val === questions[index].answer) correct++;
-  else wrong++;
-  next();
-}
-
-function next(){
-  index++;
-  document.getElementById("text").value="";
-  loadQuestion();
-}
+function autoSubmit(){alert("Waktu habis! Nilai: "+calculateScore()); finish();}
+function manualSubmit(){if(confirm("Submit sekarang?")){alert("Nilai: "+calculateScore()); finish();}}
 
 function finish(){
-  alert(
-    "시험 종료\n정답: "+correct+
-    "\n오답: "+wrong
-  );
+  const name=localStorage.getItem("user")||"Siswa";
+  const score=calculateScore();
+  const timeUsed=(TOTAL_TIME-time);
+  let results=JSON.parse(localStorage.getItem("results")||"[]");
+  results.push({name,score,time:Math.floor(timeUsed/60)+" menit",date:new Date().toLocaleString()});
+  localStorage.setItem("results",JSON.stringify(results));
+  localStorage.removeItem("answered"); localStorage.removeItem("current");
+  location.href="index.html";
 }
+
+/* Load awal */
+window.onload = loadSoal;
