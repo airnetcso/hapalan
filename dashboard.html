@@ -3,23 +3,28 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Dashboard - Kosa Kata</title>
+<title>Dashboard</title>
 <link rel="stylesheet" href="style.css">
-<script defer src="script.js"></script>
 </head>
 <body>
-<div class="header">
-  <h2>Dashboard</h2>
-  <div class="header-right">
-    <div id="timerBox" class="box">30:00</div>
-    <button id="logoutBtn" onclick="logout()">Logout</button>
-  </div>
-</div>
-<div class="content">
-  <div class="section-box listening">Listening</div>
-  <div id="listen" class="grid"></div>
-  <div class="section-box reading">Reading</div>
-  <div id="read" class="grid"></div>
-</div>
+<h2>Halo, <span id="userName"></span></h2>
+<div>Timer: <span id="timerBox">30:00</span></div>
+<h3>Soal</h3>
+<div id="read" class="grid"></div>
+
+<button onclick="startTest()">Mulai Test</button>
+
+<script src="script.js"></script>
+<script>
+document.getElementById('userName').innerText = localStorage.getItem('user') || 'Siswa';
+
+function startTest(){
+  const firstId = questions[0].id;
+  localStorage.setItem('current', firstId);
+  location.href='question.html';
+}
+
+loadSoal();
+</script>
 </body>
 </html>
