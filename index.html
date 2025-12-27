@@ -3,15 +3,24 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Login - Kosa Kata</title>
+<title>Test Kosa Kata</title>
 <link rel="stylesheet" href="style.css">
-<script defer src="script.js"></script>
 </head>
 <body>
-<div class="center login-page">
-  <h1>Login Siswa</h1>
-  <input type="text" id="username" placeholder="Nama">
-  <button onclick="login()">Masuk</button>
+<div class="center">
+  <h1>Selamat Datang</h1>
+  <input type="text" id="username" placeholder="Nama Siswa">
+  <button onclick="login()">Login</button>
 </div>
+
+<script>
+function login(){
+  const user = document.getElementById('username').value.trim();
+  if(user) {
+    localStorage.setItem('user', user);
+    location.href='dashboard.html';
+  } else alert('Tulis nama dulu!');
+}
+</script>
 </body>
 </html>
