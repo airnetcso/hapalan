@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin Panel</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<h2>Admin Panel - Hasil Siswa</h2>
+<table border="1" id="resultTable">
+  <tr>
+    <th>Nama</th>
+    <th>Skor</th>
+    <th>Waktu</th>
+    <th>Tanggal</th>
+  </tr>
+</table>
+
+<script>
+function loadResults(){
+  const results = JSON.parse(localStorage.getItem("results") || "[]");
+  const table = document.getElementById("resultTable");
+
+  results.forEach(r=>{
+    const tr = document.createElement("tr");
+    tr.innerHTML = `<td>${r.name}</td><td>${r.score}</td><td>${r.time}</td><td>${r.date}</td>`;
+    table.appendChild(tr);
+  });
+}
+
+// cek login admin
+const user = JSON.parse(localStorage.getItem("user") || "{}");
+if(!user || user.role !== "admin"){
+  alert("Hanya admin yang bisa akses!");
+  location.href="index.html";
+}
+
+loadResults();
+</script>
+</body>
+</html>

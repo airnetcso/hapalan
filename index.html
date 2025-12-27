@@ -1,28 +1,40 @@
-/* <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8">
-  <title>Vocabulary Voice Test</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <!-- CSS -->
-  <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Login Vocabulary Test</title>
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
+<div class="login-container">
+  <h2>Login Siswa / Admin</h2>
+  <input id="username" type="text" placeholder="Username">
+  <input id="password" type="password" placeholder="Password">
+  <button onclick="login()">Login</button>
+  <div id="error" style="color:red;margin-top:10px;"></div>
+</div>
 
-  <div class="app">
-    <div id="timer">30:00</div>
+<script>
+const users = [
+  {username: "siswa1", password: "1234", role: "student"},
+  {username: "admin", password: "admin", role: "admin"}
+];
 
-    <div id="question">...</div>
-    <div id="meaning">...</div>
+function login(){
+  const u = document.getElementById("username").value;
+  const p = document.getElementById("password").value;
+  const e = document.getElementById("error");
 
-    <button onclick="startVoice()">🎤 JAWAB DENGAN SUARA</button>
-
-    <input id="text" type="text" placeholder="atau ketik jawaban">
-    <button onclick="submitText()">SUBMIT</button>
-  </div>
-
-  <!-- JS -->
-  <script src="script.js"></script>
+  const user = users.find(x => x.username === u && x.password === p);
+  if(user){
+    localStorage.setItem("user", JSON.stringify(user));
+    if(user.role === "student") location.href="student.html";
+    else location.href="admin.html";
+  } else {
+    e.innerText = "Username atau password salah!";
+  }
+}
+</script>
 </body>
 </html>
