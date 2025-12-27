@@ -1,33 +1,18 @@
-body{font-family:Arial,sans-serif;margin:0;background:#f2f2f2}
-.center{text-align:center;padding-top:50px}
-input,select,button{padding:10px;margin:5px;cursor:pointer;width:80%;max-width:300px}
-button{font-weight:bold}
+body{font-family:Arial,sans-serif;margin:0;padding:0}
+.center{text-align:center;padding:20px}
+input,button{padding:12px;margin:5px;cursor:pointer;font-size:16px}
+button{min-width:100px;border:none;border-radius:5px;background:#38bdf8;color:#fff;font-weight:bold;transition:0.3s}
+button:hover{background:#0ea5e9}
 
-/* Header */
-.header{position:fixed;top:0;left:0;right:0;height:60px;background:#eee;display:flex;justify-content:space-between;align-items:center;padding:0 10px;z-index:10}
-.box{padding:10px 20px;font-weight:bold;text-align:center;display:flex;align-items:center;justify-content:center;min-width:90px;height:40px;border-radius:0;box-sizing:border-box}
-#timerBox{background:#48bb78;color:#fff}
-#submitBtn{background:#ec4899;color:#fff;border:none}
-#submitBtn:hover{background:#db2777}
-
-/* Grid */
-.content{margin-top:70px;padding:10px}
-.grid{display:grid;grid-template-columns:repeat(5,1fr);gap:10px}
-@media(max-width:600px){.grid{grid-template-columns:repeat(3,1fr)}}
-@media(max-width:400px){.grid{grid-template-columns:repeat(2,1fr)}}
-.qbox{background:rgba(255,192,203,0.3);padding:15px;text-align:center;cursor:pointer;transition:0.3s}
+/* grid soal */
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(60px,1fr));gap:10px;margin:10px 0}
+.qbox{background:#fbb6ce;padding:15px;text-align:center;font-weight:bold;border-radius:5px;cursor:pointer;transition:0.3s}
 .qbox.done{background:#ccc}
 
-/* Section */
-.section-box{padding:10px;font-weight:bold;margin-bottom:10px}
-.section-box.listening{background:rgba(59,130,246,0.2);color:#2b6cb0}
-.section-box.reading{background:rgba(72,187,120,0.2);color:#2f855a}
-
-/* Soal page */
-.question-page{display:flex;flex-direction:column;gap:15px;margin-top:70px;padding:10px}
-.col-left,.col-right{padding:10px;border-radius:5px;background:#fff}
-.col-left button{width:30px;height:30px;border-radius:50%;border:2px solid #555;background:#fff;color:#555;font-weight:bold;margin-bottom:5px}
-.col-left button.selected{background:#38bdf8;color:#fff;border-color:#38bdf8}
-.nav-buttons{display:flex;justify-content:space-between;margin:10px 0;gap:5px}
-.nav-buttons button{background:#3498db;color:#fff;border:none;padding:10px;flex:1;font-weight:bold}
-.nav-buttons button:hover{background:#2980b9}
+/* soal page */
+#questionBox img{max-width:80%;margin:10px 0}
+.nav-buttons{display:flex;justify-content:center;gap:10px;margin-top:20px}
+#answers{margin-top:15px;display:flex;flex-direction:column;gap:10px}
+#answers button{border-radius:50px;min-width:50px;background:#10b981}
+#answers button.selected{background:#065f46}
+input.answer-text{padding:10px;font-size:16px;border-radius:5px;border:1px solid #aaa}
