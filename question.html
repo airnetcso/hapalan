@@ -3,20 +3,25 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Soal</title>
+<title>Quiz Soal</title>
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
-<div class="center">
+
+<div class="header">
+  <div id="timerBox" class="box">30:00</div>
+  <button id="submitBtn" class="box">Submit</button>
+</div>
+
+<div class="content">
   <div id="questionBox"></div>
   <div id="answers"></div>
   <div class="nav-buttons">
-    <button onclick="prevQuestion()">Sebelumnya</button>
-    <button onclick="nextQuestion()">Berikutnya</button>
-    <button onclick="manualSubmit()">Submit</button>
+    <button onclick="prevQuestion()">Prev</button>
+    <button onclick="nextQuestion()">Next</button>
   </div>
-  <div>Timer: <span id="timerBox">30:00</span></div>
 </div>
+
 <script src="script.js"></script>
 </body>
 </html>
