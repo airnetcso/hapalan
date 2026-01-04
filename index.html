@@ -8,7 +8,7 @@
   body {
     margin: 0;
     font-family: 'Segoe UI', Arial, sans-serif;
-    background: linear-gradient(to bottom, #f0f7ff, #e6f0ff);
+    background: linear-gradient(to bottom, #f0f7ff, #e0eafc);
     color: #333;
     min-height: 100vh;
   }
@@ -17,43 +17,103 @@
     margin: 0 auto;
     padding: 20px;
   }
-  h1 {
-    text-align: center;
-    color: #2c3e50;
-    margin-bottom: 10px;
-  }
-  .subtitle {
-    text-align: center;
-    color: #7f8c8d;
-    margin-bottom: 30px;
-  }
 
-  /* Menu Mode */
-  .mode-buttons {
+  /* LANDING PAGE */
+  #landing-page {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
     text-align: center;
-    margin-bottom: 30px;
   }
-  .mode-btn {
-    padding: 12px 20px;
-    margin: 0 8px;
-    border: none;
-    border-radius: 12px;
+  .book-theme {
+    background: #fff;
+    padding: 40px;
+    border-radius: 20px;
+    box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+    max-width: 600px;
+    position: relative;
+  }
+  .book-theme::before {
+    content: '';
+    position: absolute;
+    top: -10px; left: 50%;
+    width: 6px; height: 120%;
+    background: #8b4513;
+    transform: translateX(-50%);
+  }
+  .welcome-title {
+    font-size: 36px;
+    color: #2c3e50;
+    margin-bottom: 15px;
+  }
+  .welcome-subtitle {
+    font-size: 20px;
+    color: #e74c3c;
+    margin-bottom: 20px;
+  }
+  .welcome-text {
+    font-size: 18px;
+    color: #555;
+    line-height: 1.6;
+    margin-bottom: 40px;
+  }
+  .mode-select {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+  }
+  .mode-card {
+    padding: 25px 40px;
     background: #3498db;
     color: white;
-    font-size: 16px;
+    border-radius: 15px;
     cursor: pointer;
     transition: 0.3s;
+    width: 220px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.1);
   }
-  .mode-btn.active {
-    background: #e74c3c;
-    transform: scale(1.05);
-  }
-  .mode-btn:hover {
+  .mode-card:hover {
+    transform: translateY(-10px);
     background: #2980b9;
-    transform: translateY(-2px);
+  }
+  .mode-card h3 {
+    margin: 0 0 10px 0;
+    font-size: 22px;
   }
 
-  /* Tabel Kosakata */
+  /* KOSAKATA PAGE */
+  #vocab-page {
+    display: none;
+    min-height: 100vh;
+  }
+  .header-info {
+    text-align: center;
+    margin-bottom: 30px;
+  }
+  .header-info h2 {
+    color: #2c3e50;
+  }
+
+  /* Sub Mode Buttons (atas) */
+  .sub-mode-buttons {
+    text-align: center;
+    margin-bottom: 30px;
+  }
+  .sub-mode-btn {
+    padding: 10px 18px;
+    margin: 0 6px;
+    border: none;
+    border-radius: 10px;
+    background: #95a5a6;
+    color: white;
+    cursor: pointer;
+  }
+  .sub-mode-btn.active {
+    background: #e74c3c;
+  }
+
   table {
     width: 100%;
     border-collapse: collapse;
@@ -61,16 +121,16 @@
     border-radius: 15px;
     overflow: hidden;
     box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+    margin-bottom: 30px;
   }
   th {
     background: #3498db;
     color: white;
-    padding: 15px;
-    text-align: center;
+    padding: 16px;
     font-size: 18px;
   }
   td {
-    padding: 14px;
+    padding: 16px;
     text-align: center;
     border-bottom: 1px solid #eee;
   }
@@ -78,30 +138,23 @@
     background: #f8f9fa;
   }
 
-  /* Pagination */
-  .pagination {
+  /* Nav Bottom Static */
+  .nav-bottom {
     text-align: center;
-    margin-top: 30px;
+    padding: 20px 0;
   }
-  .page-btn {
-    padding: 10px 16px;
-    margin: 0 5px;
-    border: 1px solid #ddd;
-    background: white;
-    cursor: pointer;
-    border-radius: 8px;
-    transition: 0.3s;
-  }
-  .page-btn.active {
-    background: #e74c3c;
+  .nav-btn {
+    padding: 12px 24px;
+    margin: 0 10px;
+    border: none;
+    border-radius: 10px;
+    background: #3498db;
     color: white;
-    border-color: #e74c3c;
+    font-size: 16px;
+    cursor: pointer;
   }
-  .page-btn:hover {
-    background: #ecf0f1;
-  }
-  .page-btn:disabled {
-    opacity: 0.5;
+  .nav-btn:disabled {
+    background: #bdc3c7;
     cursor: not-allowed;
   }
 
@@ -115,19 +168,42 @@
 </head>
 <body>
 
-<div class="container">
-  <h1>📚 Hapalan Kosakata Bahasa Korea</h1>
-  <p class="subtitle">Paket Kosakata 1 • Total: <span id="total-words">0</span> kata</p>
+<!-- LANDING PAGE -->
+<div id="landing-page">
+  <div class="book-theme">
+    <h1 class="welcome-title">📖 Hapalan Kosakata Korea</h1>
+    <p class="welcome-subtitle">Mulai perjalanan belajar Hangul-mu!</p>
+    <p class="welcome-text">
+      Pilih mode belajar yang sesuai denganmu.<br>
+      Hafalkan 100 kosakata dasar tentang benda, makanan, minuman, dan tempat.
+    </p>
+    <div class="mode-select">
+      <div class="mode-card" onclick="startLearning('indo-korea')">
+        <h3>🇮🇩 → 🇰🇷</h3>
+        <p>Indonesia ke Korea<br><small>(Mode Belajar Dasar)</small></p>
+      </div>
+      <div class="mode-card" onclick="startLearning('korea-indo')">
+        <h3>🇰🇷 → 🇮🇩</h3>
+        <p>Korea ke Indonesia<br><small>(Mode Tes Diri)</small></p>
+      </div>
+    </div>
+  </div>
+</div>
 
-  <!-- Mode Buttons -->
-  <div class="mode-buttons">
-    <button class="mode-btn active" data-mode="indo-korea">Indonesia → Korea</button>
-    <button class="mode-btn" data-mode="korea-indo">Korea → Indonesia</button>
-    <button class="mode-btn" data-mode="indo-only">Hanya Indonesia</button>
-    <button class="mode-btn" data-mode="korea-only">Hanya Korea</button>
+<!-- KOSAKATA PAGE -->
+<div id="vocab-page" class="container">
+  <div class="header-info">
+    <h2>Paket Kosakata 1 • Total: <span id="total-words">0</span> kata</h2>
+    <p id="current-mode-text">Mode: Indonesia → Korea</p>
   </div>
 
-  <!-- Tabel Kosakata -->
+  <!-- Sub Mode Buttons -->
+  <div class="sub-mode-buttons">
+    <button class="sub-mode-btn" data-sub="only-indo">Hanya Indonesia</button>
+    <button class="sub-mode-btn active" id="main-mode-btn" data-sub="full">Indo - Korea</button>
+    <button class="sub-mode-btn" data-sub="only-korea">Hanya Korea</button>
+  </div>
+
   <table id="vocab-table">
     <thead>
       <tr>
@@ -136,13 +212,16 @@
       </tr>
     </thead>
     <tbody id="vocab-body">
-      <!-- Data akan diisi oleh JavaScript -->
       <tr><td colspan="2" style="padding:40px;">Memuat kosakata...</td></tr>
     </tbody>
   </table>
 
-  <!-- Pagination -->
-  <div class="pagination" id="pagination"></div>
+  <!-- Nav Bottom Static -->
+  <div class="nav-bottom">
+    <button class="nav-btn" id="prev-btn">← Sebelumnya</button>
+    <span style="margin:0 20px; font-size:18px;">Halaman <strong id="page-info">1</strong></span>
+    <button class="nav-btn" id="next-btn">Berikutnya →</button>
+  </div>
 
   <div class="footer">
     © 2026 Denzuka - Kim Jongun • 화이팅! 💪
@@ -150,26 +229,44 @@
 </div>
 
 <script>
-// URL JSON sesuai repo hapalan lo
+// URL JSON lo
 const JSON_URL = "https://raw.githubusercontent.com/airnetcso/hapalan/main/kosakata/kosakata1.json";
 
 let vocabulary = [];
 let currentPage = 1;
-const itemsPerPage = 50;
-let currentMode = "indo-korea";
+const itemsPerPage = 10;  // 10 kata per halaman
+let mainMode = "indo-korea";     // indo-korea atau korea-indo
+let subMode = "full";            // full, only-indo, only-korea
+
+const landingPage = document.getElementById("landing-page");
+const vocabPage = document.getElementById("vocab-page");
+
+function startLearning(mode) {
+  mainMode = mode;
+  landingPage.style.display = "none";
+  vocabPage.style.display = "block";
+  updateMainModeText();
+  loadVocabulary();
+}
+
+function updateMainModeText() {
+  const text = mainMode === "indo-korea" ? "Indonesia → Korea" : "Korea → Indonesia";
+  document.getElementById("current-mode-text").textContent = "Mode: " + text;
+  document.getElementById("main-mode-btn").textContent = text;
+}
 
 async function loadVocabulary() {
   try {
     const response = await fetch(JSON_URL);
-    if (!response.ok) throw new Error("File tidak ditemukan atau error loading");
+    if (!response.ok) throw new Error("File tidak ditemukan");
     vocabulary = await response.json();
     document.getElementById("total-words").textContent = vocabulary.length;
+    currentPage = 1;
     renderTable();
-    renderPagination();
+    updateNav();
   } catch (error) {
     document.getElementById("vocab-body").innerHTML = 
-      `<tr><td colspan="2" style="padding:30px;color:red;">Gagal memuat kosakata!<br><small>${error.message}<br>Pastikan file kosakata1.json sudah ada di folder /kosakata/</small></td></tr>`;
-    console.error(error);
+      `<tr><td colspan="2" style="padding:40px;color:red;">Gagal memuat!<br><small>${error.message}</small></td></tr>`;
   }
 }
 
@@ -180,31 +277,28 @@ function renderTable() {
 
   let html = "";
   pageData.forEach(item => {
-    const indo = item.indo || "-";
-    const korea = item.korea || "-";
+    let indo = item.indo || "-";
+    let korea = item.korea || "-";
 
     let col1 = indo;
     let col2 = korea;
 
-    if (currentMode === "korea-indo") {
+    if (mainMode === "korea-indo") {
       col1 = korea;
       col2 = indo;
-    } else if (currentMode === "indo-only") {
-      col1 = indo;
-      col2 = "-";
-    } else if (currentMode === "korea-only") {
-      col1 = korea;
-      col2 = "-";
     }
+
+    if (subMode === "only-indo") col2 = "-";
+    if (subMode === "only-korea") col1 = "-";
 
     html += `<tr><td>${col1}</td><td>${col2}</td></tr>`;
   });
 
   document.getElementById("vocab-body").innerHTML = html || 
-    `<tr><td colspan="2" style="padding:30px;">Tidak ada data di halaman ini</td></tr>`;
+    `<tr><td colspan="2" style="padding:40px;">Tidak ada kosakata di halaman ini</td></tr>`;
 
-  // Update header kolom
-  if (currentMode === "indo-korea" || currentMode === "indo-only") {
+  // Update header
+  if (mainMode === "indo-korea") {
     document.getElementById("col1").textContent = "Indonesia";
     document.getElementById("col2").textContent = "Korea (Hangul)";
   } else {
@@ -213,51 +307,43 @@ function renderTable() {
   }
 }
 
-function renderPagination() {
+function updateNav() {
   const totalPages = Math.ceil(vocabulary.length / itemsPerPage);
-  if (totalPages <= 1) {
-    document.getElementById("pagination").innerHTML = "";
-    return;
-  }
-
-  let html = `
-    <button class="page-btn" ${currentPage === 1 ? "disabled" : ""} onclick="changePage(${currentPage - 1})">‹ Prev</button>
-  `;
-
-  for (let i = 1; i <= totalPages; i++) {
-    html += `<button class="page-btn ${i === currentPage ? "active" : ""}" onclick="changePage(${i})">${i}</button>`;
-  }
-
-  html += `
-    <button class="page-btn" ${currentPage === totalPages ? "disabled" : ""} onclick="changePage(${currentPage + 1})">Next ›</button>
-  `;
-
-  document.getElementById("pagination").innerHTML = html;
+  document.getElementById("page-info").textContent = `${currentPage} / ${totalPages}`;
+  document.getElementById("prev-btn").disabled = currentPage === 1;
+  document.getElementById("next-btn").disabled = currentPage === totalPages;
 }
 
-function changePage(page) {
-  const totalPages = Math.ceil(vocabulary.length / itemsPerPage);
-  if (page < 1 || page > totalPages) return;
-  currentPage = page;
-  renderTable();
-  renderPagination();
-  window.scrollTo(0, 0);
-}
+document.getElementById("prev-btn").onclick = () => {
+  if (currentPage > 1) {
+    currentPage--;
+    renderTable();
+    updateNav();
+    window.scrollTo(0, 0);
+  }
+};
 
-// Event Mode Buttons
-document.querySelectorAll(".mode-btn").forEach(btn => {
+document.getElementById("next-btn").onclick = () => {
+  const totalPages = Math.ceil(vocabulary.length / itemsPerPage);
+  if (currentPage < totalPages) {
+    currentPage++;
+    renderTable();
+    updateNav();
+    window.scrollTo(0, 0);
+  }
+};
+
+// Sub mode buttons
+document.querySelectorAll(".sub-mode-btn").forEach(btn => {
   btn.addEventListener("click", () => {
-    document.querySelectorAll(".mode-btn").forEach(b => b.classList.remove("active"));
+    document.querySelectorAll(".sub-mode-btn").forEach(b => b.classList.remove("active"));
     btn.classList.add("active");
-    currentMode = btn.dataset.mode;
+    subMode = btn.dataset.sub;
     currentPage = 1;
     renderTable();
-    renderPagination();
+    updateNav();
   });
 });
-
-// Load saat halaman dibuka
-loadVocabulary();
 </script>
 
 </body>
