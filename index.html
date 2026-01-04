@@ -2,7 +2,7 @@
 <html lang="id">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>Hapalan Kosakata Korea</title>
 <style>
   body {
@@ -11,14 +11,15 @@
     background: linear-gradient(to bottom, #f0f7ff, #e0eafc);
     color: #333;
     min-height: 100vh;
+    touch-action: manipulation; /* Biar swipe lebih smooth */
   }
   .container {
     max-width: 900px;
     margin: 0 auto;
-    padding: 20px;
+    padding: 15px;
   }
 
-  /* LANDING PAGE */
+  /* LANDING PAGE - OPTIMIZED MOBILE */
   #landing-page {
     display: flex;
     flex-direction: column;
@@ -26,94 +27,111 @@
     justify-content: center;
     min-height: 100vh;
     text-align: center;
+    padding: 20px;
+    box-sizing: border-box;
   }
   .book-theme {
     background: #fff;
-    padding: 40px;
+    padding: 30px 20px;
     border-radius: 20px;
     box-shadow: 0 15px 40px rgba(0,0,0,0.15);
-    max-width: 600px;
+    width: 90%;
+    max-width: 500px;
     position: relative;
   }
   .book-theme::before {
     content: '';
     position: absolute;
-    top: -10px; left: 50%;
-    width: 6px; height: 120%;
+    top: -8px; left: 50%;
+    width: 5px; height: 110%;
     background: #8b4513;
     transform: translateX(-50%);
   }
   .welcome-title {
-    font-size: 36px;
+    font-size: 32px;
     color: #2c3e50;
-    margin-bottom: 15px;
+    margin-bottom: 10px;
   }
   .welcome-subtitle {
-    font-size: 20px;
+    font-size: 18px;
     color: #e74c3c;
-    margin-bottom: 20px;
+    margin-bottom: 15px;
   }
   .welcome-text {
-    font-size: 18px;
+    font-size: 16px;
     color: #555;
     line-height: 1.6;
-    margin-bottom: 40px;
+    margin-bottom: 35px;
   }
   .mode-select {
     display: flex;
+    flex-direction: column;
     gap: 20px;
-    justify-content: center;
+    width: 100%;
   }
   .mode-card {
-    padding: 25px 40px;
+    padding: 25px;
     background: #3498db;
     color: white;
     border-radius: 15px;
     cursor: pointer;
     transition: 0.3s;
-    width: 220px;
     box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+    font-size: 18px;
   }
-  .mode-card:hover {
-    transform: translateY(-10px);
+  .mode-card:hover, .mode-card:active {
+    transform: translateY(-5px);
     background: #2980b9;
   }
   .mode-card h3 {
-    margin: 0 0 10px 0;
-    font-size: 22px;
+    margin: 0 0 8px 0;
+    font-size: 24px;
   }
 
-  /* KOSAKATA PAGE */
+  /* KOSAKATA PAGE - MOBILE FRIENDLY */
   #vocab-page {
     display: none;
     min-height: 100vh;
+    padding-bottom: 100px; /* Space buat nav bottom */
   }
   .header-info {
     text-align: center;
-    margin-bottom: 30px;
+    margin: 20px 0;
   }
   .header-info h2 {
+    font-size: 20px;
     color: #2c3e50;
+    margin: 0;
+  }
+  #current-mode-text {
+    font-size: 16px;
+    color: #e74c3c;
+    margin-top: 5px;
   }
 
-  /* Sub Mode Buttons (atas) */
+  /* Sub Mode Buttons */
   .sub-mode-buttons {
-    text-align: center;
-    margin-bottom: 30px;
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin: 20px 0;
+    flex-wrap: wrap;
   }
   .sub-mode-btn {
-    padding: 10px 18px;
-    margin: 0 6px;
+    padding: 12px 18px;
     border: none;
-    border-radius: 10px;
+    border-radius: 12px;
     background: #95a5a6;
     color: white;
-    cursor: pointer;
+    font-size: 15px;
+    min-width: 120px;
   }
   .sub-mode-btn.active {
     background: #e74c3c;
+    font-weight: bold;
   }
 
+  /* Tabel - Touch Friendly */
   table {
     width: 100%;
     border-collapse: collapse;
@@ -121,16 +139,16 @@
     border-radius: 15px;
     overflow: hidden;
     box-shadow: 0 8px 25px rgba(0,0,0,0.1);
-    margin-bottom: 30px;
+    font-size: 18px; /* Lebih besar di HP */
   }
   th {
     background: #3498db;
     color: white;
-    padding: 16px;
-    font-size: 18px;
+    padding: 18px;
+    font-size: 19px;
   }
   td {
-    padding: 16px;
+    padding: 20px 10px;
     text-align: center;
     border-bottom: 1px solid #eee;
   }
@@ -138,31 +156,61 @@
     background: #f8f9fa;
   }
 
-  /* Nav Bottom Static */
+  /* Swipe Area */
+  .swipe-area {
+    min-height: 300px;
+    -webkit-user-select: none;
+    user-select: none;
+  }
+
+  /* Nav Bottom Fixed */
   .nav-bottom {
-    text-align: center;
-    padding: 20px 0;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background: white;
+    padding: 15px;
+    box-shadow: 0 -5px 20px rgba(0,0,0,0.1);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-sizing: border-box;
+    z-index: 100;
   }
   .nav-btn {
-    padding: 12px 24px;
-    margin: 0 10px;
+    padding: 14px 30px;
     border: none;
-    border-radius: 10px;
+    border-radius: 12px;
     background: #3498db;
     color: white;
-    font-size: 16px;
-    cursor: pointer;
+    font-size: 18px;
+    min-width: 140px;
   }
   .nav-btn:disabled {
     background: #bdc3c7;
-    cursor: not-allowed;
+  }
+  #page-info {
+    font-size: 18px;
+    font-weight: bold;
+    color: #2c3e50;
   }
 
   .footer {
     text-align: center;
-    margin-top: 50px;
+    padding: 20px;
     color: #95a5a6;
     font-size: 14px;
+    margin-top: 50px;
+  }
+
+  /* Responsif ekstra untuk HP kecil */
+  @media (max-width: 480px) {
+    .welcome-title { font-size: 28px; }
+    .mode-card { padding: 20px; font-size: 17px; }
+    .mode-card h3 { font-size: 22px; }
+    th, td { padding: 16px 8px; font-size: 17px; }
+    .sub-mode-btn { padding: 10px 14px; font-size: 14px; min-width: 100px; }
   }
 </style>
 </head>
@@ -172,59 +220,62 @@
 <div id="landing-page">
   <div class="book-theme">
     <h1 class="welcome-title">📖 Hapalan Kosakata Korea</h1>
-    <p class="welcome-subtitle">Mulai perjalanan belajar Hangul-mu!</p>
+    <p class="welcome-subtitle">Belajar Hangul Kapan Saja!</p>
     <p class="welcome-text">
-      Pilih mode belajar yang sesuai denganmu.<br>
-      Hafalkan 100 kosakata dasar tentang benda, makanan, minuman, dan tempat.
+      Hafalkan 100 kosakata dasar tentang benda, makanan, minuman, dan tempat.<br>
+      Pilih mode yang paling cocok buat kamu.
     </p>
     <div class="mode-select">
       <div class="mode-card" onclick="startLearning('indo-korea')">
         <h3>🇮🇩 → 🇰🇷</h3>
-        <p>Indonesia ke Korea<br><small>(Mode Belajar Dasar)</small></p>
+        <p>Indonesia ke Korea<br><small>Mode Belajar Santai</small></p>
       </div>
       <div class="mode-card" onclick="startLearning('korea-indo')">
         <h3>🇰🇷 → 🇮🇩</h3>
-        <p>Korea ke Indonesia<br><small>(Mode Tes Diri)</small></p>
+        <p>Korea ke Indonesia<br><small>Mode Tes Hafalan</small></p>
       </div>
     </div>
   </div>
 </div>
 
 <!-- KOSAKATA PAGE -->
-<div id="vocab-page" class="container">
-  <div class="header-info">
-    <h2>Paket Kosakata 1 • Total: <span id="total-words">0</span> kata</h2>
-    <p id="current-mode-text">Mode: Indonesia → Korea</p>
+<div id="vocab-page">
+  <div class="container">
+    <div class="header-info">
+      <h2>Paket 1 • <span id="total-words">0</span> Kata</h2>
+      <p id="current-mode-text">Mode: Indonesia → Korea</p>
+    </div>
+
+    <div class="sub-mode-buttons">
+      <button class="sub-mode-btn" data-sub="only-indo">Hanya Indonesia</button>
+      <button class="sub-mode-btn active" id="main-mode-btn" data-sub="full">Indo - Korea</button>
+      <button class="sub-mode-btn" data-sub="only-korea">Hanya Korea</button>
+    </div>
+
+    <div class="swipe-area">
+      <table id="vocab-table">
+        <thead>
+          <tr>
+            <th id="col1">Indonesia</th>
+            <th id="col2">Korea (Hangul)</th>
+          </tr>
+        </thead>
+        <tbody id="vocab-body">
+          <tr><td colspan="2" style="padding:60px;">Memuat kosakata...</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="footer">
+      © 2026 Denzuka - Kim Jongun • 화이팅! 💪
+    </div>
   </div>
 
-  <!-- Sub Mode Buttons -->
-  <div class="sub-mode-buttons">
-    <button class="sub-mode-btn" data-sub="only-indo">Hanya Indonesia</button>
-    <button class="sub-mode-btn active" id="main-mode-btn" data-sub="full">Indo - Korea</button>
-    <button class="sub-mode-btn" data-sub="only-korea">Hanya Korea</button>
-  </div>
-
-  <table id="vocab-table">
-    <thead>
-      <tr>
-        <th id="col1">Indonesia</th>
-        <th id="col2">Korea (Hangul)</th>
-      </tr>
-    </thead>
-    <tbody id="vocab-body">
-      <tr><td colspan="2" style="padding:40px;">Memuat kosakata...</td></tr>
-    </tbody>
-  </table>
-
-  <!-- Nav Bottom Static -->
+  <!-- Nav Bottom Fixed -->
   <div class="nav-bottom">
     <button class="nav-btn" id="prev-btn">← Sebelumnya</button>
-    <span style="margin:0 20px; font-size:18px;">Halaman <strong id="page-info">1</strong></span>
+    <div id="page-info">1 / 10</div>
     <button class="nav-btn" id="next-btn">Berikutnya →</button>
-  </div>
-
-  <div class="footer">
-    © 2026 Denzuka - Kim Jongun • 화이팅! 💪
   </div>
 </div>
 
@@ -234,12 +285,13 @@ const JSON_URL = "https://raw.githubusercontent.com/airnetcso/hapalan/main/kosak
 
 let vocabulary = [];
 let currentPage = 1;
-const itemsPerPage = 10;  // 10 kata per halaman
-let mainMode = "indo-korea";     // indo-korea atau korea-indo
-let subMode = "full";            // full, only-indo, only-korea
+const itemsPerPage = 10;
+let mainMode = "indo-korea";
+let subMode = "full";
 
 const landingPage = document.getElementById("landing-page");
 const vocabPage = document.getElementById("vocab-page");
+const swipeArea = document.querySelector(".swipe-area");
 
 function startLearning(mode) {
   mainMode = mode;
@@ -266,7 +318,7 @@ async function loadVocabulary() {
     updateNav();
   } catch (error) {
     document.getElementById("vocab-body").innerHTML = 
-      `<tr><td colspan="2" style="padding:40px;color:red;">Gagal memuat!<br><small>${error.message}</small></td></tr>`;
+      `<tr><td colspan="2" style="padding:60px;color:red;">Gagal memuat!<br><small>${error.message}</small></td></tr>`;
   }
 }
 
@@ -295,9 +347,8 @@ function renderTable() {
   });
 
   document.getElementById("vocab-body").innerHTML = html || 
-    `<tr><td colspan="2" style="padding:40px;">Tidak ada kosakata di halaman ini</td></tr>`;
+    `<tr><td colspan="2" style="padding:60px;">Tidak ada kosakata di halaman ini</td></tr>`;
 
-  // Update header
   if (mainMode === "indo-korea") {
     document.getElementById("col1").textContent = "Indonesia";
     document.getElementById("col2").textContent = "Korea (Hangul)";
@@ -314,24 +365,17 @@ function updateNav() {
   document.getElementById("next-btn").disabled = currentPage === totalPages;
 }
 
-document.getElementById("prev-btn").onclick = () => {
-  if (currentPage > 1) {
-    currentPage--;
-    renderTable();
-    updateNav();
-    window.scrollTo(0, 0);
-  }
-};
+document.getElementById("prev-btn").onclick = () => changePage(currentPage - 1);
+document.getElementById("next-btn").onclick = () => changePage(currentPage + 1);
 
-document.getElementById("next-btn").onclick = () => {
+function changePage(newPage) {
   const totalPages = Math.ceil(vocabulary.length / itemsPerPage);
-  if (currentPage < totalPages) {
-    currentPage++;
-    renderTable();
-    updateNav();
-    window.scrollTo(0, 0);
-  }
-};
+  if (newPage < 1 || newPage > totalPages) return;
+  currentPage = newPage;
+  renderTable();
+  updateNav();
+  window.scrollTo(0, 0);
+}
 
 // Sub mode buttons
 document.querySelectorAll(".sub-mode-btn").forEach(btn => {
@@ -344,6 +388,33 @@ document.querySelectorAll(".sub-mode-btn").forEach(btn => {
     updateNav();
   });
 });
+
+// === FITUR SWIPE TOUCHSCREEN ===
+let touchStartX = 0;
+let touchEndX = 0;
+const minSwipeDistance = 50; // Minimal geser 50px baru dianggap swipe
+
+swipeArea.addEventListener('touchstart', e => {
+  touchStartX = e.changedTouches[0].screenX;
+});
+
+swipeArea.addEventListener('touchend', e => {
+  touchEndX = e.changedTouches[0].screenX;
+  handleSwipe();
+});
+
+function handleSwipe() {
+  const distance = touchStartX - touchEndX;
+  if (Math.abs(distance) < minSwipeDistance) return;
+
+  if (distance > 0) {
+    // Swipe kiri → Next
+    document.getElementById("next-btn").click();
+  } else {
+    // Swipe kanan → Prev
+    document.getElementById("prev-btn").click();
+  }
+}
 </script>
 
 </body>
