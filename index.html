@@ -3,23 +3,260 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Quiz Dashboard</title>
-<link rel="stylesheet" href="style.css">
+<title>Hapalan Kosakata Korea</title>
+<style>
+  body {
+    margin: 0;
+    font-family: 'Segoe UI', Arial, sans-serif;
+    background: linear-gradient(to bottom, #f0f7ff, #e6f0ff);
+    color: #333;
+    min-height: 100vh;
+  }
+  .container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+  h1 {
+    text-align: center;
+    color: #2c3e50;
+    margin-bottom: 10px;
+  }
+  .subtitle {
+    text-align: center;
+    color: #7f8c8d;
+    margin-bottom: 30px;
+  }
+
+  /* Menu Mode */
+  .mode-buttons {
+    text-align: center;
+    margin-bottom: 30px;
+  }
+  .mode-btn {
+    padding: 12px 20px;
+    margin: 0 8px;
+    border: none;
+    border-radius: 12px;
+    background: #3498db;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    transition: 0.3s;
+  }
+  .mode-btn.active {
+    background: #e74c3c;
+    transform: scale(1.05);
+  }
+  .mode-btn:hover {
+    background: #2980b9;
+    transform: translateY(-2px);
+  }
+
+  /* Tabel Kosakata */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+  }
+  th {
+    background: #3498db;
+    color: white;
+    padding: 15px;
+    text-align: center;
+    font-size: 18px;
+  }
+  td {
+    padding: 14px;
+    text-align: center;
+    border-bottom: 1px solid #eee;
+  }
+  tr:hover {
+    background: #f8f9fa;
+  }
+
+  /* Pagination */
+  .pagination {
+    text-align: center;
+    margin-top: 30px;
+  }
+  .page-btn {
+    padding: 10px 16px;
+    margin: 0 5px;
+    border: 1px solid #ddd;
+    background: white;
+    cursor: pointer;
+    border-radius: 8px;
+    transition: 0.3s;
+  }
+  .page-btn.active {
+    background: #e74c3c;
+    color: white;
+    border-color: #e74c3c;
+  }
+  .page-btn:hover {
+    background: #ecf0f1;
+  }
+  .page-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  .footer {
+    text-align: center;
+    margin-top: 50px;
+    color: #95a5a6;
+    font-size: 14px;
+  }
+</style>
 </head>
 <body>
-<div class="center">
-  <h1>Selamat datang!</h1>
-  <input type="text" id="username" placeholder="Nama siswa">
-  <button id="startBtn">Mulai Quiz</button>
+
+<div class="container">
+  <h1>📚 Hapalan Kosakata Bahasa Korea</h1>
+  <p class="subtitle">Paket Kosakata 1 • Total: <span id="total-words">0</span> kata</p>
+
+  <!-- Mode Buttons -->
+  <div class="mode-buttons">
+    <button class="mode-btn active" data-mode="indo-korea">Indonesia → Korea</button>
+    <button class="mode-btn" data-mode="korea-indo">Korea → Indonesia</button>
+    <button class="mode-btn" data-mode="indo-only">Hanya Indonesia</button>
+    <button class="mode-btn" data-mode="korea-only">Hanya Korea</button>
+  </div>
+
+  <!-- Tabel Kosakata -->
+  <table id="vocab-table">
+    <thead>
+      <tr>
+        <th id="col1">Indonesia</th>
+        <th id="col2">Korea (Hangul)</th>
+      </tr>
+    </thead>
+    <tbody id="vocab-body">
+      <!-- Data akan diisi oleh JavaScript -->
+    </tbody>
+  </table>
+
+  <!-- Pagination -->
+  <div class="pagination" id="pagination"></div>
+
+  <div class="footer">
+    © 2026 Denzuka - Kim Jongun • 화이팅! 💪
+  </div>
 </div>
 
 <script>
-document.getElementById("startBtn").onclick = () => {
-  const name = document.getElementById("username").value.trim();
-  if(!name) return alert("Isi nama dulu!");
-  localStorage.setItem("user", name);
-  location.href = "question.html";
-};
+// Ganti URL ini dengan link JSON kosakata lo nanti
+const JSON_URL = "https://raw.githubusercontent.com/airnetcso/latbakor/main/kosakata/kosakata1.json";
+
+let vocabulary = [];
+let currentPage = 1;
+const itemsPerPage = 50;
+let currentMode = "indo-korea";
+
+async function loadVocabulary() {
+  try {
+    const response = await fetch(JSON_URL);
+    vocabulary = await response.json();
+    document.getElementById("total-words").textContent = vocabulary.length;
+    renderTable();
+    renderPagination();
+  } catch (error) {
+    document.getElementById("vocab-body").innerHTML = 
+      `<tr><td colspan="2" style="padding:30px;color:red;">Gagal memuat kosakata. Pastikan file JSON ada dan URL benar!</td></tr>`;
+    console.error(error);
+  }
+}
+
+function renderTable() {
+  const start = (currentPage - 1) * itemsPerPage;
+  const end = start + itemsPerPage;
+  const pageData = vocabulary.slice(start, end);
+
+  let html = "";
+  pageData.forEach(item => {
+    const indo = item.indo || item.indonesia || "-";
+    const korea = item.korea || item.hangul || "-";
+
+    let col1 = indo;
+    let col2 = korea;
+
+    if (currentMode === "korea-indo") {
+      col1 = korea;
+      col2 = indo;
+    } else if (currentMode === "indo-only") {
+      col1 = indo;
+      col2 = "-";
+    } else if (currentMode === "korea-only") {
+      col1 = korea;
+      col2 = "-";
+    }
+
+    html += `<tr><td>${col1}</td><td>${col2}</td></tr>`;
+  });
+
+  document.getElementById("vocab-body").innerHTML = html || 
+    `<tr><td colspan="2" style="padding:30px;">Tidak ada data di halaman ini</td></tr>`;
+
+  // Update header
+  if (currentMode === "indo-korea" || currentMode === "indo-only") {
+    document.getElementById("col1").textContent = "Indonesia";
+    document.getElementById("col2").textContent = "Korea (Hangul)";
+  } else {
+    document.getElementById("col1").textContent = "Korea (Hangul)";
+    document.getElementById("col2").textContent = "Indonesia";
+  }
+}
+
+function renderPagination() {
+  const totalPages = Math.ceil(vocabulary.length / itemsPerPage);
+  if (totalPages <= 1) {
+    document.getElementById("pagination").innerHTML = "";
+    return;
+  }
+
+  let html = `
+    <button class="page-btn" ${currentPage === 1 ? "disabled" : ""} onclick="changePage(${currentPage - 1})">‹ Prev</button>
+  `;
+
+  for (let i = 1; i <= totalPages; i++) {
+    html += `<button class="page-btn ${i === currentPage ? "active" : ""}" onclick="changePage(${i})">${i}</button>`;
+  }
+
+  html += `
+    <button class="page-btn" ${currentPage === totalPages ? "disabled" : ""} onclick="changePage(${currentPage + 1})">Next ›</button>
+  `;
+
+  document.getElementById("pagination").innerHTML = html;
+}
+
+function changePage(page) {
+  const totalPages = Math.ceil(vocabulary.length / itemsPerPage);
+  if (page < 1 || page > totalPages) return;
+  currentPage = page;
+  renderTable();
+  renderPagination();
+  window.scrollTo(0, 0);
+}
+
+// Event Listener untuk Mode Buttons
+document.querySelectorAll(".mode-btn").forEach(btn => {
+  btn.addEventListener("click", () => {
+    document.querySelectorAll(".mode-btn").forEach(b => b.classList.remove("active"));
+    btn.classList.add("active");
+    currentMode = btn.dataset.mode;
+    currentPage = 1; // Reset ke halaman 1 saat ganti mode
+    renderTable();
+    renderPagination();
+  });
+});
+
+// Load data saat halaman dibuka
+loadVocabulary();
 </script>
+
 </body>
 </html>
