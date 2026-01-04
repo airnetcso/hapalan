@@ -99,21 +99,22 @@
     position: relative;
   }
 
-  /* TOMBOL ID & KR - POJOK KIRI KANAN ATAS (FIXED) */
+  /* TOMBOL ID & KR - POJOK ATAS (TRANSPARAN) */
   .toggle-corner {
     position: fixed;
     top: 15px;
-    width: 50px;
-    height: 50px;
-    background: #95a5a6;
-    color: white;
+    width: 48px;
+    height: 48px;
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(10px);
+    color: #2c3e50;
     border: none;
     border-radius: 50%;
-    font-size: 20px;
+    font-size: 19px;
     font-weight: bold;
     cursor: pointer;
     z-index: 200;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.15);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -125,7 +126,8 @@
     right: 15px;
   }
   .toggle-corner.active {
-    background: #e74c3c;
+    background: rgba(231, 76, 60, 0.85); /* Merah transparan */
+    color: white;
   }
 
   .swipe-area {
@@ -133,7 +135,7 @@
     overflow: hidden;
     -webkit-user-select: none;
     user-select: none;
-    padding: 70px 10px 10px 10px; /* Space buat tombol atas */
+    padding: 70px 10px 80px 10px; /* Space atas & bawah buat tombol */
   }
   table {
     width: 100%;
@@ -165,50 +167,54 @@
     background: #f8f9fa;
   }
 
-  /* NAV BOTTOM - IKON PANAH */
+  /* NAV BOTTOM - SAMA DENGAN ATAS: KECIL & TRANSPARAN */
   .nav-bottom {
     position: fixed;
     bottom: 0;
     left: 0;
     width: 100%;
-    background: white;
     padding: 12px 15px;
-    box-shadow: 0 -5px 20px rgba(0,0,0,0.1);
     display: flex;
     justify-content: space-between;
     align-items: center;
     z-index: 100;
   }
   .nav-btn {
-    padding: 16px 20px;
+    width: 48px;
+    height: 48px;
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(10px);
+    color: #2c3e50;
     border: none;
     border-radius: 50%;
-    background: #3498db;
-    color: white;
-    font-size: 28px;
-    width: 60px;
-    height: 60px;
+    font-size: 24px;
+    cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.15);
   }
   .nav-btn:disabled {
-    background: #bdc3c7;
-    box-shadow: none;
+    background: rgba(189, 195, 199, 0.7);
+    color: #95a5a6;
   }
   #page-info {
-    font-size: 18px;
+    font-size: 17px;
     font-weight: bold;
     color: #2c3e50;
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(10px);
+    padding: 8px 16px;
+    border-radius: 20px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
   }
 
   @media (max-width: 480px) {
     .welcome-title { font-size: 28px; }
     th, td { padding: 12px 14px; font-size: 17px; }
-    .toggle-corner { width: 48px; height: 48px; font-size: 19px; top: 12px; }
-    .nav-btn { width: 55px; height: 55px; font-size: 26px; }
-    .swipe-area { padding-top: 65px; }
+    .toggle-corner, .nav-btn { width: 45px; height: 45px; font-size: 18px; }
+    #page-info { font-size: 16px; padding: 6px 14px; }
+    .swipe-area { padding-top: 65px; padding-bottom: 75px; }
   }
 </style>
 </head>
@@ -259,7 +265,7 @@
     </div>
   </div>
 
-  <!-- Nav Bottom -->
+  <!-- Nav Bottom - Transparan & Kecil -->
   <div class="nav-bottom">
     <button class="nav-btn" id="prev-btn">←</button>
     <div id="page-info">1 / 10</div>
