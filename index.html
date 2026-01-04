@@ -11,15 +11,18 @@
     background: linear-gradient(to bottom, #f0f7ff, #e0eafc);
     color: #333;
     min-height: 100vh;
-    touch-action: manipulation; /* Biar swipe lebih smooth */
+    touch-action: pan-x;
+    overflow: hidden;
   }
   .container {
-    max-width: 900px;
-    margin: 0 auto;
     padding: 15px;
+    height: 100vh;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
   }
 
-  /* LANDING PAGE - OPTIMIZED MOBILE */
+  /* LANDING PAGE - Tetap sama */
   #landing-page {
     display: flex;
     flex-direction: column;
@@ -88,15 +91,16 @@
     font-size: 24px;
   }
 
-  /* KOSAKATA PAGE - MOBILE FRIENDLY */
+  /* KOSAKATA PAGE */
   #vocab-page {
     display: none;
-    min-height: 100vh;
-    padding-bottom: 100px; /* Space buat nav bottom */
+    height: 100vh;
+    flex-direction: column;
   }
   .header-info {
     text-align: center;
-    margin: 20px 0;
+    margin: 15px 0 10px 0;
+    flex-shrink: 0;
   }
   .header-info h2 {
     font-size: 20px;
@@ -109,29 +113,35 @@
     margin-top: 5px;
   }
 
-  /* Sub Mode Buttons */
   .sub-mode-buttons {
     display: flex;
     justify-content: center;
     gap: 10px;
-    margin: 20px 0;
+    margin: 10px 0 15px 0;
     flex-wrap: wrap;
+    flex-shrink: 0;
   }
   .sub-mode-btn {
-    padding: 12px 18px;
+    padding: 10px 16px;
     border: none;
     border-radius: 12px;
     background: #95a5a6;
     color: white;
-    font-size: 15px;
-    min-width: 120px;
+    font-size: 14px;
+    min-width: 110px;
   }
   .sub-mode-btn.active {
     background: #e74c3c;
     font-weight: bold;
   }
 
-  /* Tabel - Touch Friendly */
+  .swipe-area {
+    flex: 1;
+    overflow: hidden;
+    -webkit-user-select: none;
+    user-select: none;
+    padding: 0 10px;
+  }
   table {
     width: 100%;
     border-collapse: collapse;
@@ -139,56 +149,61 @@
     border-radius: 15px;
     overflow: hidden;
     box-shadow: 0 8px 25px rgba(0,0,0,0.1);
-    font-size: 18px; /* Lebih besar di HP */
+    font-size: 18px;
+    height: 100%;
   }
   th {
     background: #3498db;
     color: white;
-    padding: 18px;
-    font-size: 19px;
+    padding: 14px 16px;
+    font-size: 18px;
+    text-align: left;
   }
   td {
-    padding: 20px 10px;
-    text-align: center;
+    padding: 14px 16px;
+    text-align: left;
     border-bottom: 1px solid #eee;
+    vertical-align: middle;
+  }
+  tr:last-child td {
+    border-bottom: none;
   }
   tr:hover {
     background: #f8f9fa;
   }
 
-  /* Swipe Area */
-  .swipe-area {
-    min-height: 300px;
-    -webkit-user-select: none;
-    user-select: none;
-  }
-
-  /* Nav Bottom Fixed */
+  /* NAV BOTTOM - HANYA IKON PANAH */
   .nav-bottom {
     position: fixed;
     bottom: 0;
     left: 0;
     width: 100%;
     background: white;
-    padding: 15px;
+    padding: 12px 15px;
     box-shadow: 0 -5px 20px rgba(0,0,0,0.1);
     display: flex;
     justify-content: space-between;
     align-items: center;
-    box-sizing: border-box;
     z-index: 100;
+    flex-shrink: 0;
   }
   .nav-btn {
-    padding: 14px 30px;
+    padding: 16px 20px; /* Lebih besar biar gampang tap */
     border: none;
-    border-radius: 12px;
+    border-radius: 50%; /* Bulat biar ikon lebih clean */
     background: #3498db;
     color: white;
-    font-size: 18px;
-    min-width: 140px;
+    font-size: 28px; /* Ikon panah gede */
+    width: 60px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
   }
   .nav-btn:disabled {
     background: #bdc3c7;
+    box-shadow: none;
   }
   #page-info {
     font-size: 18px;
@@ -196,21 +211,11 @@
     color: #2c3e50;
   }
 
-  .footer {
-    text-align: center;
-    padding: 20px;
-    color: #95a5a6;
-    font-size: 14px;
-    margin-top: 50px;
-  }
-
-  /* Responsif ekstra untuk HP kecil */
   @media (max-width: 480px) {
     .welcome-title { font-size: 28px; }
-    .mode-card { padding: 20px; font-size: 17px; }
-    .mode-card h3 { font-size: 22px; }
-    th, td { padding: 16px 8px; font-size: 17px; }
-    .sub-mode-btn { padding: 10px 14px; font-size: 14px; min-width: 100px; }
+    th, td { padding: 12px 14px; font-size: 17px; }
+    .sub-mode-btn { padding: 9px 12px; font-size: 13px; }
+    .nav-btn { width: 55px; height: 55px; font-size: 26px; }
   }
 </style>
 </head>
@@ -247,9 +252,9 @@
     </div>
 
     <div class="sub-mode-buttons">
-      <button class="sub-mode-btn" data-sub="only-indo">INDO</button>
-      <button class="sub-mode-btn active" id="main-mode-btn" data-sub="full">INDO - KOR</button>
-      <button class="sub-mode-btn" data-sub="only-korea">KOR</button>
+      <button class="sub-mode-btn" data-sub="only-indo">Hanya Indonesia</button>
+      <button class="sub-mode-btn active" id="main-mode-btn" data-sub="full">Indo - Korea</button>
+      <button class="sub-mode-btn" data-sub="only-korea">Hanya Korea</button>
     </div>
 
     <div class="swipe-area">
@@ -261,17 +266,17 @@
           </tr>
         </thead>
         <tbody id="vocab-body">
-          <tr><td colspan="2" style="padding:60px;">Memuat kosakata...</td></tr>
+          <tr><td colspan="2" style="padding:60px;text-align:center;">Memuat kosakata...</td></tr>
         </tbody>
       </table>
     </div>
   </div>
 
-  <!-- Nav Bottom Fixed -->
+  <!-- Nav Bottom - Hanya Ikon -->
   <div class="nav-bottom">
-    <button class="nav-btn" id="prev-btn"PREV</button>
+    <button class="nav-btn" id="prev-btn">←</button>
     <div id="page-info">1 / 10</div>
-    <button class="nav-btn" id="next-btn">NEXT</button>
+    <button class="nav-btn" id="next-btn">→</button>
   </div>
 </div>
 
@@ -292,7 +297,7 @@ const swipeArea = document.querySelector(".swipe-area");
 function startLearning(mode) {
   mainMode = mode;
   landingPage.style.display = "none";
-  vocabPage.style.display = "block";
+  vocabPage.style.display = "flex";
   updateMainModeText();
   loadVocabulary();
 }
@@ -314,7 +319,7 @@ async function loadVocabulary() {
     updateNav();
   } catch (error) {
     document.getElementById("vocab-body").innerHTML = 
-      `<tr><td colspan="2" style="padding:60px;color:red;">Gagal memuat!<br><small>${error.message}</small></td></tr>`;
+      `<tr><td colspan="2" style="padding:60px;color:red;text-align:center;">Gagal memuat!<br><small>${error.message}</small></td></tr>`;
   }
 }
 
@@ -343,15 +348,10 @@ function renderTable() {
   });
 
   document.getElementById("vocab-body").innerHTML = html || 
-    `<tr><td colspan="2" style="padding:60px;">Tidak ada kosakata di halaman ini</td></tr>`;
+    `<tr><td colspan="2" style="padding:60px;text-align:center;">Tidak ada kosakata di halaman ini</td></tr>`;
 
-  if (mainMode === "indo-korea") {
-    document.getElementById("col1").textContent = "Indonesia";
-    document.getElementById("col2").textContent = "Korea (Hangul)";
-  } else {
-    document.getElementById("col1").textContent = "Korea (Hangul)";
-    document.getElementById("col2").textContent = "Indonesia";
-  }
+  document.getElementById("col1").textContent = mainMode === "indo-korea" ? "Indonesia" : "Korea (Hangul)";
+  document.getElementById("col2").textContent = mainMode === "indo-korea" ? "Korea (Hangul)" : "Indonesia";
 }
 
 function updateNav() {
@@ -370,10 +370,9 @@ function changePage(newPage) {
   currentPage = newPage;
   renderTable();
   updateNav();
-  window.scrollTo(0, 0);
 }
 
-// Sub mode buttons
+// Sub mode
 document.querySelectorAll(".sub-mode-btn").forEach(btn => {
   btn.addEventListener("click", () => {
     document.querySelectorAll(".sub-mode-btn").forEach(b => b.classList.remove("active"));
@@ -385,29 +384,27 @@ document.querySelectorAll(".sub-mode-btn").forEach(btn => {
   });
 });
 
-// === FITUR SWIPE TOUCHSCREEN ===
+// Swipe kiri-kanan
 let touchStartX = 0;
 let touchEndX = 0;
-const minSwipeDistance = 50; // Minimal geser 50px baru dianggap swipe
+const minSwipeDistance = 50;
 
 swipeArea.addEventListener('touchstart', e => {
   touchStartX = e.changedTouches[0].screenX;
-});
+}, { passive: true });
 
 swipeArea.addEventListener('touchend', e => {
   touchEndX = e.changedTouches[0].screenX;
   handleSwipe();
-});
+}, { passive: true });
 
 function handleSwipe() {
   const distance = touchStartX - touchEndX;
   if (Math.abs(distance) < minSwipeDistance) return;
 
   if (distance > 0) {
-    // Swipe kiri → Next
     document.getElementById("next-btn").click();
   } else {
-    // Swipe kanan → Prev
     document.getElementById("prev-btn").click();
   }
 }
@@ -415,5 +412,3 @@ function handleSwipe() {
 
 </body>
 </html>
-
-
