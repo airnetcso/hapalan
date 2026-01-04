@@ -137,6 +137,7 @@
     </thead>
     <tbody id="vocab-body">
       <!-- Data akan diisi oleh JavaScript -->
+      <tr><td colspan="2" style="padding:40px;">Memuat kosakata...</td></tr>
     </tbody>
   </table>
 
@@ -149,8 +150,8 @@
 </div>
 
 <script>
-// Ganti URL ini dengan link JSON kosakata lo nanti
-const JSON_URL = "https://raw.githubusercontent.com/airnetcso/latbakor/main/kosakata/kosakata1.json";
+// URL JSON sesuai repo hapalan lo
+const JSON_URL = "https://raw.githubusercontent.com/airnetcso/hapalan/main/kosakata/kosakata1.json";
 
 let vocabulary = [];
 let currentPage = 1;
@@ -160,13 +161,14 @@ let currentMode = "indo-korea";
 async function loadVocabulary() {
   try {
     const response = await fetch(JSON_URL);
+    if (!response.ok) throw new Error("File tidak ditemukan atau error loading");
     vocabulary = await response.json();
     document.getElementById("total-words").textContent = vocabulary.length;
     renderTable();
     renderPagination();
   } catch (error) {
     document.getElementById("vocab-body").innerHTML = 
-      `<tr><td colspan="2" style="padding:30px;color:red;">Gagal memuat kosakata. Pastikan file JSON ada dan URL benar!</td></tr>`;
+      `<tr><td colspan="2" style="padding:30px;color:red;">Gagal memuat kosakata!<br><small>${error.message}<br>Pastikan file kosakata1.json sudah ada di folder /kosakata/</small></td></tr>`;
     console.error(error);
   }
 }
@@ -178,8 +180,8 @@ function renderTable() {
 
   let html = "";
   pageData.forEach(item => {
-    const indo = item.indo || item.indonesia || "-";
-    const korea = item.korea || item.hangul || "-";
+    const indo = item.indo || "-";
+    const korea = item.korea || "-";
 
     let col1 = indo;
     let col2 = korea;
@@ -201,7 +203,7 @@ function renderTable() {
   document.getElementById("vocab-body").innerHTML = html || 
     `<tr><td colspan="2" style="padding:30px;">Tidak ada data di halaman ini</td></tr>`;
 
-  // Update header
+  // Update header kolom
   if (currentMode === "indo-korea" || currentMode === "indo-only") {
     document.getElementById("col1").textContent = "Indonesia";
     document.getElementById("col2").textContent = "Korea (Hangul)";
@@ -242,19 +244,19 @@ function changePage(page) {
   window.scrollTo(0, 0);
 }
 
-// Event Listener untuk Mode Buttons
+// Event Mode Buttons
 document.querySelectorAll(".mode-btn").forEach(btn => {
   btn.addEventListener("click", () => {
     document.querySelectorAll(".mode-btn").forEach(b => b.classList.remove("active"));
     btn.classList.add("active");
     currentMode = btn.dataset.mode;
-    currentPage = 1; // Reset ke halaman 1 saat ganti mode
+    currentPage = 1;
     renderTable();
     renderPagination();
   });
 });
 
-// Load data saat halaman dibuka
+// Load saat halaman dibuka
 loadVocabulary();
 </script>
 
