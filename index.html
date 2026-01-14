@@ -42,25 +42,33 @@ h1 {
   letter-spacing: 1px;
 }
 
-input[type="text"] {
-  width: 100%; max-width: 320px; padding: 14px 16px; font-size: 16px; 
-  border: 1px solid #555; border-radius: 0;
-  background: #222; color: #e0e0e0;
-  transition: border-color 0.3s ease;
+.input-field, .login-button {
+  width: 100%;
+  max-width: 320px; /* panjang sama untuk input & button */
+  padding: 14px 16px;
+  font-size: 16px;
+  border: 1px solid #555;
+  border-radius: 0;
+  background: #222;
+  color: #e0e0e0;
   margin: 14px 0;
+  transition: border-color 0.3s ease;
 }
-input::placeholder { color: #aaa; opacity: 0.9; }
-input:focus { border-color: #6b7280; outline: none; }
 
-button {
-  width: 100%; max-width: 320px; padding: 14px; font-size: 17px; font-weight: 600; 
-  border: 1px solid #444; border-radius: 0;
-  color: white; cursor: pointer; background: #1e40af;
+.input-field::placeholder { color: #aaa; opacity: 0.9; }
+.input-field:focus { border-color: #6b7280; outline: none; }
+
+.login-button {
+  font-weight: 600;
+  color: white;
+  cursor: pointer;
+  background: #1e40af;
   transition: background 0.3s ease;
-  margin: 20px 0 12px;
+  border: 1px solid #444;
 }
-button:hover { background: #1e3a8a; }
-button:active { background: #172554; }
+
+.login-button:hover { background: #1e3a8a; }
+.login-button:active { background: #172554; }
 
 .hidden { display: none !important; }
 #timer { text-align: center; font-size: 32px; font-weight: bold; margin: 20px 0; padding: 12px; background: rgba(220,38,38,0.2); border-radius: 0; }
@@ -87,9 +95,9 @@ button:active { background: #172554; }
 
 <div class="container" id="loginPage">
   <h1>TEST KOSA KATA</h1>
-  <input type="text" id="userId" placeholder="User ID (contoh: 2026010001)" autocomplete="off">
-  <input type="text" id="kodeSoal" placeholder="Kode Soal" autocomplete="off">
-  <button onclick="login()">MULAI</button>
+  <input type="text" class="input-field" id="userId" placeholder="User ID (contoh: 2026010001)" autocomplete="off">
+  <input type="text" class="input-field" id="kodeSoal" placeholder="Kode Soal" autocomplete="off">
+  <button class="login-button" onclick="login()">MULAI</button>
 </div>
 
 <div class="container hidden" id="quizPage">
