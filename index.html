@@ -22,38 +22,46 @@ body::before { content: ''; position: absolute; inset: 0; background: rgba(0,0,0
 
 .container {
  position: relative; z-index: 2; width: 90%; max-width: 400px; max-height: 80vh; overflow-y: auto;
- background: rgba(30, 30, 30, 0.85); /* abu gelap formal */
+ background: rgba(30, 30, 30, 0.85);
  backdrop-filter: blur(12px);
  border: 1px solid #444;
  box-shadow: 0 8px 32px rgba(0,0,0,0.6);
- animation: fadeIn 0.9s ease-out;
+ padding: 32px 24px;
+ border-radius: 0;
 }
 
 h1 { 
-  font-size: 28px; text-align: center; margin: 24px 0 32px; color: #f0f0f0; font-weight: 600;
+  font-size: 28px; text-align: center; margin: 0 0 32px; color: #f0f0f0; font-weight: 600;
   letter-spacing: 1px;
 }
 
+.input-group {
+  margin-bottom: 20px;
+  text-align: center;
+}
+
 input[type="text"] {
- width: 90%; padding: 14px 16px; margin: 12px 0; font-size: 16px; 
- border: 1px solid #555; border-radius: 0; /* hilang radius */
- box-sizing: border-box; background: #222; color: #e0e0e0;
- transition: border-color 0.3s ease;
+  width: 100%; max-width: 320px; padding: 14px 16px; font-size: 16px; 
+  border: 1px solid #555; border-radius: 0;
+  background: #222; color: #e0e0e0;
+  transition: border-color 0.3s ease;
+  display: block; margin: 14px auto;
 }
 input::placeholder { color: #888; opacity: 1; }
 input:focus { border-color: #6b7280; outline: none; }
 
 button {
- width: 90%; padding: 14px; margin: 20px 0 12px; font-size: 17px; font-weight: 600; border: none;
- border-radius: 0; /* hilang radius */
- color: white; cursor: pointer; background: #1e40af; /* biru navy formal */
- transition: background 0.3s ease;
+  width: 100%; max-width: 320px; padding: 14px; font-size: 17px; font-weight: 600; 
+  border: 1px solid #444; border-radius: 0;
+  color: white; cursor: pointer; background: #1e40af;
+  transition: background 0.3s ease;
+  display: block; margin: 20px auto 12px;
 }
 button:hover { background: #1e3a8a; }
 button:active { background: #172554; }
 
 .hidden { display: none !important; }
-#timer { text-align: center; font-size: 32px; font-weight: bold; margin: 20px 0; padding: 12px; background: rgba(220,38,38,0.2); }
+#timer { text-align: center; font-size: 32px; font-weight: bold; margin: 20px 0; padding: 12px; background: rgba(220,38,38,0.2); border-radius: 0; }
 #timer.warning { background: rgba(249,115,22,0.3); color: #fed7aa; }
 
 .progress { height: 12px; background: #333; border-radius: 0; margin: 16px 0; overflow: hidden; }
@@ -68,7 +76,7 @@ button:active { background: #172554; }
 .wrong { color: #fca5a5; animation: pulseWrong 0.6s; }
 
 .wrong-list { font-size: 16px; line-height: 1.8; margin: 24px 0; background: rgba(254,226,226,0.9); color: #991b1b;
- padding: 20px; border-left: 5px solid #ef4444; }
+ padding: 20px; border-left: 5px solid #ef4444; border-radius: 0; }
 
 .footer { position: relative; z-index: 2; margin-top: 36px; font-size: 13px; color: #aaa; text-align: center; }
 </style>
@@ -77,9 +85,13 @@ button:active { background: #172554; }
 
 <div class="container" id="loginPage">
   <h1>TEST KOSA KATA</h1>
-  <input type="text" id="userId" placeholder="User ID / 아이디번호" autocomplete="off">
-  <input type="text" id="kodeSoal" placeholder="Kode Soal / 시험코드" autocomplete="off">
-  <button onclick="login()">MULAI / 시작</button>
+  <div class="input-group">
+    <input type="text" id="userId" placeholder="User ID (contoh: 2026010001)" autocomplete="off">
+  </div>
+  <div class="input-group">
+    <input type="text" id="kodeSoal" placeholder="Kode Soal" autocomplete="off">
+  </div>
+  <button onclick="login()">MULAI</button>
 </div>
 
 <div class="container hidden" id="quizPage">
@@ -189,8 +201,6 @@ function login() {
   });
 }
 
-// Sisanya fungsi loadQuestions, startQuiz, submitAnswer, finishQuiz, dll tetap sama seperti versi sebelumnya
-
 async function loadQuestions(fileName) {
   const res = await fetch(fileName);
   if (!res.ok) throw new Error("File soal tidak ditemukan");
@@ -201,6 +211,7 @@ async function loadQuestions(fileName) {
     [data[i], data[j]] = [data[j], data[i]];
   }
 
+  // Ambil 50 soal random
   questions = data.slice(0, Math.min(50, data.length));
 }
 
@@ -229,7 +240,7 @@ function updateQuestionNumber() {
 }
 
 function updateProgress() {
-  const percent = (currentIndex / questions.length) * 50;
+  const percent = (currentIndex / questions.length) * 100;
   document.getElementById("progressBar").style.width = percent + "%";
 }
 
@@ -295,7 +306,7 @@ function finishQuiz() {
   document.getElementById("resultArea").classList.remove("hidden");
 
   const totalQuestions = questions.length;
-  const percent = Math.round((score / totalQuestions) * 50);
+  const percent = Math.round((score / totalQuestions) * 100);
   document.getElementById("scoreText").textContent = `Skor: ${score}/${totalQuestions} (${percent}%)`;
 
   const wrongDiv = document.getElementById("wrongWords");
