@@ -104,16 +104,16 @@ button:active { background: #1e40af; }
 <!-- Login Page -->
 <div class="container" id="loginPage">
   <h1>TEST KOSA KATA</h1>
-  <input type="text" id="userId" placeholder="User ID (contoh: 2026010001)" autocomplete="off">
-  <input type="text" id="kodeSoal" placeholder="Kode Soal" autocomplete="off">
-  <button onclick="login()">MULAI</button>
+  <input type="text" id="userId" placeholder="User ID / 아이디번호" autocomplete="off">
+  <input type="text" id="kodeSoal" placeholder="Kode Soal / 시험코드" autocomplete="off">
+  <button onclick="login()">MULAI / 시작</button>
 </div>
 
 <!-- Quiz Page -->
 <div class="container hidden" id="quizPage">
   <h1>TEST KOSA KATA</h1>
   <div id="timer">50:00</div>
-  <div id="questionNumber">Soal 1 dari 100</div>
+  <div id="questionNumber">Soal 1 dari 50</div>
   <div class="progress"><div class="progress-bar" id="progressBar"></div></div>
   <div id="questionArea">
     <div id="feedback"></div>
@@ -180,7 +180,7 @@ async function loadQuestions(fileName){
   if(!res.ok) throw new Error("File soal tidak ditemukan");
   let data=await res.json();
   for(let i=data.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [data[i],data[j]]=[data[j],data[i]]; }
-  questions=data.slice(0, Math.min(100,data.length));
+  questions=data.slice(0, Math.min(50,data.length));
 }
 
 function startQuiz(){ currentIndex=0; score=0; wrongList=[]; timeLeft=3000; attemptCount=0; updateTimer(); updateQuestionNumber(); updateProgress(); timerInterval=setInterval(()=>{timeLeft--; updateTimer(); if(timeLeft<=0) finishQuiz();},1000); nextQuestion(); }
