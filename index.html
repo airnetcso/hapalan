@@ -8,126 +8,351 @@
 @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
 @keyframes pulseCorrect { 0% { transform: scale(1); } 50% { transform: scale(1.05); } 100% { transform: scale(1); } }
 @keyframes pulseWrong { 0% { transform: scale(1); } 50% { transform: scale(1.1); } 100% { transform: scale(1); } }
-html, body { height: 100%; margin: 0; padding: 0; overflow: hidden; }
+
+html, body { 
+    height: 100%; margin: 0; padding: 0; overflow: hidden; 
+}
 body {
- font-family: 'Segoe UI', system-ui, Arial, sans-serif;
- min-height: 100vh;
- background: url('https://raw.githubusercontent.com/airnetcso/eps/main/image/bg1.jpg') no-repeat center center fixed;
- background-size: cover;
- display: flex; flex-direction: column; justify-content: center; align-items: center;
- padding: 16px; color: #fff; position: relative;
+    font-family: 'Segoe UI', system-ui, Arial, sans-serif;
+    min-height: 100vh;
+    background: url('https://raw.githubusercontent.com/airnetcso/eps/main/image/bg1.jpg') no-repeat center center fixed;
+    background-size: cover;
+    display: flex; flex-direction: column; justify-content: center; align-items: center;
+    padding: 16px; color: #fff; position: relative;
 }
-body::before { content: ''; position: absolute; inset: 0; background: rgba(0,0,0,0.4); z-index: 1; }
+body::before { 
+    content: ''; position: absolute; inset: 0; background: rgba(0,0,0,0.4); z-index: 1; 
+}
 .container {
- position: relative; z-index: 2; width: 100%; max-width: 360px; max-height: 85vh; overflow-y: auto;
- background: rgba(255,255,255,0.12); backdrop-filter: blur(14px); border-radius: 20px;
- padding: 24px 20px; box-shadow: 0 10px 40px rgba(0,0,0,0.35); border: 1px solid rgba(255,255,255,0.15);
- animation: fadeIn 0.8s ease-out;
+    position: relative; z-index: 2; width: 100%; max-width: 380px; max-height: 88vh; overflow-y: auto;
+    background: rgba(255,255,255,0.12); backdrop-filter: blur(14px); border-radius: 20px;
+    padding: 20px 16px; box-shadow: 0 10px 40px rgba(0,0,0,0.35); border: 1px solid rgba(255,255,255,0.15);
+    animation: fadeIn 0.8s ease-out;
 }
-h1 { font-size: 28px; text-align: center; margin: 0 0 24px; color: #fff; font-weight: 700; text-shadow: 0 2px 8px rgba(0,0,0,0.6); }
-input[type="text"] {
- width: 100%; padding: 14px; margin: 10px 0; font-size: 16px; border: 2px solid rgba(255,255,255,0.35);
- border-radius: 10px; box-sizing: border-box; background: rgba(255,255,255,0.1); color: white;
- transition: all 0.3s ease;
+h1 { 
+    font-size: 26px; text-align: center; margin: 0 0 20px; color: #fff; font-weight: 700; 
+    text-shadow: 0 2px 8px rgba(0,0,0,0.6); 
 }
-input::placeholder { color: rgba(255,255,255,0.7); opacity: 1; }
-input:focus {
- border-color: #fff; background: rgba(255,255,255,0.2); outline: none; box-shadow: 0 0 0 4px rgba(255,255,255,0.15);
+#timer { 
+    text-align: center; font-size: 28px; font-weight: bold; margin: 16px 0; padding: 12px; border-radius: 12px;
+    background: rgba(220,38,38,0.25); transition: all 0.5s; 
 }
-button {
- width: 100%; padding: 14px; margin: 16px 0 8px; font-size: 18px; font-weight: bold; border: none;
- border-radius: 10px; color: white; cursor: pointer; background: linear-gradient(90deg, #10b981, #059669);
- transition: all 0.3s ease;
+#timer.warning { 
+    background: rgba(252,211,77,0.4); color: #fef3c7; animation: pulseWrong 1s infinite alternate; 
 }
-button:hover { transform: translateY(-3px); box-shadow: 0 12px 25px rgba(16,185,129,0.4); }
-button:active { transform: translateY(-1px); }
-.error { color: #ff6b6b; text-align: center; margin: 10px 0; font-weight: 600; background: rgba(0,0,0,0.4); padding: 10px; border-radius: 8px; }
-.hidden { display: none !important; }
-#timer { text-align: center; font-size: 28px; font-weight: bold; margin: 16px 0; padding: 12px; border-radius: 12px;
- background: rgba(220,38,38,0.25); transition: all 0.5s; }
-#timer.warning { background: rgba(252,211,77,0.4); color: #fef3c7; animation: pulseWrong 1s infinite alternate; }
-.progress { height: 12px; background: rgba(255,255,255,0.15); border-radius: 6px; margin: 16px 0; overflow: hidden; }
-.progress-bar { height: 100%; background: linear-gradient(90deg, #10b981, #059669); width: 0%; transition: width 0.8s ease; }
-#questionNumber { text-align: center; font-size: 18px; margin: 8px 0; color: #e0f2fe; }
-.question strong { font-size: 42px; display: block; margin: 30px 0 24px; color: #fff; text-align: center;
- font-weight: 700; text-shadow: 0 3px 10px rgba(0,0,0,0.6); }
-#feedback { text-align: center; font-size: 24px; font-weight: bold; margin: 16px 0; height: 36px; animation: fadeIn 0.5s; }
+.progress { 
+    height: 12px; background: rgba(255,255,255,0.15); border-radius: 6px; margin: 16px 0; overflow: hidden; 
+}
+.progress-bar { 
+    height: 100%; background: linear-gradient(90deg, #3b82f6, #2563eb); width: 0%; transition: width 0.8s ease; 
+}
+#questionNumber { 
+    text-align: center; font-size: 18px; margin: 8px 0; color: #e0f2fe; 
+}
+.question strong { 
+    font-size: 42px; display: block; margin: 30px 0 24px; color: #fff; text-align: center;
+    font-weight: 700; text-shadow: 0 3px 10px rgba(0,0,0,0.6); 
+}
+#feedback { 
+    text-align: center; font-size: 24px; font-weight: bold; margin: 16px 0; height: 36px; animation: fadeIn 0.5s; 
+}
 .correct { color: #86efac; animation: pulseCorrect 0.6s; }
 .wrong { color: #fca5a5; animation: pulseWrong 0.6s; }
-.wrong-list { font-size: 16px; line-height: 1.8; margin: 20px 0; background: rgba(254,243,199,0.95); color: #92400e;
- padding: 18px; border-radius: 12px; border-left: 5px solid #ca8a04; }
-.footer { position: relative; z-index: 2; margin-top: 40px; font-size: 13px; color: rgba(255,255,255,0.8); text-align: center; }
+.wrong-list { 
+    font-size: 16px; line-height: 1.8; margin: 20px 0; background: rgba(254,243,199,0.95); color: #92400e;
+    padding: 18px; border-radius: 12px; border-left: 5px solid #ca8a04; 
+}
+button {
+    width: 100%; padding: 14px; margin: 16px 0 8px; font-size: 18px; font-weight: bold; border: none;
+    border-radius: 10px; color: white; cursor: pointer; 
+    background: linear-gradient(90deg, #3b82f6, #2563eb); /* BIRU LEMBUT */
+    transition: all 0.3s ease;
+}
+button:hover { transform: translateY(-3px); box-shadow: 0 12px 25px rgba(59,130,246,0.4); }
+button:active { transform: translateY(-1px); }
+.footer { 
+    position: relative; z-index: 2; margin-top: 30px; font-size: 13px; color: rgba(255,255,255,0.8); 
+    text-align: center; 
+}
+.hidden { display: none !important; }
 </style>
 </head>
 <body>
-<div class="container" id="loginPage">
- <h1>TEST KOSA KATA</h1>
- <input type="text" id="username" placeholder="User ID" autocomplete="off">
- <input type="text" id="kodeSoal" placeholder="Kode Soal" autocomplete="off">
- <div class="error" id="errorMsg"></div>
- <button onclick="login()">MULAI</button>
-</div>
 
-<!-- Bagian quizPage dan resultArea tetap sama seperti kode lama kamu, copy saja dari bawah ini ke bawah -->
-
-<div class="container hidden" id="quizPage">
- <!-- ... isi quizPage seperti sebelumnya (timer, question, dll) ... -->
+<div class="container" id="quizPage">
+    <h1>TEST KOSA KATA</h1>
+    <div id="timer">50:00</div>
+    <div id="questionNumber">Soal 1 dari 100</div>
+    <div class="progress"><div class="progress-bar" id="progressBar"></div></div>
+    <div id="questionArea">
+        <div id="feedback"></div>
+        <div class="question"><strong id="currentWord"></strong></div>
+        <input type="text" id="answerInput" placeholder="Ketik jawaban di sini" autocomplete="off">
+        <button onclick="submitAnswer()" id="submitBtn">SUBMIT</button>
+    </div>
+    <div id="resultArea" class="hidden">
+        <h2 style="color:#fff; margin-bottom:20px; text-align:center;">Hasil Test</h2>
+        <p id="scoreText" style="font-size:32px; font-weight:bold; color:#d1fae5; text-align:center;"></p>
+        <div id="wrongWords" class="wrong-list hidden"></div>
+        <button onclick="restartQuiz()" style="background:linear-gradient(90deg, #3b82f6, #2563eb); margin-top:20px;">
+            ULANGI LAGI
+        </button>
+        <button onclick="backToLogin()" style="background:linear-gradient(90deg, #6b7280, #4b5563); margin-top:10px;">
+            KEMBALI KE LOGIN
+        </button>
+    </div>
 </div>
 
 <div class="footer">© 2026 Denzuka - Kim Jongun. All rights reserved.</div>
 
 <script>
-// Kode script login & quiz tetap sama, tapi hapus password check
+// URL Google Sheet
 const SPREADSHEET_URL = "https://script.google.com/macros/s/AKfycbzxyVIlsyLswlfnQG618eeUZgN83dd2jfCjU0r7LsNHM3A6NNiibuCIb5e3CNs9J1vVhQ/exec";
+
+// Daftar user (password diabaikan karena login dari Android)
 const users = [
- {username:"uus",password:"111"}, // password dihapus fungsinya, tapi array tetap untuk kompatibilitas
- // ... semua user lain tetap ...
+    {username:"uus"},
+    {username:"hanarizka"},
+    {username:"windi"},
+    {username:"rismaya97"},
+    {username:"sita77"},
+    {username:"mila"},
+    {username:"Aini185"},
+    {username:"Hangeulfei"},
+    {username:"Hamdan106"},
+    {username:"Heri"},
+    {username:"Fikrisurya"},
+    {username:"Mutiara2003"},
+    {username:"wantikas"},
+    {username:"Dininidia"},
+    {username:"kaniarostayuni9"},
+    {username:"Dikisetiawan07"},
+    {username:"Aisyah18"},
+    {username:"Rizka2026"},
+    {username:"dinda"},
+    {username:"Zhafif07"},
+    {username:"siwon"},
+    {username:"Azizah27_"},
+    {username:"yppsdi"},
+    {username:"Satria11"},
+    {username:"sultan2026"}
+    // tambah user lain kalau ada
 ];
+
 const kodeMapping = {
- // ... mapping kode tetap ...
+    "h050126": "soal1.json",
+    "sarewae": "test.json",
+    "r43213": "soal2.json",
+    "mugunghwa": "soal11.json",
+    "kimchi": "soal12.json",
+    "seoul": "soal13.json",
+    "teokbokki": "soal14.json",
+    "kimtaehyung": "soal15.json",
+    "chuseok": "soal16.json",
+    "kimbap": "soal17.json",
+    "saranghae": "soal3.json"
+    // tambah kode lain kalau perlu
 };
 
 let questions = [], currentIndex = 0, score = 0, wrongList = [], timerInterval, timeLeft = 3000;
 let username = "", kodeSoal = "";
+let attemptCount = 0;
 
-function login() {
- username = document.getElementById("username").value.trim();
- kodeSoal = document.getElementById("kodeSoal").value.trim().toLowerCase();
- const error = document.getElementById("errorMsg");
- error.textContent = "";
+// Fungsi ini dipanggil dari Android setelah user isi dialog
+function startLoginFromApp() {
+    username = window.username || "";
+    kodeSoal = window.kodeSoal || "";
 
- if (!username || !kodeSoal) {
-  error.textContent = "Lengkapi User ID dan Kode Soal!";
-  return;
- }
+    const userExists = users.some(u => u.username === username.trim());
+    if (!userExists) {
+        alert("User ID tidak ditemukan!");
+        return;
+    }
 
- const fileName = kodeMapping[kodeSoal];
- if (!fileName) {
-  error.textContent = "Kode Soal tidak valid!";
-  return;
- }
+    const fileName = kodeMapping[kodeSoal.trim().toLowerCase()];
+    if (!fileName) {
+        alert("Kode Soal tidak valid!");
+        return;
+    }
 
- // Cek hanya username ada di list (password diabaikan)
- const userExists = users.some(u => u.username === username);
- if (!userExists) {
-  error.textContent = "User ID tidak ditemukan!";
-  return;
- }
-
- loadQuestions(fileName).then(() => {
-  document.getElementById("loginPage").classList.add("hidden");
-  document.getElementById("quizPage").classList.remove("hidden");
-  startQuiz();
- }).catch(err => {
-  error.textContent = "Gagal memuat soal: " + err.message;
- });
+    loadQuestions(fileName).then(() => {
+        startQuiz();
+    }).catch(err => {
+        alert("Gagal memuat soal: " + err.message);
+    });
 }
 
-// Sisanya script (loadQuestions, startQuiz, submitAnswer, finishQuiz, dll) TETAP SAMA seperti kode lama kamu
-// Copy dari function loadQuestions sampai akhir script kamu
+async function loadQuestions(fileName) {
+    const res = await fetch(fileName);
+    if (!res.ok) throw new Error("File soal tidak ditemukan atau error jaringan");
+    let data = await res.json();
 
-// Di finishQuiz, nama user tetap username asli (uus dll), jadi di sheet muncul nama asli
-// Kalau mau mapping ke kode numerik (misal uus → 2026010001), tambah object mapping terpisah nanti, sekarang tetap nama user
+    // Shuffle soal
+    for (let i = data.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [data[i], data[j]] = [data[j], data[i]];
+    }
+
+    // Ambil max 100 soal
+    questions = data.slice(0, Math.min(100, data.length));
+}
+
+function startQuiz() {
+    currentIndex = 0; score = 0; wrongList = []; timeLeft = 3000; attemptCount = 0;
+    updateTimer(); updateQuestionNumber(); updateProgress();
+    timerInterval = setInterval(() => {
+        timeLeft--;
+        updateTimer();
+        if (timeLeft <= 0) finishQuiz();
+    }, 1000);
+    nextQuestion();
+}
+
+function updateTimer() {
+    const m = String(Math.floor(timeLeft / 60)).padStart(2, "0");
+    const s = String(timeLeft % 60).padStart(2, "0");
+    const timerEl = document.getElementById("timer");
+    timerEl.textContent = `${m}:${s}`;
+    if (timeLeft <= 300) {
+        timerEl.classList.add("warning");
+    } else {
+        timerEl.classList.remove("warning");
+    }
+}
+
+function updateQuestionNumber() {
+    document.getElementById("questionNumber").textContent = `Soal ${currentIndex + 1} dari ${questions.length}`;
+}
+
+function updateProgress() {
+    const percent = (currentIndex / questions.length) * 100;
+    document.getElementById("progressBar").style.width = percent + "%";
+}
+
+function nextQuestion() {
+    if (currentIndex >= questions.length) { finishQuiz(); return; }
+    document.getElementById("currentWord").textContent = questions[currentIndex].korea;
+    document.getElementById("answerInput").value = "";
+    document.getElementById("answerInput").focus();
+    document.getElementById("feedback").textContent = "";
+    updateQuestionNumber();
+    updateProgress();
+}
+
+function submitAnswer() {
+    const answer = document.getElementById("answerInput").value.trim();
+    if (!answer) return;
+
+    const feedback = document.getElementById("feedback");
+    const q = questions[currentIndex];
+
+    const normUser = answer.toLowerCase().replace(/[^a-z0-9\s]/g, '').trim();
+    let correctAnswers = Array.isArray(q.indo) 
+        ? q.indo.map(a => a.toLowerCase().replace(/[^a-z0-9\s]/g, '').trim())
+        : [q.indo.toLowerCase().replace(/[^a-z0-9\s]/g, '').trim()];
+
+    let isCorrect = correctAnswers.includes(normUser);
+
+    if (isCorrect) {
+        attemptCount = 0;
+        score++;
+        feedback.textContent = "Benar!";
+        feedback.className = "correct";
+        setTimeout(() => {
+            currentIndex++;
+            nextQuestion();
+        }, 800);
+    } else {
+        attemptCount++;
+        if (attemptCount >= 3) {
+            wrongList.push({
+                word: q.korea,
+                correct: Array.isArray(q.indo) ? q.indo.join(" / ") : q.indo,
+                your: answer
+            });
+            feedback.textContent = `Salah! → ${Array.isArray(q.indo) ? q.indo.join(" / ") : q.indo}`;
+            feedback.className = "wrong";
+            setTimeout(() => {
+                attemptCount = 0;
+                currentIndex++;
+                nextQuestion();
+            }, 1500);
+        } else {
+            feedback.textContent = "Salah!";
+            feedback.className = "wrong";
+            document.getElementById("answerInput").value = "";
+            document.getElementById("answerInput").focus();
+        }
+    }
+}
+
+function finishQuiz() {
+    clearInterval(timerInterval);
+    document.getElementById("questionArea").classList.add("hidden");
+    document.getElementById("resultArea").classList.remove("hidden");
+
+    const totalQuestions = questions.length;
+    const percent = Math.round((score / totalQuestions) * 100);
+    document.getElementById("scoreText").textContent = `Skor: ${score}/${totalQuestions} (${percent}%)`;
+
+    const wrongDiv = document.getElementById("wrongWords");
+    wrongDiv.innerHTML = "";
+    let keterangan = "";
+    if (wrongList.length > 0) {
+        wrongDiv.classList.remove("hidden");
+        wrongDiv.innerHTML = "<strong>Kata yang salah:</strong><br><br>";
+        wrongList.forEach(i => {
+            wrongDiv.innerHTML += `• <strong>${i.word}</strong> → ${i.correct} <br><small style="color:#78350f;">(jawaban kamu: ${i.your})</small><br><br>`;
+        });
+        keterangan = wrongList.map(i => `${i.word} → ${i.your} (benar: ${i.correct})`).join(" | ");
+    } else {
+        keterangan = "Semua benar! Perfect!";
+    }
+
+    const dataToSend = {
+        waktu: new Date().toLocaleString('id-ID', {timeZone: 'Asia/Jakarta'}),
+        namaSiswa: username || "Anonymous",
+        code: kodeSoal || "Unknown",
+        kosaKata: `${score}/${totalQuestions} (${percent}%)`,
+        ubt: "-",
+        latihanSoal: totalQuestions,
+        keterangan: keterangan
+    };
+
+    const formData = new URLSearchParams(dataToSend);
+    fetch(SPREADSHEET_URL, {
+        method: "POST",
+        mode: "no-cors",
+        keepalive: true,
+        body: formData,
+        redirect: "follow"
+    }).then(() => {
+        console.log("Skor dikirim");
+    }).catch(err => {
+        console.error("Gagal kirim skor:", err);
+    });
+}
+
+function restartQuiz() {
+    document.getElementById("resultArea").classList.add("hidden");
+    document.getElementById("questionArea").classList.remove("hidden");
+    startQuiz();
+}
+
+function backToLogin() {
+    // Karena login sekarang di Android, kita bisa reload atau beri instruksi
+    alert("Silakan tutup dan buka ulang aplikasi untuk login kembali.");
+    // Atau reload halaman: location.reload();
+}
+
+document.getElementById("answerInput")?.addEventListener("keypress", e => {
+    if (e.key === "Enter") submitAnswer();
+});
+
+// Kalau dibuka tanpa data dari Android (misal test di browser), tampil pesan
+if (!window.username || !window.kodeSoal) {
+    alert("Silakan login melalui aplikasi Android untuk memulai tes.");
+}
 </script>
 </body>
 </html>
