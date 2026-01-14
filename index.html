@@ -5,10 +5,12 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>TEST KOSA KATA</title>
 <style>
+/* Animasi */
 @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
 @keyframes pulseCorrect { 0% { transform: scale(1); } 50% { transform: scale(1.05); } 100% { transform: scale(1); } }
 @keyframes pulseWrong { 0% { transform: scale(1); } 50% { transform: scale(1.1); } 100% { transform: scale(1); } }
 
+/* Global */
 html, body { height: 100%; margin: 0; padding: 0; overflow: hidden; }
 body {
  font-family: 'Segoe UI', system-ui, Arial, sans-serif;
@@ -20,58 +22,77 @@ body {
 }
 body::before { content: ''; position: absolute; inset: 0; background: rgba(0,0,0,0.45); z-index: 1; }
 
+/* Container umum */
 .container {
  position: relative; z-index: 2; width: 90%; max-width: 400px; max-height: 80vh; overflow-y: auto;
  background: rgba(30, 30, 30, 0.85);
  backdrop-filter: blur(12px);
  border: 1px solid #444;
  box-shadow: 0 8px 32px rgba(0,0,0,0.6);
- padding: 32px 24px;
- border-radius: 0;
+ animation: fadeIn 0.9s ease-out;
 }
 
+/* ===== Login page khusus ===== */
 #loginPage {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-}
-
-h1 { 
-  font-size: 28px; margin: 0 0 32px; color: #f0f0f0; font-weight: 600;
-  letter-spacing: 1px;
-}
-
-.input-field, .login-button {
-  width: 100%;
-  max-width: 320px; /* panjang sama untuk input & button */
-  padding: 14px 16px;
-  font-size: 16px;
+  max-width: 360px;           /* lebih ramping */
+  padding: 30px 25px;         /* lebih lega */
+  border-radius: 12px;        /* membulat */
+  background: rgba(40, 40, 40, 0.9); /* sedikit lebih terang */
   border: 1px solid #555;
-  border-radius: 0;
+  box-shadow: 0 12px 28px rgba(0,0,0,0.65);
+}
+#loginPage h1 {
+  font-size: 26px;
+  margin-bottom: 28px;
+  color: #f0f0f0;
+}
+#loginPage input[type="text"] {
+  border-radius: 6px;
+  padding: 12px 14px;
+  font-size: 15px;
   background: #222;
   color: #e0e0e0;
-  margin: 14px 0;
-  transition: border-color 0.3s ease;
+  margin-bottom: 14px;
 }
-
-.input-field::placeholder { color: #aaa; opacity: 0.9; }
-.input-field:focus { border-color: #6b7280; outline: none; }
-
-.login-button {
-  font-weight: 600;
+#loginPage button {
+  border-radius: 6px;
+  padding: 14px;
+  font-size: 16px;
+  background: #2563eb;
   color: white;
+  font-weight: 600;
   cursor: pointer;
-  background: #1e40af;
+  border: none;
   transition: background 0.3s ease;
-  border: 1px solid #444;
 }
+#loginPage button:hover { background: #1d4ed8; }
+#loginPage button:active { background: #1e40af; }
 
-.login-button:hover { background: #1e3a8a; }
-.login-button:active { background: #172554; }
+/* Quiz page tetap sama */
+h1 { 
+  font-size: 28px; text-align: center; margin: 24px 0 32px; color: #f0f0f0; font-weight: 600;
+  letter-spacing: 1px;
+}
+input[type="text"] {
+ width: 100%; padding: 14px 16px; margin: 12px 0; font-size: 16px; 
+ border: 1px solid #555; border-radius: 0;
+ box-sizing: border-box; background: #222; color: #e0e0e0;
+ transition: border-color 0.3s ease;
+}
+input::placeholder { color: #888; opacity: 1; }
+input:focus { border-color: #6b7280; outline: none; }
+
+button {
+ width: 100%; padding: 14px; margin: 20px 0 12px; font-size: 17px; font-weight: 600; border: none;
+ border-radius: 0;
+ color: white; cursor: pointer; background: #1e40af;
+ transition: background 0.3s ease;
+}
+button:hover { background: #1e3a8a; }
+button:active { background: #172554; }
 
 .hidden { display: none !important; }
-#timer { text-align: center; font-size: 32px; font-weight: bold; margin: 20px 0; padding: 12px; background: rgba(220,38,38,0.2); border-radius: 0; }
+#timer { text-align: center; font-size: 32px; font-weight: bold; margin: 20px 0; padding: 12px; background: rgba(220,38,38,0.2); }
 #timer.warning { background: rgba(249,115,22,0.3); color: #fed7aa; }
 
 .progress { height: 12px; background: #333; border-radius: 0; margin: 16px 0; overflow: hidden; }
@@ -86,24 +107,26 @@ h1 {
 .wrong { color: #fca5a5; animation: pulseWrong 0.6s; }
 
 .wrong-list { font-size: 16px; line-height: 1.8; margin: 24px 0; background: rgba(254,226,226,0.9); color: #991b1b;
- padding: 20px; border-left: 5px solid #ef4444; border-radius: 0; }
+ padding: 20px; border-left: 5px solid #ef4444; }
 
 .footer { position: relative; z-index: 2; margin-top: 36px; font-size: 13px; color: #aaa; text-align: center; }
 </style>
 </head>
 <body>
 
+<!-- Login Page -->
 <div class="container" id="loginPage">
   <h1>TEST KOSA KATA</h1>
-  <input type="text" class="input-field" id="userId" placeholder="User ID (contoh: 2026010001)" autocomplete="off">
-  <input type="text" class="input-field" id="kodeSoal" placeholder="Kode Soal" autocomplete="off">
-  <button class="login-button" onclick="login()">MULAI</button>
+  <input type="text" id="userId" placeholder="User ID (contoh: 2026010001)" autocomplete="off">
+  <input type="text" id="kodeSoal" placeholder="Kode Soal" autocomplete="off">
+  <button onclick="login()">MULAI</button>
 </div>
 
+<!-- Quiz Page -->
 <div class="container hidden" id="quizPage">
   <h1>TEST KOSA KATA</h1>
   <div id="timer">50:00</div>
-  <div id="questionNumber">Soal 1 dari 50</div>
+  <div id="questionNumber">Soal 1 dari 100</div>
   <div class="progress"><div class="progress-bar" id="progressBar"></div></div>
   <div id="questionArea">
     <div id="feedback"></div>
@@ -128,7 +151,6 @@ h1 {
 // URL Google Sheet
 const SPREADSHEET_URL = "https://script.google.com/macros/s/AKfycbzxyVIlsyLswlfnQG618eeUZgN83dd2jfCjU0r7LsNHM3A6NNiibuCIb5e3CNs9J1vVhQ/exec";
 
-// Mapping User ID angka → nama asli
 const userIdToName = {
   "2026010001": "uus",
   "2026010002": "hanarizka",
@@ -179,65 +201,47 @@ function login() {
   const userIdInput = document.getElementById("userId").value.trim();
   kodeSoal = document.getElementById("kodeSoal").value.trim().toLowerCase();
 
-  if (!userIdInput || !kodeSoal) {
-    alert("Lengkapi User ID dan Kode Soal!");
-    return;
-  }
+  if (!userIdInput || !kodeSoal) { alert("Lengkapi User ID dan Kode Soal!"); return; }
 
   const mappedName = userIdToName[userIdInput];
-  if (!mappedName) {
-    alert("User ID tidak terdaftar! Angka yang kamu ketik: " + userIdInput);
-    return;
-  }
-
+  if (!mappedName) { alert("User ID tidak terdaftar! Angka yang kamu ketik: " + userIdInput); return; }
   username = mappedName;
 
   const fileName = kodeMapping[kodeSoal];
-  if (!fileName) {
-    alert("Kode Soal tidak valid!");
-    return;
-  }
+  if (!fileName) { alert("Kode Soal tidak valid!"); return; }
 
   loadQuestions(fileName).then(() => {
     document.getElementById("loginPage").classList.add("hidden");
     document.getElementById("quizPage").classList.remove("hidden");
     startQuiz();
-  }).catch(err => {
-    alert("Gagal memuat soal: " + err.message);
-  });
+  }).catch(err => { alert("Gagal memuat soal: " + err.message); });
 }
 
+// Sisanya fungsi loadQuestions, startQuiz, submitAnswer, finishQuiz, restartQuiz, backToLogin tetap sama seperti versi sebelumnya
 async function loadQuestions(fileName) {
   const res = await fetch(fileName);
   if (!res.ok) throw new Error("File soal tidak ditemukan");
   let data = await res.json();
-
   for (let i = data.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
     [data[i], data[j]] = [data[j], data[i]];
   }
-
-  questions = data.slice(0, Math.min(50, data.length));
+  questions = data.slice(0, Math.min(100, data.length));
 }
 
 function startQuiz() {
   currentIndex = 0; score = 0; wrongList = []; timeLeft = 3000; attemptCount = 0;
   updateTimer(); updateQuestionNumber(); updateProgress();
-  timerInterval = setInterval(() => {
-    timeLeft--;
-    updateTimer();
-    if (timeLeft <= 0) finishQuiz();
-  }, 1000);
+  timerInterval = setInterval(() => { timeLeft--; updateTimer(); if (timeLeft <= 0) finishQuiz(); }, 1000);
   nextQuestion();
 }
 
 function updateTimer() {
-  const m = String(Math.floor(timeLeft / 60)).padStart(2, "0");
-  const s = String(timeLeft % 60).padStart(2, "0");
+  const m = String(Math.floor(timeLeft / 60)).padStart(2,"0");
+  const s = String(timeLeft % 60).padStart(2,"0");
   const timerEl = document.getElementById("timer");
   timerEl.textContent = `${m}:${s}`;
-  if (timeLeft <= 300) timerEl.classList.add("warning");
-  else timerEl.classList.remove("warning");
+  if(timeLeft<=300) timerEl.classList.add("warning"); else timerEl.classList.remove("warning");
 }
 
 function updateQuestionNumber() {
@@ -245,62 +249,41 @@ function updateQuestionNumber() {
 }
 
 function updateProgress() {
-  const percent = (currentIndex / questions.length) * 100;
+  const percent = (currentIndex / questions.length) * 50;
   document.getElementById("progressBar").style.width = percent + "%";
 }
 
 function nextQuestion() {
-  if (currentIndex >= questions.length) { finishQuiz(); return; }
+  if(currentIndex>=questions.length){ finishQuiz(); return; }
   document.getElementById("currentWord").textContent = questions[currentIndex].korea;
-  document.getElementById("answerInput").value = "";
+  document.getElementById("answerInput").value="";
   document.getElementById("answerInput").focus();
-  document.getElementById("feedback").textContent = "";
+  document.getElementById("feedback").textContent="";
   updateQuestionNumber();
   updateProgress();
 }
 
 function submitAnswer() {
   const answer = document.getElementById("answerInput").value.trim();
-  if (!answer) return;
+  if(!answer) return;
   const feedback = document.getElementById("feedback");
   const q = questions[currentIndex];
-
-  const normUser = answer.toLowerCase().replace(/[^a-z0-9\s]/g, '').trim();
-  let correctAnswers = Array.isArray(q.indo) 
-    ? q.indo.map(a => a.toLowerCase().replace(/[^a-z0-9\s]/g, '').trim())
-    : [q.indo.toLowerCase().replace(/[^a-z0-9\s]/g, '').trim()];
-
+  const normUser = answer.toLowerCase().replace(/[^a-z0-9\s]/g,'').trim();
+  let correctAnswers = Array.isArray(q.indo) ? q.indo.map(a=>a.toLowerCase().replace(/[^a-z0-9\s]/g,'').trim()) : [q.indo.toLowerCase().replace(/[^a-z0-9\s]/g,'').trim()];
   let isCorrect = correctAnswers.includes(normUser);
-
-  if (isCorrect) {
-    attemptCount = 0;
-    score++;
-    feedback.textContent = "Benar!";
-    feedback.className = "correct";
-    setTimeout(() => {
-      currentIndex++;
-      nextQuestion();
-    }, 800);
+  if(isCorrect){
+    attemptCount=0; score++; feedback.textContent="Benar!"; feedback.className="correct";
+    setTimeout(()=>{ currentIndex++; nextQuestion(); },800);
   } else {
     attemptCount++;
-    if (attemptCount >= 3) {
-      wrongList.push({
-        word: q.korea,
-        correct: Array.isArray(q.indo) ? q.indo.join(" / ") : q.indo,
-        your: answer
-      });
-      feedback.textContent = `Salah! → ${Array.isArray(q.indo) ? q.indo.join(" / ") : q.indo}`;
-      feedback.className = "wrong";
-      setTimeout(() => {
-        attemptCount = 0;
-        currentIndex++;
-        nextQuestion();
-      }, 1500);
+    if(attemptCount>=3){
+      wrongList.push({ word:q.korea, correct:Array.isArray(q.indo)?q.indo.join(" / "):q.indo, your:answer });
+      feedback.textContent=`Salah! → ${Array.isArray(q.indo)?q.indo.join(" / "):q.indo}`;
+      feedback.className="wrong";
+      setTimeout(()=>{ attemptCount=0; currentIndex++; nextQuestion(); },1500);
     } else {
-      feedback.textContent = "Salah!";
-      feedback.className = "wrong";
-      document.getElementById("answerInput").value = "";
-      document.getElementById("answerInput").focus();
+      feedback.textContent="Salah!"; feedback.className="wrong";
+      document.getElementById("answerInput").value=""; document.getElementById("answerInput").focus();
     }
   }
 }
@@ -311,41 +294,30 @@ function finishQuiz() {
   document.getElementById("resultArea").classList.remove("hidden");
 
   const totalQuestions = questions.length;
-  const percent = Math.round((score / totalQuestions) * 100);
+  const percent = Math.round((score/totalQuestions)*50);
   document.getElementById("scoreText").textContent = `Skor: ${score}/${totalQuestions} (${percent}%)`;
 
   const wrongDiv = document.getElementById("wrongWords");
-  wrongDiv.innerHTML = "";
-  let keterangan = "";
-  if (wrongList.length > 0) {
+  wrongDiv.innerHTML=""; let keterangan="";
+  if(wrongList.length>0){
     wrongDiv.classList.remove("hidden");
-    wrongDiv.innerHTML = "<strong>Kata yang salah:</strong><br><br>";
-    wrongList.forEach(i => {
-      wrongDiv.innerHTML += `• <strong>${i.word}</strong> → ${i.correct} <br><small style="color:#78350f;">(jawaban kamu: ${i.your})</small><br><br>`;
-    });
-    keterangan = wrongList.map(i => `${i.word} → ${i.your} (benar: ${i.correct})`).join(" | ");
-  } else {
-    keterangan = "Semua benar! Perfect!";
-  }
+    wrongDiv.innerHTML="<strong>Kata yang salah:</strong><br><br>";
+    wrongList.forEach(i=>{ wrongDiv.innerHTML+=`• <strong>${i.word}</strong> → ${i.correct} <br><small style="color:#78350f;">(jawaban kamu: ${i.your})</small><br><br>`; });
+    keterangan = wrongList.map(i=>`${i.word} → ${i.your} (benar: ${i.correct})`).join(" | ");
+  } else { keterangan="Semua benar! Perfect!"; }
 
   const dataToSend = {
-    waktu: new Date().toLocaleString('id-ID', {timeZone: 'Asia/Jakarta'}),
-    namaSiswa: username || "Anonymous",
-    code: kodeSoal || "Unknown",
+    waktu: new Date().toLocaleString('id-ID',{timeZone:'Asia/Jakarta'}),
+    namaSiswa: username||"Anonymous",
+    code: kodeSoal||"Unknown",
     kosaKata: `${score}/${totalQuestions} (${percent}%)`,
     ubt: "-",
     latihanSoal: totalQuestions,
     keterangan: keterangan
   };
-
   const formData = new URLSearchParams(dataToSend);
-  fetch(SPREADSHEET_URL, {
-    method: "POST",
-    mode: "no-cors",
-    keepalive: true,
-    body: formData,
-    redirect: "follow"
-  }).then(() => console.log("Skor terkirim")).catch(err => console.error(err));
+  fetch(SPREADSHEET_URL,{ method:"POST", mode:"no-cors", keepalive:true, body:formData, redirect:"follow" })
+    .then(()=>console.log("Skor terkirim")).catch(err=>console.error(err));
 }
 
 function restartQuiz() {
@@ -357,13 +329,11 @@ function restartQuiz() {
 function backToLogin() {
   document.getElementById("quizPage").classList.add("hidden");
   document.getElementById("loginPage").classList.remove("hidden");
-  document.getElementById("userId").value = "";
-  document.getElementById("kodeSoal").value = "";
+  document.getElementById("userId").value="";
+  document.getElementById("kodeSoal").value="";
 }
 
-document.getElementById("answerInput")?.addEventListener("keypress", e => {
-  if (e.key === "Enter") submitAnswer();
-});
+document.getElementById("answerInput")?.addEventListener("keypress",e=>{ if(e.key==="Enter") submitAnswer(); });
 </script>
 </body>
 </html>
