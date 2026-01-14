@@ -30,14 +30,16 @@ body::before { content: ''; position: absolute; inset: 0; background: rgba(0,0,0
  border-radius: 0;
 }
 
-h1 { 
-  font-size: 28px; text-align: center; margin: 0 0 32px; color: #f0f0f0; font-weight: 600;
-  letter-spacing: 1px;
+#loginPage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
 }
 
-.input-group {
-  margin-bottom: 20px;
-  text-align: center;
+h1 { 
+  font-size: 28px; margin: 0 0 32px; color: #f0f0f0; font-weight: 600;
+  letter-spacing: 1px;
 }
 
 input[type="text"] {
@@ -45,9 +47,9 @@ input[type="text"] {
   border: 1px solid #555; border-radius: 0;
   background: #222; color: #e0e0e0;
   transition: border-color 0.3s ease;
-  display: block; margin: 14px auto;
+  margin: 14px 0;
 }
-input::placeholder { color: #888; opacity: 1; }
+input::placeholder { color: #aaa; opacity: 0.9; }
 input:focus { border-color: #6b7280; outline: none; }
 
 button {
@@ -55,7 +57,7 @@ button {
   border: 1px solid #444; border-radius: 0;
   color: white; cursor: pointer; background: #1e40af;
   transition: background 0.3s ease;
-  display: block; margin: 20px auto 12px;
+  margin: 20px 0 12px;
 }
 button:hover { background: #1e3a8a; }
 button:active { background: #172554; }
@@ -85,12 +87,8 @@ button:active { background: #172554; }
 
 <div class="container" id="loginPage">
   <h1>TEST KOSA KATA</h1>
-  <div class="input-group">
-    <input type="text" id="userId" placeholder="User ID (contoh: 2026010001)" autocomplete="off">
-  </div>
-  <div class="input-group">
-    <input type="text" id="kodeSoal" placeholder="Kode Soal" autocomplete="off">
-  </div>
+  <input type="text" id="userId" placeholder="User ID (contoh: 2026010001)" autocomplete="off">
+  <input type="text" id="kodeSoal" placeholder="Kode Soal" autocomplete="off">
   <button onclick="login()">MULAI</button>
 </div>
 
@@ -211,7 +209,6 @@ async function loadQuestions(fileName) {
     [data[i], data[j]] = [data[j], data[i]];
   }
 
-  // Ambil 50 soal random
   questions = data.slice(0, Math.min(50, data.length));
 }
 
