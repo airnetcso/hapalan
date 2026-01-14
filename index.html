@@ -72,7 +72,7 @@ button:active { transform: translateY(-1px); }
 
 <div class="container" id="loginPage">
   <h1>TEST KOSA KATA</h1>
-  <input type="text" id="username" placeholder="User ID" autocomplete="off">
+  <input type="text" id="userId" placeholder="User ID (contoh: 2026010001)" autocomplete="off">
   <input type="text" id="kodeSoal" placeholder="Kode Soal" autocomplete="off">
   <button onclick="login()">MULAI</button>
 </div>
@@ -92,9 +92,7 @@ button:active { transform: translateY(-1px); }
     <h2 style="color:#fff; margin-bottom:20px; text-align:center;">Hasil Test</h2>
     <p id="scoreText" style="font-size:32px; font-weight:bold; color:#d1fae5; text-align:center;"></p>
     <div id="wrongWords" class="wrong-list hidden"></div>
-    <button onclick="restartQuiz()" style="background:linear-gradient(90deg, #3b82f6, #2563eb); margin-top:20px;">
-      ULANGI LAGI
-    </button>
+    <button onclick="restartQuiz()">ULANGI LAGI</button>
     <button onclick="backToLogin()" style="background:linear-gradient(90deg, #6b7280, #4b5563); margin-top:10px;">
       KEMBALI KE LOGIN
     </button>
@@ -107,44 +105,36 @@ button:active { transform: translateY(-1px); }
 // URL Google Sheet
 const SPREADSHEET_URL = "https://script.google.com/macros/s/AKfycbzxyVIlsyLswlfnQG618eeUZgN83dd2jfCjU0r7LsNHM3A6NNiibuCIb5e3CNs9J1vVhQ/exec";
 
-// Daftar user (password diabaikan karena login tanpa password)
-const users = [
-  "uus", "hanarizka", "windi", "rismaya97", "sita77", "mila", "Aini185", "Hangeulfei",
-  "Hamdan106", "Heri", "Fikrisurya", "Mutiara2003", "wantikas", "Dininidia", "kaniarostayuni9",
-  "Dikisetiawan07", "Aisyah18", "Rizka2026", "dinda", "Zhafif07", "siwon", "Azizah27_",
-  "yppsdi", "Satria11", "sultan2026"
-];
-
-// Mapping username → kode numerik (tapi di sheet tetap nama asli)
-const userCodeMap = {
-  "uus": "2026010001",
-  "hanarizka": "2026010002",
-  "windi": "2026010003",
-  "rismaya97": "2026010004",
-  "sita77": "2026010005",
-  "mila": "2026010006",
-  "Aini185": "2026010007",
-  "Hangeulfei": "2026010008",
-  "Hamdan106": "2026010009",
-  "Heri": "2026010010",
-  "Fikrisurya": "2026010011",
-  "Mutiara2003": "2026010012",
-  "wantikas": "2026010013",
-  "Dininidia": "2026010014",
-  "kaniarostayuni9": "2026010015",
-  "Dikisetiawan07": "2026010016",
-  "Aisyah18": "2026010017",
-  "Rizka2026": "2026010018",
-  "dinda": "2026010019",
-  "Zhafif07": "2026010020",
-  "siwon": "2026010021",
-  "Azizah27_": "2026010022",
-  "yppsdi": "2026010023",
-  "Satria11": "2026010024",
-  "sultan2026": "2026010025"
-  // tambah kalau ada user baru
+// Mapping User ID (angka) → nama asli (untuk sheet dan internal)
+const userIdToName = {
+  "2026010001": "uus",
+  "2026010002": "hanarizka",
+  "2026010003": "windi",
+  "2026010004": "rismaya97",
+  "2026010005": "sita77",
+  "2026010006": "mila",
+  "2026010007": "Aini185",
+  "2026010008": "Hangeulfei",
+  "2026010009": "Hamdan106",
+  "2026010010": "Heri",
+  "2026010011": "Fikrisurya",
+  "2026010012": "Mutiara2003",
+  "2026010013": "wantikas",
+  "2026010014": "Dininidia",
+  "2026010015": "kaniarostayuni9",
+  "2026010016": "Dikisetiawan07",
+  "2026010017": "Aisyah18",
+  "2026010018": "Rizka2026",
+  "2026010019": "dinda",
+  "2026010020": "Zhafif07",
+  "2026010021": "siwon",
+  "2026010022": "Azizah27_",
+  "2026010023": "yppsdi",
+  "2026010024": "Satria11",
+  "2026010025": "sultan2026"
 };
 
+// Kode Soal mapping
 const kodeMapping = {
   "h050126": "soal1.json",
   "sarewae": "test.json",
@@ -164,19 +154,23 @@ let username = "", kodeSoal = "";
 let attemptCount = 0;
 
 function login() {
-  username = document.getElementById("username").value.trim();
+  const userIdInput = document.getElementById("userId").value.trim();
   kodeSoal = document.getElementById("kodeSoal").value.trim().toLowerCase();
 
-  if (!username || !kodeSoal) {
+  if (!userIdInput || !kodeSoal) {
     alert("Lengkapi User ID dan Kode Soal!");
     return;
   }
 
-  // Cek apakah username ada di daftar
-  if (!users.includes(username)) {
-    alert("User ID tidak terdaftar!");
+  // Cek apakah User ID (angka) ada di mapping
+  const mappedName = userIdToName[userIdInput];
+  if (!mappedName) {
+    alert("User ID tidak terdaftar! Pastikan angka persis (contoh: 2026010001)");
     return;
   }
+
+  // Set username jadi nama asli dari mapping
+  username = mappedName;
 
   const fileName = kodeMapping[kodeSoal];
   if (!fileName) {
@@ -193,9 +187,104 @@ function login() {
   });
 }
 
-// ... (fungsi loadQuestions, startQuiz, updateTimer, updateQuestionNumber, updateProgress, nextQuestion, submitAnswer, finishQuiz tetap sama seperti file asli kamu)
+async function loadQuestions(fileName) {
+  const res = await fetch(fileName);
+  if (!res.ok) throw new Error("File soal tidak ditemukan");
+  let data = await res.json();
 
-// Hanya ubah bagian finishQuiz untuk mapping kode numerik (tapi nama tetap asli)
+  for (let i = data.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [data[i], data[j]] = [data[j], data[i]];
+  }
+
+  questions = data.slice(0, Math.min(100, data.length));
+}
+
+function startQuiz() {
+  currentIndex = 0; score = 0; wrongList = []; timeLeft = 3000; attemptCount = 0;
+  updateTimer(); updateQuestionNumber(); updateProgress();
+  timerInterval = setInterval(() => {
+    timeLeft--;
+    updateTimer();
+    if (timeLeft <= 0) finishQuiz();
+  }, 1000);
+  nextQuestion();
+}
+
+function updateTimer() {
+  const m = String(Math.floor(timeLeft / 60)).padStart(2, "0");
+  const s = String(timeLeft % 60).padStart(2, "0");
+  const timerEl = document.getElementById("timer");
+  timerEl.textContent = `${m}:${s}`;
+  if (timeLeft <= 300) timerEl.classList.add("warning");
+  else timerEl.classList.remove("warning");
+}
+
+function updateQuestionNumber() {
+  document.getElementById("questionNumber").textContent = `Soal ${currentIndex + 1} dari ${questions.length}`;
+}
+
+function updateProgress() {
+  const percent = (currentIndex / questions.length) * 50;
+  document.getElementById("progressBar").style.width = percent + "%";
+}
+
+function nextQuestion() {
+  if (currentIndex >= questions.length) { finishQuiz(); return; }
+  document.getElementById("currentWord").textContent = questions[currentIndex].korea;
+  document.getElementById("answerInput").value = "";
+  document.getElementById("answerInput").focus();
+  document.getElementById("feedback").textContent = "";
+  updateQuestionNumber();
+  updateProgress();
+}
+
+function submitAnswer() {
+  const answer = document.getElementById("answerInput").value.trim();
+  if (!answer) return;
+  const feedback = document.getElementById("feedback");
+  const q = questions[currentIndex];
+
+  const normUser = answer.toLowerCase().replace(/[^a-z0-9\s]/g, '').trim();
+  let correctAnswers = Array.isArray(q.indo) 
+    ? q.indo.map(a => a.toLowerCase().replace(/[^a-z0-9\s]/g, '').trim())
+    : [q.indo.toLowerCase().replace(/[^a-z0-9\s]/g, '').trim()];
+
+  let isCorrect = correctAnswers.includes(normUser);
+
+  if (isCorrect) {
+    attemptCount = 0;
+    score++;
+    feedback.textContent = "Benar!";
+    feedback.className = "correct";
+    setTimeout(() => {
+      currentIndex++;
+      nextQuestion();
+    }, 800);
+  } else {
+    attemptCount++;
+    if (attemptCount >= 3) {
+      wrongList.push({
+        word: q.korea,
+        correct: Array.isArray(q.indo) ? q.indo.join(" / ") : q.indo,
+        your: answer
+      });
+      feedback.textContent = `Salah! → ${Array.isArray(q.indo) ? q.indo.join(" / ") : q.indo}`;
+      feedback.className = "wrong";
+      setTimeout(() => {
+        attemptCount = 0;
+        currentIndex++;
+        nextQuestion();
+      }, 1500);
+    } else {
+      feedback.textContent = "Salah!";
+      feedback.className = "wrong";
+      document.getElementById("answerInput").value = "";
+      document.getElementById("answerInput").focus();
+    }
+  }
+}
+
 function finishQuiz() {
   clearInterval(timerInterval);
   document.getElementById("questionArea").classList.add("hidden");
@@ -219,10 +308,10 @@ function finishQuiz() {
     keterangan = "Semua benar! Perfect!";
   }
 
-  // Di sheet tetap pakai nama asli (username), bukan kode numerik
+  // Di sheet: nama asli dari mapping (uus, dll) – bukan angka User ID
   const dataToSend = {
     waktu: new Date().toLocaleString('id-ID', {timeZone: 'Asia/Jakarta'}),
-    namaSiswa: username || "Anonymous",  // ← tetap nama asli (uus, dll)
+    namaSiswa: username || "Anonymous",  // nama asli
     code: kodeSoal || "Unknown",
     kosaKata: `${score}/${totalQuestions} (${percent}%)`,
     ubt: "-",
@@ -237,14 +326,21 @@ function finishQuiz() {
     keepalive: true,
     body: formData,
     redirect: "follow"
-  }).then(() => {
-    console.log("Skor dikirim");
-  }).catch(err => {
-    console.error("Gagal kirim:", err);
-  });
+  }).then(() => console.log("Skor terkirim")).catch(err => console.error(err));
 }
 
-// ... (restartQuiz, backToLogin, event keypress tetap sama)
+function restartQuiz() {
+  document.getElementById("resultArea").classList.add("hidden");
+  document.getElementById("questionArea").classList.remove("hidden");
+  startQuiz();
+}
+
+function backToLogin() {
+  document.getElementById("quizPage").classList.add("hidden");
+  document.getElementById("loginPage").classList.remove("hidden");
+  document.getElementById("userId").value = "";
+  document.getElementById("kodeSoal").value = "";
+}
 
 document.getElementById("answerInput")?.addEventListener("keypress", e => {
   if (e.key === "Enter") submitAnswer();
