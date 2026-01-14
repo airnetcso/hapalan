@@ -16,65 +16,70 @@ body {
  background: url('https://raw.githubusercontent.com/airnetcso/eps/main/image/bg1.jpg') no-repeat center center fixed;
  background-size: cover;
  display: flex; flex-direction: column; justify-content: center; align-items: center;
- padding: 20px; color: #fff; position: relative;
+ padding: 20px; color: #e0e0e0; position: relative;
 }
-body::before { content: ''; position: absolute; inset: 0; background: rgba(0,0,0,0.35); z-index: 1; }
+body::before { content: ''; position: absolute; inset: 0; background: rgba(0,0,0,0.45); z-index: 1; }
 
 .container {
- position: relative; z-index: 2; width: 90%; max-width: 420px; max-height: 85vh; overflow-y: auto;
- background: rgba(255,255,255,0.15); backdrop-filter: blur(16px); border-radius: 20px;
- padding: 28px 20px; box-shadow: 0 12px 40px rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.18);
+ position: relative; z-index: 2; width: 90%; max-width: 400px; max-height: 80vh; overflow-y: auto;
+ background: rgba(30, 30, 30, 0.85); /* abu gelap formal */
+ backdrop-filter: blur(12px);
+ border: 1px solid #444;
+ box-shadow: 0 8px 32px rgba(0,0,0,0.6);
  animation: fadeIn 0.9s ease-out;
 }
 
-h1 { font-size: 32px; text-align: center; margin: 0 0 28px; color: #fff; font-weight: 700; text-shadow: 0 2px 10px rgba(0,0,0,0.7); }
+h1 { 
+  font-size: 28px; text-align: center; margin: 24px 0 32px; color: #f0f0f0; font-weight: 600;
+  letter-spacing: 1px;
+}
 
 input[type="text"] {
- width: 100%; padding: 16px; margin: 14px 0; font-size: 18px; border: 2px solid rgba(255,255,255,0.4);
- border-radius: 12px; box-sizing: border-box; background: rgba(255,255,255,0.12); color: white;
- transition: all 0.3s ease;
+ width: 100%; padding: 14px 16px; margin: 12px 0; font-size: 16px; 
+ border: 1px solid #555; border-radius: 0; /* hilang radius */
+ box-sizing: border-box; background: #222; color: #e0e0e0;
+ transition: border-color 0.3s ease;
 }
-input::placeholder { color: rgba(255,255,255,0.7); opacity: 1; }
-input:focus { border-color: #fff; background: rgba(255,255,255,0.25); outline: none; box-shadow: 0 0 0 5px rgba(255,255,255,0.2); }
+input::placeholder { color: #888; opacity: 1; }
+input:focus { border-color: #6b7280; outline: none; }
 
 button {
- width: 100%; padding: 16px; margin: 18px 0 8px; font-size: 20px; font-weight: bold; border: none;
- border-radius: 12px; color: white; cursor: pointer; background: linear-gradient(90deg, #10b981, #059669);
- transition: all 0.3s ease;
+ width: 100%; padding: 14px; margin: 20px 0 12px; font-size: 17px; font-weight: 600; border: none;
+ border-radius: 0; /* hilang radius */
+ color: white; cursor: pointer; background: #1e40af; /* biru navy formal */
+ transition: background 0.3s ease;
 }
-button:hover { transform: translateY(-4px); box-shadow: 0 15px 30px rgba(16,185,129,0.45); }
-button:active { transform: translateY(-1px); }
+button:hover { background: #1e3a8a; }
+button:active { background: #172554; }
 
 .hidden { display: none !important; }
-#timer { text-align: center; font-size: 32px; font-weight: bold; margin: 20px 0; padding: 14px; border-radius: 14px;
- background: rgba(220,38,38,0.25); transition: all 0.5s; }
-#timer.warning { background: rgba(252,211,77,0.4); color: #fef3c7; animation: pulseWrong 1s infinite alternate; }
+#timer { text-align: center; font-size: 32px; font-weight: bold; margin: 20px 0; padding: 12px; background: rgba(220,38,38,0.2); }
+#timer.warning { background: rgba(249,115,22,0.3); color: #fed7aa; }
 
-.progress { height: 14px; background: rgba(255,255,255,0.15); border-radius: 7px; margin: 20px 0; overflow: hidden; }
-.progress-bar { height: 100%; background: linear-gradient(90deg, #10b981, #059669); width: 0%; transition: width 0.8s ease; }
+.progress { height: 12px; background: #333; border-radius: 0; margin: 16px 0; overflow: hidden; }
+.progress-bar { height: 100%; background: #1e40af; width: 0%; transition: width 0.8s ease; }
 
-#questionNumber { text-align: center; font-size: 20px; margin: 10px 0; color: #e0f2fe; }
+#questionNumber { text-align: center; font-size: 18px; margin: 12px 0; color: #bbb; }
 
-.question strong { font-size: 48px; display: block; margin: 40px 0 30px; color: #fff; text-align: center;
- font-weight: 700; text-shadow: 0 3px 12px rgba(0,0,0,0.6); }
+.question strong { font-size: 44px; display: block; margin: 36px 0 28px; color: #f0f0f0; text-align: center; font-weight: 700; }
 
-#feedback { text-align: center; font-size: 28px; font-weight: bold; margin: 20px 0; height: 40px; animation: fadeIn 0.5s; }
+#feedback { text-align: center; font-size: 26px; font-weight: bold; margin: 20px 0; height: 36px; }
 .correct { color: #86efac; animation: pulseCorrect 0.6s; }
 .wrong { color: #fca5a5; animation: pulseWrong 0.6s; }
 
-.wrong-list { font-size: 17px; line-height: 1.9; margin: 25px 0; background: rgba(254,243,199,0.95); color: #92400e;
- padding: 22px; border-radius: 14px; border-left: 6px solid #ca8a04; }
+.wrong-list { font-size: 16px; line-height: 1.8; margin: 24px 0; background: rgba(254,226,226,0.9); color: #991b1b;
+ padding: 20px; border-left: 5px solid #ef4444; }
 
-.footer { position: relative; z-index: 2; margin-top: 40px; font-size: 14px; color: rgba(255,255,255,0.85); text-align: center; }
+.footer { position: relative; z-index: 2; margin-top: 36px; font-size: 13px; color: #aaa; text-align: center; }
 </style>
 </head>
 <body>
 
 <div class="container" id="loginPage">
   <h1>TEST KOSA KATA</h1>
-  <input type="text" id="userId" placeholder="User ID (contoh: 2026010001)" autocomplete="off">
-  <input type="text" id="kodeSoal" placeholder="Kode Soal" autocomplete="off">
-  <button onclick="login()">MULAI</button>
+  <input type="text" id="userId" placeholder="User ID / 아이디번호" autocomplete="off">
+  <input type="text" id="kodeSoal" placeholder="Kode Soal / 시홈코드" autocomplete="off">
+  <button onclick="login()">MULAI / 시작</button>
 </div>
 
 <div class="container hidden" id="quizPage">
@@ -89,11 +94,11 @@ button:active { transform: translateY(-1px); }
     <button onclick="submitAnswer()" id="submitBtn">SUBMIT</button>
   </div>
   <div id="resultArea" class="hidden">
-    <h2 style="color:#fff; margin-bottom:20px; text-align:center;">Hasil Test</h2>
-    <p id="scoreText" style="font-size:32px; font-weight:bold; color:#d1fae5; text-align:center;"></p>
+    <h2 style="color:#f0f0f0; margin-bottom:20px; text-align:center;">Hasil Test</h2>
+    <p id="scoreText" style="font-size:32px; font-weight:bold; color:#d1d5db; text-align:center;"></p>
     <div id="wrongWords" class="wrong-list hidden"></div>
     <button onclick="restartQuiz()">ULANGI LAGI</button>
-    <button onclick="backToLogin()" style="background:linear-gradient(90deg, #6b7280, #4b5563); margin-top:10px;">
+    <button onclick="backToLogin()" style="background:#374151; margin-top:10px;">
       KEMBALI KE LOGIN
     </button>
   </div>
@@ -105,7 +110,7 @@ button:active { transform: translateY(-1px); }
 // URL Google Sheet
 const SPREADSHEET_URL = "https://script.google.com/macros/s/AKfycbzxyVIlsyLswlfnQG618eeUZgN83dd2jfCjU0r7LsNHM3A6NNiibuCIb5e3CNs9J1vVhQ/exec";
 
-// Mapping User ID (angka) → nama asli (untuk sheet dan internal)
+// Mapping User ID angka → nama asli
 const userIdToName = {
   "2026010001": "uus",
   "2026010002": "hanarizka",
@@ -134,7 +139,6 @@ const userIdToName = {
   "2026010025": "sultan2026"
 };
 
-// Kode Soal mapping
 const kodeMapping = {
   "h050126": "soal1.json",
   "sarewae": "test.json",
@@ -162,14 +166,12 @@ function login() {
     return;
   }
 
-  // Cek apakah User ID (angka) ada di mapping
   const mappedName = userIdToName[userIdInput];
   if (!mappedName) {
-    alert("User ID tidak terdaftar! Pastikan angka persis (contoh: 2026010001)");
+    alert("User ID tidak terdaftar! Angka yang kamu ketik: " + userIdInput);
     return;
   }
 
-  // Set username jadi nama asli dari mapping
   username = mappedName;
 
   const fileName = kodeMapping[kodeSoal];
@@ -186,6 +188,8 @@ function login() {
     alert("Gagal memuat soal: " + err.message);
   });
 }
+
+// Sisanya fungsi loadQuestions, startQuiz, submitAnswer, finishQuiz, dll tetap sama seperti versi sebelumnya
 
 async function loadQuestions(fileName) {
   const res = await fetch(fileName);
@@ -308,10 +312,9 @@ function finishQuiz() {
     keterangan = "Semua benar! Perfect!";
   }
 
-  // Di sheet: nama asli dari mapping (uus, dll) – bukan angka User ID
   const dataToSend = {
     waktu: new Date().toLocaleString('id-ID', {timeZone: 'Asia/Jakarta'}),
-    namaSiswa: username || "Anonymous",  // nama asli
+    namaSiswa: username || "Anonymous",
     code: kodeSoal || "Unknown",
     kosaKata: `${score}/${totalQuestions} (${percent}%)`,
     ubt: "-",
