@@ -2,207 +2,100 @@
 <html lang="id">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>TEST KOSA KATA</title>
 <style>
-@keyframes fadeInUp {
-  from { opacity: 0; transform: translateY(30px); }
-  to   { opacity: 1; transform: translateY(0); }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes pulseCorrect { 0% { transform: scale(1); } 50% { transform: scale(1.05); } 100% { transform: scale(1); } }
+@keyframes pulseWrong { 0% { transform: scale(1); } 50% { transform: scale(1.1); } 100% { transform: scale(1); } }
+
+html, body { height: 100%; margin: 0; padding: 0; overflow: hidden; }
+body {
+ font-family: 'Segoe UI', system-ui, Arial, sans-serif;
+ min-height: 100vh;
+ background: url('https://raw.githubusercontent.com/airnetcso/eps/main/image/bg1.jpg') no-repeat center center fixed;
+ background-size: cover;
+ display: flex; flex-direction: column; justify-content: center; align-items: center;
+ padding: 20px; color: #fff; position: relative;
 }
-@keyframes pulseCorrect {
-  0%   { transform: scale(1); }
-  50%  { transform: scale(1.06); }
-  100% { transform: scale(1); }
-}
-@keyframes pulseWrong {
-  0%   { transform: scale(1); }
-  50%  { transform: scale(1.08); }
-  100% { transform: scale(1); }
+body::before { content: ''; position: absolute; inset: 0; background: rgba(0,0,0,0.35); z-index: 1; }
+
+.container {
+ position: relative; z-index: 2; width: 90%; max-width: 420px; max-height: 85vh; overflow-y: auto;
+ background: rgba(255,255,255,0.15); backdrop-filter: blur(16px); border-radius: 20px;
+ padding: 28px 20px; box-shadow: 0 12px 40px rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.18);
+ animation: fadeIn 0.9s ease-out;
 }
 
-* { box-sizing: border-box; margin: 0; padding: 0; }
-html, body {
-  height: 100%;
-  margin: 0;
-  font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-  background: url('https://raw.githubusercontent.com/airnetcso/eps/main/image/bg1.jpg') no-repeat center center fixed;
-  background-size: cover;
-  color: #f1f5f9;
-  overflow: hidden;
+h1 { font-size: 32px; text-align: center; margin: 0 0 28px; color: #fff; font-weight: 700; text-shadow: 0 2px 10px rgba(0,0,0,0.7); }
+
+input[type="text"] {
+ width: 100%; padding: 16px; margin: 14px 0; font-size: 18px; border: 2px solid rgba(255,255,255,0.4);
+ border-radius: 12px; box-sizing: border-box; background: rgba(255,255,255,0.12); color: white;
+ transition: all 0.3s ease;
 }
-body::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: rgba(0,0,0,0.45);
-  backdrop-filter: blur(2px);
-  z-index: 1;
-}
-.container {
-  position: relative;
-  z-index: 2;
-  width: 92%;
-  max-width: 420px;
-  max-height: 90vh;
-  overflow-y: auto;
-  margin: 0 auto;
-  padding: 28px 20px;
-  background: rgba(30,41,59,0.75);
-  backdrop-filter: blur(16px);
-  border-radius: 24px;
-  border: 1px solid rgba(255,255,255,0.08);
-  box-shadow: 0 20px 60px rgba(0,0,0,0.5);
-  animation: fadeInUp 0.8s ease-out;
-}
-h1 {
-  font-size: 2.1rem;
-  text-align: center;
-  margin-bottom: 1.5rem;
-  color: #e0f2fe;
-  font-weight: 700;
-  text-shadow: 0 2px 12px rgba(0,0,0,0.6);
-}
-#timer {
-  text-align: center;
-  font-size: 2.5rem;
-  font-weight: 800;
-  margin: 1rem 0;
-  padding: 0.8rem;
-  border-radius: 16px;
-  background: rgba(239,68,68,0.25);
-  transition: all 0.4s ease;
-}
-#timer.warning {
-  background: rgba(249,115,22,0.35);
-  color: #fed7aa;
-  animation: pulseWrong 1.2s infinite alternate;
-}
-.progress {
-  height: 10px;
-  background: rgba(255,255,255,0.12);
-  border-radius: 5px;
-  margin: 1.2rem 0;
-  overflow: hidden;
-}
-.progress-bar {
-  height: 100%;
-  background: linear-gradient(90deg, #6366f1, #4f46e5);
-  width: 0%;
-  transition: width 0.9s ease;
-  border-radius: 5px;
-}
-#questionNumber {
-  text-align: center;
-  font-size: 1.1rem;
-  margin: 0.8rem 0;
-  color: #94a3b8;
-}
-.question strong {
-  font-size: 3.5rem;
-  display: block;
-  margin: 2.5rem 0 1.8rem;
-  text-align: center;
-  color: #f1f5f9;
-  font-weight: 800;
-  text-shadow: 0 4px 16px rgba(0,0,0,0.7);
-}
-#feedback {
-  text-align: center;
-  font-size: 1.8rem;
-  font-weight: 700;
-  margin: 1.2rem 0;
-  min-height: 2.5rem;
-}
-.correct { color: #86efac; animation: pulseCorrect 0.7s; }
-.wrong   { color: #fca5a5; animation: pulseWrong 0.7s; }
-#answerInput {
-  width: 100%;
-  padding: 1rem 1.2rem;
-  font-size: 1.1rem;
-  border: 2px solid rgba(255,255,255,0.2);
-  border-radius: 12px;
-  background: rgba(255,255,255,0.08);
-  color: white;
-  margin: 1rem 0;
-}
-#answerInput:focus {
-  border-color: #6366f1;
-  background: rgba(255,255,255,0.15);
-  outline: none;
-}
+input::placeholder { color: rgba(255,255,255,0.7); opacity: 1; }
+input:focus { border-color: #fff; background: rgba(255,255,255,0.25); outline: none; box-shadow: 0 0 0 5px rgba(255,255,255,0.2); }
+
 button {
-  width: 100%;
-  padding: 1rem;
-  font-size: 1.15rem;
-  font-weight: 700;
-  border: none;
-  border-radius: 12px;
-  color: white;
-  cursor: pointer;
-  background: linear-gradient(90deg, #6366f1, #4f46e5);
-  margin: 1rem 0;
-  transition: all 0.3s ease;
+ width: 100%; padding: 16px; margin: 18px 0 8px; font-size: 20px; font-weight: bold; border: none;
+ border-radius: 12px; color: white; cursor: pointer; background: linear-gradient(90deg, #10b981, #059669);
+ transition: all 0.3s ease;
 }
-button:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 10px 30px rgba(99,102,241,0.4);
-}
-button:active { transform: translateY(0); }
-.wrong-list {
-  font-size: 1rem;
-  line-height: 1.7;
-  margin: 1.5rem 0;
-  padding: 1.2rem;
-  background: rgba(254,226,226,0.95);
-  color: #991b1b;
-  border-radius: 12px;
-  border-left: 5px solid #ef4444;
-}
-#resultArea h2 {
-  font-size: 1.8rem;
-  text-align: center;
-  color: #e0f2fe;
-  margin-bottom: 1rem;
-}
-#scoreText {
-  font-size: 2.5rem;
-  font-weight: 800;
-  text-align: center;
-  color: #a5b4fc;
-  margin-bottom: 1.5rem;
-}
-.footer {
-  position: relative;
-  z-index: 2;
-  margin-top: 2rem;
-  font-size: 0.85rem;
-  color: rgba(255,255,255,0.7);
-  text-align: center;
-}
+button:hover { transform: translateY(-4px); box-shadow: 0 15px 30px rgba(16,185,129,0.45); }
+button:active { transform: translateY(-1px); }
+
 .hidden { display: none !important; }
+#timer { text-align: center; font-size: 32px; font-weight: bold; margin: 20px 0; padding: 14px; border-radius: 14px;
+ background: rgba(220,38,38,0.25); transition: all 0.5s; }
+#timer.warning { background: rgba(252,211,77,0.4); color: #fef3c7; animation: pulseWrong 1s infinite alternate; }
+
+.progress { height: 14px; background: rgba(255,255,255,0.15); border-radius: 7px; margin: 20px 0; overflow: hidden; }
+.progress-bar { height: 100%; background: linear-gradient(90deg, #10b981, #059669); width: 0%; transition: width 0.8s ease; }
+
+#questionNumber { text-align: center; font-size: 20px; margin: 10px 0; color: #e0f2fe; }
+
+.question strong { font-size: 48px; display: block; margin: 40px 0 30px; color: #fff; text-align: center;
+ font-weight: 700; text-shadow: 0 3px 12px rgba(0,0,0,0.6); }
+
+#feedback { text-align: center; font-size: 28px; font-weight: bold; margin: 20px 0; height: 40px; animation: fadeIn 0.5s; }
+.correct { color: #86efac; animation: pulseCorrect 0.6s; }
+.wrong { color: #fca5a5; animation: pulseWrong 0.6s; }
+
+.wrong-list { font-size: 17px; line-height: 1.9; margin: 25px 0; background: rgba(254,243,199,0.95); color: #92400e;
+ padding: 22px; border-radius: 14px; border-left: 6px solid #ca8a04; }
+
+.footer { position: relative; z-index: 2; margin-top: 40px; font-size: 14px; color: rgba(255,255,255,0.85); text-align: center; }
 </style>
 </head>
 <body>
 
-<div class="container" id="quizPage">
+<div class="container" id="loginPage">
+  <h1>TEST KOSA KATA</h1>
+  <input type="text" id="username" placeholder="User ID" autocomplete="off">
+  <input type="text" id="kodeSoal" placeholder="Kode Soal" autocomplete="off">
+  <button onclick="login()">MULAI</button>
+</div>
+
+<div class="container hidden" id="quizPage">
   <h1>TEST KOSA KATA</h1>
   <div id="timer">50:00</div>
   <div id="questionNumber">Soal 1 dari 100</div>
   <div class="progress"><div class="progress-bar" id="progressBar"></div></div>
-
   <div id="questionArea">
     <div id="feedback"></div>
     <div class="question"><strong id="currentWord"></strong></div>
-    <input type="text" id="answerInput" placeholder="Ketik jawaban di sini..." autocomplete="off">
-    <button id="submitBtn" onclick="submitAnswer()">SUBMIT</button>
+    <input type="text" id="answerInput" placeholder="Ketik jawaban di sini" autocomplete="off">
+    <button onclick="submitAnswer()" id="submitBtn">SUBMIT</button>
   </div>
-
   <div id="resultArea" class="hidden">
-    <h2>Hasil Test</h2>
-    <p id="scoreText"></p>
+    <h2 style="color:#fff; margin-bottom:20px; text-align:center;">Hasil Test</h2>
+    <p id="scoreText" style="font-size:32px; font-weight:bold; color:#d1fae5; text-align:center;"></p>
     <div id="wrongWords" class="wrong-list hidden"></div>
-    <button onclick="restartQuiz()">ULANGI LAGI</button>
-    <button onclick="backToLogin()" style="background: linear-gradient(90deg, #6b7280, #4b5563); margin-top: 0.8rem;">
+    <button onclick="restartQuiz()" style="background:linear-gradient(90deg, #3b82f6, #2563eb); margin-top:20px;">
+      ULANGI LAGI
+    </button>
+    <button onclick="backToLogin()" style="background:linear-gradient(90deg, #6b7280, #4b5563); margin-top:10px;">
       KEMBALI KE LOGIN
     </button>
   </div>
@@ -211,69 +104,151 @@ button:active { transform: translateY(0); }
 <div class="footer">© 2026 Denzuka - Kim Jongun. All rights reserved.</div>
 
 <script>
-// --- SCRIPT TETAP SAMA, HANYA ADAPSI UNTUK ANDROID POPUP ---
+// URL Google Sheet
 const SPREADSHEET_URL = "https://script.google.com/macros/s/AKfycbzxyVIlsyLswlfnQG618eeUZgN83dd2jfCjU0r7LsNHM3A6NNiibuCIb5e3CNs9J1vVhQ/exec";
 
-const users = [ /* daftar user kamu tetap */ ];
-const kodeMapping = { /* mapping kode kamu tetap */ };
+// Daftar user (password diabaikan karena login tanpa password)
+const users = [
+  "uus", "hanarizka", "windi", "rismaya97", "sita77", "mila", "Aini185", "Hangeulfei",
+  "Hamdan106", "Heri", "Fikrisurya", "Mutiara2003", "wantikas", "Dininidia", "kaniarostayuni9",
+  "Dikisetiawan07", "Aisyah18", "Rizka2026", "dinda", "Zhafif07", "siwon", "Azizah27_",
+  "yppsdi", "Satria11", "sultan2026"
+];
+
+// Mapping username → kode numerik (tapi di sheet tetap nama asli)
+const userCodeMap = {
+  "uus": "2026010001",
+  "hanarizka": "2026010002",
+  "windi": "2026010003",
+  "rismaya97": "2026010004",
+  "sita77": "2026010005",
+  "mila": "2026010006",
+  "Aini185": "2026010007",
+  "Hangeulfei": "2026010008",
+  "Hamdan106": "2026010009",
+  "Heri": "2026010010",
+  "Fikrisurya": "2026010011",
+  "Mutiara2003": "2026010012",
+  "wantikas": "2026010013",
+  "Dininidia": "2026010014",
+  "kaniarostayuni9": "2026010015",
+  "Dikisetiawan07": "2026010016",
+  "Aisyah18": "2026010017",
+  "Rizka2026": "2026010018",
+  "dinda": "2026010019",
+  "Zhafif07": "2026010020",
+  "siwon": "2026010021",
+  "Azizah27_": "2026010022",
+  "yppsdi": "2026010023",
+  "Satria11": "2026010024",
+  "sultan2026": "2026010025"
+  // tambah kalau ada user baru
+};
+
+const kodeMapping = {
+  "h050126": "soal1.json",
+  "sarewae": "test.json",
+  "r43213": "soal2.json",
+  "mugunghwa": "soal11.json",
+  "kimchi": "soal12.json",
+  "seoul": "soal13.json",
+  "teokbokki": "soal14.json",
+  "kimtaehyung": "soal15.json",
+  "chuseok": "soal16.json",
+  "kimbap": "soal17.json",
+  "saranghae": "soal3.json"
+};
 
 let questions = [], currentIndex = 0, score = 0, wrongList = [], timerInterval, timeLeft = 3000;
 let username = "", kodeSoal = "";
 let attemptCount = 0;
 
-// Fungsi dipanggil dari Android setelah dialog diisi
-function startLoginFromApp() {
-  username = window.username || "";
-  kodeSoal = window.kodeSoal || "";
+function login() {
+  username = document.getElementById("username").value.trim();
+  kodeSoal = document.getElementById("kodeSoal").value.trim().toLowerCase();
 
-  if (!username.trim() || !kodeSoal.trim()) {
-    alert("Data login tidak lengkap dari aplikasi!");
+  if (!username || !kodeSoal) {
+    alert("Lengkapi User ID dan Kode Soal!");
     return;
   }
 
-  const userExists = users.some(u => u.username === username.trim());
-  if (!userExists) {
+  // Cek apakah username ada di daftar
+  if (!users.includes(username)) {
     alert("User ID tidak terdaftar!");
     return;
   }
 
-  const fileName = kodeMapping[kodeSoal.trim().toLowerCase()];
+  const fileName = kodeMapping[kodeSoal];
   if (!fileName) {
     alert("Kode Soal tidak valid!");
     return;
   }
 
   loadQuestions(fileName).then(() => {
+    document.getElementById("loginPage").classList.add("hidden");
+    document.getElementById("quizPage").classList.remove("hidden");
     startQuiz();
   }).catch(err => {
     alert("Gagal memuat soal: " + err.message);
   });
 }
 
-// Fungsi loadQuestions, startQuiz, submitAnswer, finishQuiz, dll TETAP SAMA seperti versi sebelumnya
-// Copy dari script kamu yang lama untuk bagian ini
+// ... (fungsi loadQuestions, startQuiz, updateTimer, updateQuestionNumber, updateProgress, nextQuestion, submitAnswer, finishQuiz tetap sama seperti file asli kamu)
 
-// Contoh placeholder untuk fungsi lain (isi dengan kode asli kamu)
-async function loadQuestions(fileName) { /* ... isi seperti sebelumnya */ }
-function startQuiz() { /* ... */ }
-function updateTimer() { /* ... */ }
-function updateQuestionNumber() { /* ... */ }
-function updateProgress() { /* ... */ }
-function nextQuestion() { /* ... */ }
-function submitAnswer() { /* ... */ }
-function finishQuiz() { /* ... */ }
-function restartQuiz() { /* ... */ }
-function backToLogin() { alert("Silakan tutup dan buka ulang aplikasi untuk login baru."); }
+// Hanya ubah bagian finishQuiz untuk mapping kode numerik (tapi nama tetap asli)
+function finishQuiz() {
+  clearInterval(timerInterval);
+  document.getElementById("questionArea").classList.add("hidden");
+  document.getElementById("resultArea").classList.remove("hidden");
 
-// Event Enter untuk submit jawaban
+  const totalQuestions = questions.length;
+  const percent = Math.round((score / totalQuestions) * 50);
+  document.getElementById("scoreText").textContent = `Skor: ${score}/${totalQuestions} (${percent}%)`;
+
+  const wrongDiv = document.getElementById("wrongWords");
+  wrongDiv.innerHTML = "";
+  let keterangan = "";
+  if (wrongList.length > 0) {
+    wrongDiv.classList.remove("hidden");
+    wrongDiv.innerHTML = "<strong>Kata yang salah:</strong><br><br>";
+    wrongList.forEach(i => {
+      wrongDiv.innerHTML += `• <strong>${i.word}</strong> → ${i.correct} <br><small style="color:#78350f;">(jawaban kamu: ${i.your})</small><br><br>`;
+    });
+    keterangan = wrongList.map(i => `${i.word} → ${i.your} (benar: ${i.correct})`).join(" | ");
+  } else {
+    keterangan = "Semua benar! Perfect!";
+  }
+
+  // Di sheet tetap pakai nama asli (username), bukan kode numerik
+  const dataToSend = {
+    waktu: new Date().toLocaleString('id-ID', {timeZone: 'Asia/Jakarta'}),
+    namaSiswa: username || "Anonymous",  // ← tetap nama asli (uus, dll)
+    code: kodeSoal || "Unknown",
+    kosaKata: `${score}/${totalQuestions} (${percent}%)`,
+    ubt: "-",
+    latihanSoal: totalQuestions,
+    keterangan: keterangan
+  };
+
+  const formData = new URLSearchParams(dataToSend);
+  fetch(SPREADSHEET_URL, {
+    method: "POST",
+    mode: "no-cors",
+    keepalive: true,
+    body: formData,
+    redirect: "follow"
+  }).then(() => {
+    console.log("Skor dikirim");
+  }).catch(err => {
+    console.error("Gagal kirim:", err);
+  });
+}
+
+// ... (restartQuiz, backToLogin, event keypress tetap sama)
+
 document.getElementById("answerInput")?.addEventListener("keypress", e => {
   if (e.key === "Enter") submitAnswer();
 });
-
-// Kalau dibuka langsung di browser (tanpa Android), beri pesan
-if (!window.username || !window.kodeSoal) {
-  document.body.innerHTML = '<div style="text-align:center; padding:2rem; color:white;"><h2>Silakan buka melalui aplikasi Android</h2><p>Login melalui popup aplikasi untuk memulai tes.</p></div>';
-}
 </script>
 </body>
 </html>
