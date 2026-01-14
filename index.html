@@ -2,395 +2,349 @@
 <html lang="id">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Hapalan Kosakata Korea</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TEST KOSA KATA</title>
 <style>
-  body {
-    margin: 0;
-    font-family: 'Segoe UI', Arial, sans-serif;
-    background: linear-gradient(to bottom, #f0f7ff, #e0eafc);
-    color: #333;
-    min-height: 100vh;
-    touch-action: pan-x;
-    overflow: hidden;
-  }
-  .container {
-    padding: 15px;
-    height: 100vh;
-    box-sizing: border-box;
-    display: flex;
-    flex-direction: column;
-  }
-
-  /* LANDING PAGE - Tetap sama */
-  #landing-page {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    min-height: 100vh;
-    text-align: center;
-    padding: 20px;
-    box-sizing: border-box;
-  }
-  .book-theme {
-    background: #fff;
-    padding: 30px 20px;
-    border-radius: 20px;
-    box-shadow: 0 15px 40px rgba(0,0,0,0.15);
-    width: 90%;
-    max-width: 500px;
-    position: relative;
-  }
-  .book-theme::before {
-    content: '';
-    position: absolute;
-    top: -8px; left: 50%;
-    width: 5px; height: 110%;
-    background: #8b4513;
-    transform: translateX(-50%);
-  }
-  .welcome-title {
-    font-size: 32px;
-    color: #2c3e50;
-    margin-bottom: 10px;
-  }
-  .welcome-subtitle {
-    font-size: 18px;
-    color: #e74c3c;
-    margin-bottom: 15px;
-  }
-  .welcome-text {
-    font-size: 16px;
-    color: #555;
-    line-height: 1.6;
-    margin-bottom: 35px;
-  }
-  .mode-select {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-    width: 100%;
-  }
-  .mode-card {
-    padding: 25px;
-    background: #3498db;
-    color: white;
-    border-radius: 15px;
-    cursor: pointer;
-    transition: 0.3s;
-    box-shadow: 0 8px 20px rgba(0,0,0,0.1);
-    font-size: 18px;
-  }
-  .mode-card:hover, .mode-card:active {
-    transform: translateY(-5px);
-    background: #2980b9;
-  }
-  .mode-card h3 {
-    margin: 0 0 8px 0;
-    font-size: 24px;
-  }
-
-  /* KOSAKATA PAGE */
-  #vocab-page {
-    display: none;
-    height: 100vh;
-    flex-direction: column;
-    position: relative;
-  }
-
-  /* TOMBOL ID & KR - POJOK ATAS (TRANSPARAN) */
-  .toggle-corner {
-    position: fixed;
-    top: 15px;
-    width: 48px;
-    height: 48px;
-    background: rgba(255, 255, 255, 0.7);
-    backdrop-filter: blur(10px);
-    color: #2c3e50;
-    border: none;
-    border-radius: 50%;
-    font-size: 19px;
-    font-weight: bold;
-    cursor: pointer;
-    z-index: 200;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.15);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  #toggle-id {
-    left: 15px;
-  }
-  #toggle-kr {
-    right: 15px;
-  }
-  .toggle-corner.active {
-    background: rgba(231, 76, 60, 0.85); /* Merah transparan */
-    color: white;
-  }
-
-  .swipe-area {
-    flex: 1;
-    overflow: hidden;
-    -webkit-user-select: none;
-    user-select: none;
-    padding: 70px 10px 80px 10px; /* Space atas & bawah buat tombol */
-  }
-  table {
-    width: 100%;
-    border-collapse: collapse;
-    background: white;
-    border-radius: 15px;
-    overflow: hidden;
-    box-shadow: 0 8px 25px rgba(0,0,0,0.1);
-    font-size: 18px;
-    height: 100%;
-  }
-  th {
-    background: #3498db;
-    color: white;
-    padding: 14px 16px;
-    font-size: 18px;
-    text-align: left;
-  }
-  td {
-    padding: 14px 16px;
-    text-align: left;
-    border-bottom: 1px solid #eee;
-    vertical-align: middle;
-  }
-  tr:last-child td {
-    border-bottom: none;
-  }
-  tr:hover {
-    background: #f8f9fa;
-  }
-
-  /* NAV BOTTOM - SAMA DENGAN ATAS: KECIL & TRANSPARAN */
-  .nav-bottom {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    padding: 12px 15px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    z-index: 100;
-  }
-  .nav-btn {
-    width: 48px;
-    height: 48px;
-    background: rgba(255, 255, 255, 0.7);
-    backdrop-filter: blur(10px);
-    color: #2c3e50;
-    border: none;
-    border-radius: 50%;
-    font-size: 24px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.15);
-  }
-  .nav-btn:disabled {
-    background: rgba(189, 195, 199, 0.7);
-    color: #95a5a6;
-  }
-  #page-info {
-    font-size: 17px;
-    font-weight: bold;
-    color: #2c3e50;
-    background: rgba(255, 255, 255, 0.7);
-    backdrop-filter: blur(10px);
-    padding: 8px 16px;
-    border-radius: 20px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-  }
-
-  @media (max-width: 480px) {
-    .welcome-title { font-size: 28px; }
-    th, td { padding: 12px 14px; font-size: 17px; }
-    .toggle-corner, .nav-btn { width: 45px; height: 45px; font-size: 18px; }
-    #page-info { font-size: 16px; padding: 6px 14px; }
-    .swipe-area { padding-top: 65px; padding-bottom: 75px; }
-  }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes pulseCorrect { 0% { transform: scale(1); } 50% { transform: scale(1.05); } 100% { transform: scale(1); } }
+@keyframes pulseWrong { 0% { transform: scale(1); } 50% { transform: scale(1.1); } 100% { transform: scale(1); } }
+html, body { height: 100%; margin: 0; padding: 0; overflow: hidden; }
+body {
+ font-family: 'Segoe UI', system-ui, Arial, sans-serif;
+ min-height: 100vh;
+ background: url('https://raw.githubusercontent.com/airnetcso/eps/main/image/bg1.jpg') no-repeat center center fixed;
+ background-size: cover;
+ display: flex; flex-direction: column; justify-content: center; align-items: center;
+ padding: 20px; color: #fff; position: relative;
+}
+body::before { content: ''; position: absolute; inset: 0; background: rgba(0,0,0,0.35); z-index: 1; }
+.container {
+ position: relative; z-index: 2; width: 90%; max-width: 480px; max-height: 90vh; overflow-y: auto;
+ background: rgba(255,255,255,0.15); backdrop-filter: blur(16px); border-radius: 24px;
+ padding: 32px; box-shadow: 0 15px 50px rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.2);
+ animation: fadeIn 0.9s ease-out;
+}
+h1 { font-size: 34px; text-align: center; margin: 0 0 30px; color: #fff; font-weight: 700; text-shadow: 0 2px 10px rgba(0,0,0,0.7); }
+input[type="text"], input[type="password"] {
+ width: 100%; padding: 16px; margin: 12px 0; font-size: 18px; border: 2px solid rgba(255,255,255,0.4);
+ border-radius: 12px; box-sizing: border-box; background: rgba(255,255,255,0.12); color: white;
+ transition: all 0.3s ease;
+ pointer-events: auto;
+ position: relative;
+ z-index: 3;
+}
+input::placeholder, select::placeholder {
+ color:rgba(255,255,255,0.7); opacity: 1;
+}
+input:focus, select:focus {
+ border-color: #fff; background: rgba(255,255,255,0.25); outline: none; box-shadow: 0 0 0 5px rgba(255,255,255,0.2);
+}
+button {
+ width: 100%; padding: 16px; margin: 18px 0 8px; font-size: 20px; font-weight: bold; border: none;
+ border-radius: 12px; color: white; cursor: pointer; background: linear-gradient(90deg, #10b981, #059669);
+ transition: all 0.3s ease;
+ position: relative; z-index: 3;
+}
+button:hover {
+ transform: translateY(-4px); box-shadow: 0 15px 30px rgba(16,185,129,0.45);
+}
+button:active { transform: translateY(-1px); }
+.error { color: #ff6b6b; text-align: center; margin: 12px 0; font-weight: 600; background: rgba(0,0,0,0.4); padding: 12px; border-radius: 10px; }
+.hidden { display: none !important; }
+#timer { text-align: center; font-size: 32px; font-weight: bold; margin: 20px 0; padding: 14px; border-radius: 14px;
+ background: rgba(220,38,38,0.25); transition: all 0.5s; }
+#timer.warning { background: rgba(252,211,77,0.4); color: #fef3c7; animation: pulseWrong 1s infinite alternate; }
+.progress { height: 14px; background: rgba(255,255,255,0.15); border-radius: 7px; margin: 20px 0; overflow: hidden; }
+.progress-bar { height: 100%; background: linear-gradient(90deg, #10b981, #059669); width: 0%; transition: width 0.8s ease; }
+#questionNumber { text-align: center; font-size: 20px; margin: 10px 0; color: #e0f2fe; }
+.question strong { font-size: 48px; display: block; margin: 40px 0 30px; color: #fff; text-align: center;
+ font-weight: 700; text-shadow: 0 3px 12px rgba(0,0,0,0.6); }
+#feedback { text-align: center; font-size: 28px; font-weight: bold; margin: 20px 0; height: 40px; animation: fadeIn 0.5s; }
+.correct { color: #86efac; animation: pulseCorrect 0.6s; }
+.wrong { color: #fca5a5; animation: pulseWrong 0.6s; }
+.wrong-list { font-size: 17px; line-height: 1.9; margin: 25px 0; background: rgba(254,243,199,0.95); color: #92400e;
+ padding: 22px; border-radius: 14px; border-left: 6px solid #ca8a04; }
+.footer { position: relative; z-index: 2; margin-top: 50px; font-size: 14px; color: rgba(255,255,255,0.85); text-align: center; }
 </style>
 </head>
 <body>
-
-<!-- LANDING PAGE -->
-<div id="landing-page">
-  <div class="book-theme">
-    <h1 class="welcome-title">📖 Hapalan Kosakata Korea</h1>
-    <p class="welcome-subtitle">Belajar Hangul Kapan Saja!</p>
-    <p class="welcome-text">
-      Hafalkan 100 kosakata dasar tentang benda, makanan, minuman, dan tempat.<br>
-      Pilih mode yang paling cocok buat kamu.
-    </p>
-    <div class="mode-select">
-      <div class="mode-card" onclick="startLearning('indo-korea')">
-        <h3>🇮🇩 → 🇰🇷</h3>
-        <p>Indonesia ke Korea<br><small>Mode Belajar Santai</small></p>
-      </div>
-      <div class="mode-card" onclick="startLearning('korea-indo')">
-        <h3>🇰🇷 → 🇮🇩</h3>
-        <p>Korea ke Indonesia<br><small>Mode Tes Hafalan</small></p>
-      </div>
-    </div>
-  </div>
+<div class="container" id="loginPage">
+ <h1>TEST KOSA KATA</h1>
+ <input type="text" id="username" placeholder="Username / 이름" autocomplete="off">
+ <input type="password" id="password" placeholder="Password / 비밀번호" autocomplete="off">
+ <input type="text" id="kodeSoal" placeholder="Kode Test / 시험코드" autocomplete="off">
+ <div class="error" id="errorMsg"></div>
+ <button onclick="login()">MULAI / 시작</button>
 </div>
-
-<!-- KOSAKATA PAGE -->
-<div id="vocab-page">
-  <div class="container">
-
-    <!-- TOMBOL ID & KR - POJOK ATAS -->
-    <button class="toggle-corner active" id="toggle-id">ID</button>
-    <button class="toggle-corner active" id="toggle-kr">KR</button>
-
-    <div class="swipe-area">
-      <table id="vocab-table">
-        <thead>
-          <tr>
-            <th id="col1">Indonesia</th>
-            <th id="col2">Korea (Hangul)</th>
-          </tr>
-        </thead>
-        <tbody id="vocab-body">
-          <tr><td colspan="2" style="padding:60px;text-align:center;">Memuat kosakata...</td></tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
-
-  <!-- Nav Bottom - Transparan & Kecil -->
-  <div class="nav-bottom">
-    <button class="nav-btn" id="prev-btn">←</button>
-    <div id="page-info">1 / 10</div>
-    <button class="nav-btn" id="next-btn">→</button>
-  </div>
+<div class="container hidden" id="quizPage">
+ <h1>TEST KOSA KATA</h1>
+ <div id="timer">50:00</div>
+ <div id="questionNumber">Soal 1 dari 100</div>
+ <div class="progress"><div class="progress-bar" id="progressBar"></div></div>
+ <div id="questionArea">
+ <div id="feedback"></div>
+ <div class="question"><strong id="currentWord"></strong></div>
+ <input type="text" id="answerInput" placeholder="Ketik jawaban di sini" autocomplete="off">
+ <button onclick="submitAnswer()" id="submitBtn">SUBMIT</button>
+ </div>
+ <div id="resultArea" class="hidden">
+ <h2 style="color:#fff; margin-bottom:20px; text-align:center;">Hasil Test</h2>
+ <p id="scoreText" style="font-size:32px; font-weight:bold; color:#d1fae5; text-align:center;"></p>
+ <div id="wrongWords" class="wrong-list hidden"></div>
+ <button onclick="restartQuiz()" style="background:linear-gradient(90deg, #3b82f6, #2563eb); margin-top:20px;">
+  ULANGI LAGI
+ </button>
+ <button onclick="backToLogin()" style="background:linear-gradient(90deg, #6b7280, #4b5563); margin-top:10px;">
+  KEMBALI KE LOGIN
+ </button>
+ </div>
 </div>
-
+<div class="footer">© 2026 Denzuka - Kim Jongun. All rights reserved.</div>
 <script>
-// URL JSON
-const JSON_URL = "https://raw.githubusercontent.com/airnetcso/hapalan/main/kosakata/kosakata1.json";
+// URL Google Sheet (WA baru yang kamu kasih)
+const SPREADSHEET_URL = "https://script.google.com/macros/s/AKfycbzxyVIlsyLswlfnQG618eeUZgN83dd2jfCjU0r7LsNHM3A6NNiibuCIb5e3CNs9J1vVhQ/exec";
 
-let vocabulary = [];
-let currentPage = 1;
-const itemsPerPage = 10;
-let mainMode = "indo-korea";
-let showIndo = true;
-let showKorea = true;
+const users = [
+ {username:"uus",password:"111"},
+ {username:"hanarizka",password:"Nungkihana24!"},
+ {username:"windi",password:"Windi2000"},
+ {username:"rismaya97",password:"bahasakorea"},
+ {username:"sita77",password:"minyooki"},
+ {username:"mila",password:"lestari"},
+ {username:"Aini185",password:"Doraemon"},
+ {username:"Hangeulfei",password:"studykorea02"},
+ {username:"Hamdan106",password:"Fukuo106"},
+ {username:"Heri",password:"heri99"},
+ {username:"Fikrisurya",password:"464646"},
+ {username:"Mutiara2003",password:"Mutiara14"},
+ {username:"wantikas",password:"200022"},
+ {username:"Dininidia",password:"dininidia11"},
+ {username:"kaniarostayuni9",password:"Kania1313"},
+ {username:"Dikisetiawan07",password:"Diki2709"},
+ {username:"Aisyah18",password:"Aisyah18."},
+ {username:"Rizka2026",password:"butterfly24"},
+ {username:"dinda",password:"dinda1999"},
+ {username:"Zhafif07",password:"20060722"},
+ {username:"siwon",password:"kampus2"},
+ {username:"Azizah27_",password:"Azzh271"},
+ {username:"mila",password:"lestari"},
+ {username:"yppsdi",password:"global2026"},
+ {username:"Satria11",password:"Satria113"},
+ {username:"sultan2026",password:"sultandaulah"}
+];
 
-const landingPage = document.getElementById("landing-page");
-const vocabPage = document.getElementById("vocab-page");
-const swipeArea = document.querySelector(".swipe-area");
+const kodeMapping = {
+ "h050126": "soal1.json",
+ "sarewae": "test.json",
+ "r43213": "soal2.json",
+ "mugunghwa": "soal11.json",
+ "kimchi": "soal12.json",
+ "seoul": "soal13.json",
+ "teokbokki": "soal14.json",
+ "kimtaehyung": "soal15.json",
+ "chuseok": "soal16.json",
+ "kimbap": "soal17.json",
+ "saranghae": "soal3.json"
+};
 
-function startLearning(mode) {
-  mainMode = mode;
-  landingPage.style.display = "none";
-  vocabPage.style.display = "flex";
-  loadVocabulary();
+let questions = [], currentIndex = 0, score = 0, wrongList = [], timerInterval, timeLeft = 3000;
+let username = "", kodeSoal = "";
+let attemptCount = 0;
+
+function login() {
+ username = document.getElementById("username").value.trim();
+ const pass = document.getElementById("password").value.trim();
+ kodeSoal = document.getElementById("kodeSoal").value.trim().toLowerCase();
+ const error = document.getElementById("errorMsg");
+ error.textContent = "";
+ if (!username || !pass || !kodeSoal) { error.textContent = "Lengkapi semua kolom!"; return; }
+ const fileName = kodeMapping[kodeSoal];
+ if (!fileName) { error.textContent = "Kode akses tidak valid!"; return; }
+ const user = users.find(u => u.username === username && u.password === pass);
+ if (!user) { error.textContent = "Username / Password salah!"; return; }
+ loadQuestions(fileName).then(() => {
+  document.getElementById("loginPage").classList.add("hidden");
+  document.getElementById("quizPage").classList.remove("hidden");
+  startQuiz();
+ }).catch(err => {
+  error.textContent = "Gagal memuat soal: " + err.message;
+  console.error(err);
+ });
 }
 
-async function loadVocabulary() {
-  try {
-    const response = await fetch(JSON_URL);
-    if (!response.ok) throw new Error("File tidak ditemukan");
-    vocabulary = await response.json();
-    currentPage = 1;
-    renderTable();
-    updateNav();
-  } catch (error) {
-    document.getElementById("vocab-body").innerHTML = 
-      `<tr><td colspan="2" style="padding:60px;color:red;text-align:center;">Gagal memuat!<br><small>${error.message}</small></td></tr>`;
-  }
+async function loadQuestions(fileName) {
+ const res = await fetch(fileName);
+ if (!res.ok) throw new Error("File soal tidak ditemukan atau error jaringan");
+ let data = await res.json();
+ // Fisher-Yates shuffle
+ for (let i = data.length - 1; i > 0; i--) {
+  const j = Math.floor(Math.random() * (i + 1));
+  [data[i], data[j]] = [data[j], data[i]];
+ }
+ // Ambil hanya 100 soal random
+ questions = data.slice(0, Math.min(100, data.length));
 }
 
-function renderTable() {
-  const start = (currentPage - 1) * itemsPerPage;
-  const end = start + itemsPerPage;
-  const pageData = vocabulary.slice(start, end);
-
-  let html = "";
-  pageData.forEach(item => {
-    let indo = item.indo || "-";
-    let korea = item.korea || "-";
-
-    let col1 = (mainMode === "indo-korea" ? indo : korea);
-    let col2 = (mainMode === "indo-korea" ? korea : indo);
-
-    if (!showIndo) col1 = "-";
-    if (!showKorea) col2 = "-";
-
-    html += `<tr><td>${col1}</td><td>${col2}</td></tr>`;
-  });
-
-  document.getElementById("vocab-body").innerHTML = html || 
-    `<tr><td colspan="2" style="padding:60px;text-align:center;">Tidak ada kosakata di halaman ini</td></tr>`;
-
-  document.getElementById("col1").textContent = mainMode === "indo-korea" ? "Indonesia" : "Korea (Hangul)";
-  document.getElementById("col2").textContent = mainMode === "indo-korea" ? "Korea (Hangul)" : "Indonesia";
+function startQuiz() {
+ currentIndex = 0; score = 0; wrongList = []; timeLeft = 3000; attemptCount = 0;
+ updateTimer(); updateQuestionNumber(); updateProgress();
+ timerInterval = setInterval(() => {
+  timeLeft--;
+  updateTimer();
+  if (timeLeft <= 0) finishQuiz();
+ }, 1000);
+ nextQuestion();
 }
 
-function updateNav() {
-  const totalPages = Math.ceil(vocabulary.length / itemsPerPage);
-  document.getElementById("page-info").textContent = `${currentPage} / ${totalPages}`;
-  document.getElementById("prev-btn").disabled = currentPage === 1;
-  document.getElementById("next-btn").disabled = currentPage === totalPages;
+function updateTimer() {
+ const m = String(Math.floor(timeLeft / 60)).padStart(2, "0");
+ const s = String(timeLeft % 60).padStart(2, "0");
+ const timerEl = document.getElementById("timer");
+ timerEl.textContent = `${m}:${s}`;
+ if (timeLeft <= 300) {
+  timerEl.classList.add("warning");
+ } else {
+  timerEl.classList.remove("warning");
+ }
 }
 
-document.getElementById("prev-btn").onclick = () => changePage(currentPage - 1);
-document.getElementById("next-btn").onclick = () => changePage(currentPage + 1);
-
-function changePage(newPage) {
-  const totalPages = Math.ceil(vocabulary.length / itemsPerPage);
-  if (newPage < 1 || newPage > totalPages) return;
-  currentPage = newPage;
-  renderTable();
-  updateNav();
+function updateQuestionNumber() {
+ document.getElementById("questionNumber").textContent = `Soal ${currentIndex + 1} dari ${questions.length}`;
 }
 
-// Toggle ID & KR
-document.getElementById("toggle-id").addEventListener("click", () => {
-  showIndo = !showIndo;
-  document.getElementById("toggle-id").classList.toggle("active", showIndo);
-  renderTable();
-});
+function updateProgress() {
+ const percent = (currentIndex / questions.length) * 50;
+ document.getElementById("progressBar").style.width = percent + "%";
+}
 
-document.getElementById("toggle-kr").addEventListener("click", () => {
-  showKorea = !showKorea;
-  document.getElementById("toggle-kr").classList.toggle("active", showKorea);
-  renderTable();
-});
+function nextQuestion() {
+ if (currentIndex >= questions.length) { finishQuiz(); return; }
+ document.getElementById("currentWord").textContent = questions[currentIndex].korea;
+ document.getElementById("answerInput").value = "";
+ document.getElementById("answerInput").focus();
+ document.getElementById("feedback").textContent = "";
+ updateQuestionNumber();
+ updateProgress();
+}
 
-// Swipe kiri-kanan
-let touchStartX = 0;
-let touchEndX = 0;
-const minSwipeDistance = 50;
-
-swipeArea.addEventListener('touchstart', e => {
-  touchStartX = e.changedTouches[0].screenX;
-}, { passive: true });
-
-swipeArea.addEventListener('touchend', e => {
-  touchEndX = e.changedTouches[0].screenX;
-  handleSwipe();
-}, { passive: true });
-
-function handleSwipe() {
-  const distance = touchStartX - touchEndX;
-  if (Math.abs(distance) < minSwipeDistance) return;
-
-  if (distance > 0) {
-    document.getElementById("next-btn").click();
+function submitAnswer() {
+ const answer = document.getElementById("answerInput").value.trim();
+ if (!answer) return;
+ const feedback = document.getElementById("feedback");
+ const q = questions[currentIndex];
+ // Normalize jawaban user
+ const normUser = answer.toLowerCase().replace(/[^a-z0-9\s]/g, '').trim();
+ // Normalize semua jawaban benar
+ let correctAnswers = Array.isArray(q.indo)
+  ? q.indo.map(a => a.toLowerCase().replace(/[^a-z0-9\s]/g, '').trim())
+  : [q.indo.toLowerCase().replace(/[^a-z0-9\s]/g, '').trim()];
+ // Exact match only
+ let isCorrect = correctAnswers.includes(normUser);
+ if (isCorrect) {
+  attemptCount = 0;
+  score++;
+  feedback.textContent = "Benar!";
+  feedback.className = "correct";
+  setTimeout(() => {
+   currentIndex++;
+   nextQuestion();
+  }, 800);
+ } else {
+  attemptCount++;
+  if (attemptCount >= 3) {
+   wrongList.push({
+    word: q.korea,
+    correct: Array.isArray(q.indo) ? q.indo.join(" / ") : q.indo,
+    your: answer
+   });
+   feedback.textContent = `Salah! → ${Array.isArray(q.indo) ? q.indo.join(" / ") : q.indo}`;
+   feedback.className = "wrong";
+   setTimeout(() => {
+    attemptCount = 0;
+    currentIndex++;
+    nextQuestion();
+   }, 1500);
   } else {
-    document.getElementById("prev-btn").click();
+   feedback.textContent = "Salah!";
+   feedback.className = "wrong";
+   document.getElementById("answerInput").value = "";
+   document.getElementById("answerInput").focus();
   }
+ }
 }
-</script>
 
+function finishQuiz() {
+ clearInterval(timerInterval);
+ document.getElementById("questionArea").classList.add("hidden");
+ document.getElementById("resultArea").classList.remove("hidden");
+ const totalQuestions = questions.length;
+ const percent = Math.round((score / totalQuestions) * 50);
+ document.getElementById("scoreText").textContent = `Skor: ${score}/${totalQuestions} (${percent}%)`;
+ const wrongDiv = document.getElementById("wrongWords");
+ wrongDiv.innerHTML = "";
+ let keterangan = "";
+ if (wrongList.length > 0) {
+  wrongDiv.classList.remove("hidden");
+  wrongDiv.innerHTML = "<strong>Kata yang salah:</strong><br><br>";
+  wrongList.forEach(i => {
+   wrongDiv.innerHTML += `• <strong>${i.word}</strong> → ${i.correct} <br><small style="color:#78350f;">(jawaban kamu: ${i.your})</small><br><br>`;
+  });
+  keterangan = wrongList.map(i => `${i.word} → ${i.your} (benar: ${i.correct})`).join(" | ");
+ } else {
+  keterangan = "Semua benar! Perfect!";
+ }
+
+ const dataToSend = {
+  waktu: new Date().toLocaleString('id-ID', {timeZone: 'Asia/Jakarta'}),
+  namaSiswa: username || "Anonymous",
+  code: kodeSoal || "Unknown",
+  kosaKata: `${score}/${totalQuestions} (${percent}%)`,
+  ubt: "-",
+  latihanSoal: totalQuestions,
+  keterangan: keterangan
+ };
+
+ const formData = new URLSearchParams(dataToSend);
+
+ fetch(SPREADSHEET_URL, {
+  method: "POST",
+  mode: "no-cors",
+  keepalive: true,
+  body: formData,
+  redirect: "follow"
+ })
+ .then(() => {
+  console.log("✅ Skor dikirim sukses via POST (no-cors)");
+ })
+ .catch(err => {
+  console.error("Gagal POST:", err);
+  // Tidak ada fallback window.open lagi → nggak double Anonymous
+ });
+
+ // Hapus beacon fallback karena POST sudah works
+ // const beaconUrl = SPREADSHEET_URL + "?" + formData.toString() + "&_=" + Date.now();
+ // const img = new Image();
+ // img.src = beaconUrl;
+}
+
+function restartQuiz() {
+ document.getElementById("resultArea").classList.add("hidden");
+ document.getElementById("questionArea").classList.remove("hidden");
+ startQuiz();
+}
+
+function backToLogin() {
+ document.getElementById("quizPage").classList.add("hidden");
+ document.getElementById("loginPage").classList.remove("hidden");
+ document.getElementById("username").value = "";
+ document.getElementById("password").value = "";
+ document.getElementById("kodeSoal").value = "";
+ document.getElementById("errorMsg").textContent = "";
+}
+
+document.getElementById("answerInput")?.addEventListener("keypress", e => {
+ if (e.key === "Enter") submitAnswer();
+});
+</script>
 </body>
 </html>
