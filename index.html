@@ -267,27 +267,25 @@ function finishQuiz(){
   const wrongDiv=document.getElementById("wrongWords");
   wrongDiv.innerHTML="";
   
-  // === BAGIAN KIRIM DATA KE SHEET (hanya ini yang diubah) ===
-  const dataToSend = {
+  // KIRIM DATA KE SHEET - FIX VERSION (gunakan URLSearchParams dengan Content-Type default form-urlencoded)
+  const params = new URLSearchParams({
     n: username || "Anonymous",
     c: kodeSoal || "Unknown",
     k: `${score}/${totalQuestions} (${percent}%)`,
     u: "-",
     l: `${score}/${totalQuestions} (${percent}%)`
-  };
+  });
 
-  const formData = new URLSearchParams(dataToSend);
   fetch(SPREADSHEET_URL, {
     method: "POST",
-    mode: "no-cors",
+    body: params,  // URLSearchParams otomatis set Content-Type: application/x-www-form-urlencoded
     keepalive: true,
-    body: formData,
     redirect: "follow"
-  }).then(() => console.log("Data terkirim ke sheet"))
-    .catch(err => console.error("Kirim data gagal:", err));
-  // === AKHIR BAGIAN KIRIM DATA ===
-  
-  // Tampilkan daftar salah (tetap sama seperti aslinya)
+    // JANGAN pakai mode: 'no-cors' lagi kalau bisa, tapi kalau masih error tambahin: mode: 'no-cors'
+  }).then(() => console.log("Data terkirim ke sheet! Cek sheet ya"))
+    .catch(err => console.error("Error kirim:", err));
+
+  // Tampilkan daftar salah kalau ada
   if(wrongList.length>0){
     wrongDiv.classList.remove("hidden");
     wrongDiv.innerHTML="<strong>Kata yang salah:</strong><br><br>";
