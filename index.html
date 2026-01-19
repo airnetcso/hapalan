@@ -26,7 +26,7 @@
       z-index: 0;
     }
 
-    /* ================= SPLASH PREMIUM (persis seperti /eps OK) ================= */
+    /* ================= SPLASH PREMIUM ================= */
     #splash {
       position: fixed;
       inset: 0;
@@ -346,11 +346,50 @@ function nextQuestion() {
 function submitAnswer() {
   const answer = document.getElementById("answerInput").value.trim();
   if (!answer) return;
+
   const feedback = document.getElementById("feedback");
   const q = questions[currentIndex];
-  const normUser = answer.toLowerCase().replace(/[^a-z0-9\s]/g, '').trim();
-  let correctAnswers = Array.isArray(q.indo) ? q.indo.map(a => a.toLowerCase().replace(/[^a-z0-9\s]/g, '').trim()) : [q.indo.toLowerCase().replace(/[^a-z0-9\s]/g, '').trim()];
+
+  // Normalisasi jawaban user: lebih permisif terhadap typo
+  const normalize = str => str
+    .toLowerCase()
+    .replace(/[^a-z0-9\s]/g, '')          // hilangkan tanda baca
+    .replace(/\s+/g, ' ')                 // ganti spasi banyak jadi satu
+    .trim();
+
+  let normUser = normalize(answer)
+    .replace(/(.)\1{2,}/g, '$1');         // hilangkan huruf duplikat beruntun (contoh: "jemmput" → "jemput")
+
+  // Normalisasi semua jawaban benar (array atau string)
+  let correctAnswers = Array.isArray(q.indo)
+    ? q.indo.map(a => normalize(a))
+    : [normalize(q.indo)];
+
+  // Cek exact match dulu
   let isCorrect = correctAnswers.includes(normUser);
+
+  // Jika belum cocok, cek toleransi typo sederhana (Levenshtein distance ≤ 2)
+  if (!isCorrect) {
+    const distance = (s1, s2) => {
+      const track = Array(s2.length + 1).fill(null).map(() => Array(s1.length + 1).fill(null));
+      for (let i = 0; i <= s1.length; i++) track[0][i] = i;
+      for (let j = 0; j <= s2.length; j++) track[j][0] = j;
+      for (let j = 1; j <= s2.length; j++) {
+        for (let i = 1; i <= s1.length; i++) {
+          const indicator = s1[i - 1] === s2[j - 1] ? 0 : 1;
+          track[j][i] = Math.min(
+            track[j][i - 1] + 1,          // deletion
+            track[j - 1][i] + 1,          // insertion
+            track[j - 1][i - 1] + indicator // substitution
+          );
+        }
+      }
+      return track[s2.length][s1.length];
+    };
+
+    isCorrect = correctAnswers.some(correct => distance(normUser, correct) <= 2);
+  }
+
   if (isCorrect) {
     attemptCount = 0;
     score++;
