@@ -105,7 +105,7 @@
       #splash-names { font-size: 10px; }
     }
 
-    /* ================= CONTENT WRAPPER (biar center vertikal sempurna) ================= */
+    /* ================= CONTENT WRAPPER ================= */
     .content-wrapper {
       position: relative;
       z-index: 2;
@@ -120,21 +120,21 @@
     }
 
     .container {
-      width: 90%;
-      max-width: 260px;
-      padding: 30px 20px;
-      border-radius: 12px;
-      background: rgba(40,40,40,0.9);
-      border: 1px solid #555;
-      box-shadow: 0 12px 28px rgba(0,0,0,0.65);
+      width: 95%;                /* naik dari 90% biar lebih lebar */
+      max-width: 320px;          /* gemuk dari 260px jadi 320px */
+      padding: 35px 25px;        /* padding dalam lebih lega */
+      border-radius: 16px;       /* radius lebih halus */
+      background: rgba(40,40,40,0.92);
+      border: 1px solid #666;
+      box-shadow: 0 14px 32px rgba(0,0,0,0.7);
       animation: fadeIn 0.9s ease-out;
       box-sizing: border-box;
     }
 
     h1 {
-      font-size: 26px;
+      font-size: 28px;           /* sedikit lebih besar biar proporsional */
       text-align: center;
-      margin: 0 0 18px;
+      margin: 0 0 24px;
       color: #f0f0f0;
       font-weight: 600;
       letter-spacing: 1px;
@@ -142,26 +142,26 @@
 
     input[type="text"] {
       width: 100%;
-      padding: 14px;
-      margin: 10px 0;
-      font-size: 15px;
-      border-radius: 6px;
-      border: 1px solid #555;
-      background: #222;
+      padding: 16px;             /* input lebih nyaman diketik */
+      margin: 12px 0;
+      font-size: 16px;
+      border-radius: 8px;
+      border: 1px solid #666;
+      background: #1e1e1e;
       color: #e0e0e0;
       box-sizing: border-box;
       transition: border-color 0.3s ease;
     }
     input::placeholder { color: #888; opacity:1; }
-    input:focus { border-color: #6b7280; outline: none; }
+    input:focus { border-color: #818cf8; outline: none; }
 
     button {
       width: 100%;
-      padding: 14px;
-      margin: 14px 0 8px;
-      font-size: 16px;
+      padding: 16px;
+      margin: 16px 0 10px;
+      font-size: 17px;
       font-weight: 600;
-      border-radius: 6px;
+      border-radius: 8px;
       border: none;
       color: white;
       cursor: pointer;
@@ -175,24 +175,24 @@
 
     #timer { 
       text-align: center; 
-      font-size: 32px; 
+      font-size: 36px; 
       font-weight: bold; 
-      margin: 20px 0; 
-      padding: 12px; 
-      background: rgba(220,38,38,0.2); 
-      border-radius:6px; 
+      margin: 24px 0; 
+      padding: 14px; 
+      background: rgba(220,38,38,0.25); 
+      border-radius:8px; 
     }
-    #timer.warning { background: rgba(249,115,22,0.3); color: #fed7aa; }
+    #timer.warning { background: rgba(249,115,22,0.35); color: #fed7aa; }
 
-    .progress { height: 12px; background: #333; border-radius: 6px; margin: 16px 0; overflow: hidden; }
+    .progress { height: 14px; background: #333; border-radius: 8px; margin: 18px 0; overflow: hidden; }
     .progress-bar { height: 100%; background: #1e40af; width: 0%; transition: width 0.8s ease; }
 
-    #questionNumber { text-align: center; font-size: 18px; margin: 12px 0; color: #bbb; }
+    #questionNumber { text-align: center; font-size: 18px; margin: 14px 0; color: #bbb; }
 
     .question strong { 
-      font-size: 44px; 
+      font-size: 48px; 
       display: block; 
-      margin: 28px 0 28px; 
+      margin: 32px 0 32px; 
       color: #f0f0f0; 
       text-align: center; 
       font-weight: 700; 
@@ -200,10 +200,10 @@
 
     #feedback { 
       text-align: center; 
-      font-size: 26px; 
+      font-size: 28px; 
       font-weight: bold; 
-      margin: 20px 0; 
-      height: 36px; 
+      margin: 24px 0; 
+      height: 40px; 
     }
     .correct { color: #86efac; animation: pulseCorrect 0.6s; }
     .wrong   { color: #fca5a5; animation: pulseWrong 0.6s; }
@@ -219,13 +219,13 @@
       color: #991b1b; 
       padding: 20px; 
       border-left: 5px solid #ef4444; 
-      border-radius:6px; 
+      border-radius:8px; 
     }
 
     .footer { 
       position: relative; 
       z-index: 2; 
-      margin-top: 20px; 
+      margin-top: 24px; 
       font-size: 13px; 
       color: #aaa; 
       text-align: center; 
@@ -283,7 +283,7 @@
 </div>
 
 <script>
-// Splash fade out
+// Splash fade out 6 detik
 document.addEventListener("DOMContentLoaded", () => {
   const splash = document.getElementById("splash");
   const loginPage = document.getElementById("loginPage");
@@ -297,7 +297,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }, 6000);
 });
 
-// Quiz script (sama seperti sebelumnya, dipersingkat biar ringkas)
+// Quiz logic (sama)
 const SPREADSHEET_URL = "https://script.google.com/macros/s/AKfycbzxyVIlsyLswlfnQG618eeUZgN83dd2jfCjU0r7LsNHM3A6NNiibuCIb5e3CNs9J1vVhQ/exec";
 
 const userIdToName = {
