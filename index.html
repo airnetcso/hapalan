@@ -8,15 +8,14 @@
     html, body {
       margin: 0;
       padding: 0;
-      height: 100dvh; /* dynamic height biar adapt pas bar hide/show */
-      overflow: hidden; /* cegah scroll bocor di body */
+      height: 100%;
     }
     body {
       font-family: 'Segoe UI', Arial, sans-serif;
       background: url('https://raw.githubusercontent.com/airnetcso/eps/main/image/bg1.jpg') no-repeat center center fixed;
       background-size: cover;
-      position: relative;
       color: #e0e0e0;
+      min-height: 100dvh;
       display: flex;
       flex-direction: column;
       justify-content: center;
@@ -30,7 +29,7 @@
       z-index: 0;
     }
 
-    /* ================= SPLASH PREMIUM (FULL PAGE + NO SHIFT) ================= */
+    /* ================= SPLASH (FULL PAGE) ================= */
     #splash {
       position: fixed;
       top: 0;
@@ -49,10 +48,8 @@
       text-align: center;
       transition: opacity 1.3s ease;
       animation: fadeIn 1.2s ease-out;
-      overflow: hidden;
     }
 
-    /* Fallback lama */
     @supports not (height: 100dvh) {
       #splash {
         height: 100vh;
@@ -103,21 +100,26 @@
     }
 
     @media (max-width: 480px) {
-      .splash-box {
-        padding: 15px 20px;
-      }
-      #splash h1 {
-        font-size: 20px;
-      }
-      #splash-names {
-        font-size: 10px;
-      }
+      .splash-box { padding: 15px 20px; }
+      #splash h1 { font-size: 20px; }
+      #splash-names { font-size: 10px; }
     }
 
-    /* ================= CONTAINER QUIZ & LOGIN (CENTER TANPA SHIFT) ================= */
-    .container {
+    /* ================= CONTENT WRAPPER (biar center vertikal sempurna) ================= */
+    .content-wrapper {
       position: relative;
       z-index: 2;
+      width: 100%;
+      min-height: 100dvh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 20px 0;
+      box-sizing: border-box;
+    }
+
+    .container {
       width: 90%;
       max-width: 260px;
       padding: 30px 20px;
@@ -223,10 +225,11 @@
     .footer { 
       position: relative; 
       z-index: 2; 
-      margin-top: 36px; 
+      margin-top: 20px; 
       font-size: 13px; 
       color: #aaa; 
       text-align: center; 
+      padding: 10px 0;
     }
   </style>
 </head>
@@ -245,39 +248,42 @@
   </div>
 </div>
 
-<!-- Login Page -->
-<div class="container hidden" id="loginPage">
-  <h1>TEST KOSA KATA</h1>
-  <input type="text" id="userId" placeholder="User ID / 아이디" autocomplete="off">
-  <input type="text" id="kodeSoal" placeholder="Kode Soal / 시험코드" autocomplete="off">
-  <button onclick="login()">MULAI / 시작</button>
-</div>
-
-<!-- Quiz Page -->
-<div class="container hidden" id="quizPage">
-  <h1>TEST KOSA KATA</h1>
-  <div id="timer">50:00</div>
-  <div id="questionNumber">Soal 1 dari 50</div>
-  <div class="progress"><div class="progress-bar" id="progressBar"></div></div>
-  <div id="questionArea">
-    <div id="feedback"></div>
-    <div class="question"><strong id="currentWord"></strong></div>
-    <input type="text" id="answerInput" placeholder="Ketik jawaban di sini" autocomplete="off">
-    <button onclick="submitAnswer()" id="submitBtn">SUBMIT</button>
+<!-- CONTENT WRAPPER -->
+<div class="content-wrapper">
+  <!-- Login Page -->
+  <div class="container hidden" id="loginPage">
+    <h1>TEST KOSA KATA</h1>
+    <input type="text" id="userId" placeholder="User ID / 아이디" autocomplete="off">
+    <input type="text" id="kodeSoal" placeholder="Kode Soal / 시험코드" autocomplete="off">
+    <button onclick="login()">MULAI / 시작</button>
   </div>
-  <div id="resultArea" class="hidden">
-    <h2 style="color:#f0f0f0; margin-bottom:20px; text-align:center;">Hasil Test</h2>
-    <p id="scoreText" style="font-size:32px; font-weight:bold; color:#d1d5db; text-align:center;"></p>
-    <div id="wrongWords" class="wrong-list hidden"></div>
-    <button onclick="restartQuiz()">ULANGI LAGI</button>
-    <button onclick="backToLogin()" style="background:#374151; margin-top:10px;">KEMBALI KE LOGIN</button>
-  </div>
-</div>
 
-<div class="footer">© 2026 Denzuka - Kim Jongun. All rights reserved.</div>
+  <!-- Quiz Page -->
+  <div class="container hidden" id="quizPage">
+    <h1>TEST KOSA KATA</h1>
+    <div id="timer">50:00</div>
+    <div id="questionNumber">Soal 1 dari 50</div>
+    <div class="progress"><div class="progress-bar" id="progressBar"></div></div>
+    <div id="questionArea">
+      <div id="feedback"></div>
+      <div class="question"><strong id="currentWord"></strong></div>
+      <input type="text" id="answerInput" placeholder="Ketik jawaban di sini" autocomplete="off">
+      <button onclick="submitAnswer()" id="submitBtn">SUBMIT</button>
+    </div>
+    <div id="resultArea" class="hidden">
+      <h2 style="color:#f0f0f0; margin-bottom:20px; text-align:center;">Hasil Test</h2>
+      <p id="scoreText" style="font-size:32px; font-weight:bold; color:#d1d5db; text-align:center;"></p>
+      <div id="wrongWords" class="wrong-list hidden"></div>
+      <button onclick="restartQuiz()">ULANGI LAGI</button>
+      <button onclick="backToLogin()" style="background:#374151; margin-top:10px;">KEMBALI KE LOGIN</button>
+    </div>
+  </div>
+
+  <div class="footer">© 2026 Denzuka - Kim Jongun. All rights reserved.</div>
+</div>
 
 <script>
-// Splash fade out 6 detik
+// Splash fade out
 document.addEventListener("DOMContentLoaded", () => {
   const splash = document.getElementById("splash");
   const loginPage = document.getElementById("loginPage");
@@ -291,7 +297,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }, 6000);
 });
 
-// Quiz script (sama)
+// Quiz script (sama seperti sebelumnya, dipersingkat biar ringkas)
 const SPREADSHEET_URL = "https://script.google.com/macros/s/AKfycbzxyVIlsyLswlfnQG618eeUZgN83dd2jfCjU0r7LsNHM3A6NNiibuCIb5e3CNs9J1vVhQ/exec";
 
 const userIdToName = {
