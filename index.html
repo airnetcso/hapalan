@@ -79,14 +79,20 @@
     #splash h1 b {
       color: #ff6b9d;
     }
+
+    /* NAMA-NAMA DI SPLASH: RATA KIRI-KANAN (JUSTIFY) */
     #splash-names {
       font-size: 11px;
       line-height: 1.7;
       opacity: 0.92;
-      text-align: center;
+      text-align: justify;              /* ← ini yang bikin rata kiri-kanan */
+      text-justify: inter-word;         /* spasi merata antar kata */
+      hyphens: auto;                    /* auto hyphenation kalau nama panjang */
+      word-break: break-word;           /* cegah overflow */
       text-shadow: 0 1px 3px rgba(0,0,0,0.7);
       max-width: 100%;
       margin: 0 auto;
+      padding: 0 10px;                  /* sedikit ruang sisi biar nggak nempel tepi */
     }
     #splash-names span {
       white-space: normal;
@@ -102,7 +108,10 @@
     @media (max-width: 480px) {
       .splash-box { padding: 15px 20px; }
       #splash h1 { font-size: 20px; }
-      #splash-names { font-size: 10px; }
+      #splash-names { 
+        font-size: 10px; 
+        padding: 0 8px; 
+      }
     }
 
     /* ================= CONTENT WRAPPER ================= */
@@ -120,10 +129,10 @@
     }
 
     .container {
-      width: 95%;                /* naik dari 90% biar lebih lebar */
-      max-width: 320px;          /* gemuk dari 260px jadi 320px */
-      padding: 35px 25px;        /* padding dalam lebih lega */
-      border-radius: 16px;       /* radius lebih halus */
+      width: 95%;
+      max-width: 320px;
+      padding: 35px 25px;
+      border-radius: 16px;
       background: rgba(40,40,40,0.92);
       border: 1px solid #666;
       box-shadow: 0 14px 32px rgba(0,0,0,0.7);
@@ -132,7 +141,7 @@
     }
 
     h1 {
-      font-size: 28px;           /* sedikit lebih besar biar proporsional */
+      font-size: 28px;
       text-align: center;
       margin: 0 0 24px;
       color: #f0f0f0;
@@ -142,7 +151,7 @@
 
     input[type="text"] {
       width: 100%;
-      padding: 16px;             /* input lebih nyaman diketik */
+      padding: 16px;
       margin: 12px 0;
       font-size: 16px;
       border-radius: 8px;
@@ -297,7 +306,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }, 6000);
 });
 
-// Quiz logic (sama)
+// Quiz logic (sama seperti sebelumnya)
 const SPREADSHEET_URL = "https://script.google.com/macros/s/AKfycbzxyVIlsyLswlfnQG618eeUZgN83dd2jfCjU0r7LsNHM3A6NNiibuCIb5e3CNs9J1vVhQ/exec";
 
 const userIdToName = {
