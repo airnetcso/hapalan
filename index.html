@@ -26,38 +26,37 @@
       z-index: 0;
     }
 
-    /* ================= SPLASH PREMIUM ================= */
+    /* ================= SPLASH PREMIUM (FULL PAGE, NO PADDING SISI) ================= */
     #splash {
       position: fixed;
       inset: 0;
-      background:
+      background: 
         linear-gradient(rgba(0,0,0,0.82), rgba(0,0,0,0.82)),
-        url("https://raw.githubusercontent.com/airnetcso/eps/main/image/bg1.jpg")
-        center/cover no-repeat;
+        url("https://raw.githubusercontent.com/airnetcso/eps/main/image/bg1.jpg") center/cover no-repeat;
       color: #fff;
       display: flex;
       justify-content: center;
       align-items: center;
-      padding: 40px 40px;
       z-index: 9999;
       text-align: center;
       transition: opacity 1.3s ease;
       animation: fadeIn 1.2s ease-out;
     }
     @keyframes fadeIn {
-      from { opacity: 0; }
-      to { opacity: 1; }
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
     }
     .splash-box {
       max-width: 560px;
       width: 100%;
-      transform: translateY(10px);
+      padding: 20px;
+      box-sizing: border-box;
     }
     #splash h1 {
       font-size: 22px;
       font-weight: 800;
       line-height: 1.4;
-      margin-bottom: 20px;
+      margin: 0 0 20px;
       text-shadow: 0 4px 12px rgba(0,0,0,0.9), 0 0 20px rgba(255, 107, 157, 0.4);
       letter-spacing: 0.5px;
     }
@@ -70,7 +69,7 @@
       opacity: 0.92;
       text-align: center;
       text-shadow: 0 1px 3px rgba(0,0,0,0.7);
-      max-width: 90%;
+      max-width: 100%;
       margin: 0 auto;
     }
     #splash-names span {
@@ -84,20 +83,18 @@
       content: " 🔥";
     }
     @media (max-width: 480px) {
-      #splash {
-        padding: 40px 30px;
+      .splash-box {
+        padding: 15px 20px;
+      }
+      #splash h1 {
+        font-size: 20px;
       }
       #splash-names {
         font-size: 10px;
       }
     }
 
-    /* Animasi (kode asli) */
-    @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-    @keyframes pulseCorrect { 0% { transform: scale(1); } 50% { transform: scale(1.05); } 100% { transform: scale(1); } }
-    @keyframes pulseWrong { 0% { transform: scale(1); } 50% { transform: scale(1.1); } 100% { transform: scale(1); } }
-
-    /* Container (persis seperti /eps: ramping 260px) */
+    /* ================= CONTAINER QUIZ & LOGIN ================= */
     .container {
       position: relative; z-index: 2;
       width: 90%;
@@ -152,7 +149,15 @@
 
     .hidden { display: none !important; }
 
-    #timer { text-align: center; font-size: 32px; font-weight: bold; margin: 20px 0; padding: 12px; background: rgba(220,38,38,0.2); border-radius:6px; }
+    #timer { 
+      text-align: center; 
+      font-size: 32px; 
+      font-weight: bold; 
+      margin: 20px 0; 
+      padding: 12px; 
+      background: rgba(220,38,38,0.2); 
+      border-radius:6px; 
+    }
     #timer.warning { background: rgba(249,115,22,0.3); color: #fed7aa; }
 
     .progress { height: 12px; background: #333; border-radius: 6px; margin: 16px 0; overflow: hidden; }
@@ -160,15 +165,47 @@
 
     #questionNumber { text-align: center; font-size: 18px; margin: 12px 0; color: #bbb; }
 
-    .question strong { font-size: 44px; display: block; margin: 28px 0 28px; color: #f0f0f0; text-align: center; font-weight: 700; }
+    .question strong { 
+      font-size: 44px; 
+      display: block; 
+      margin: 28px 0 28px; 
+      color: #f0f0f0; 
+      text-align: center; 
+      font-weight: 700; 
+    }
 
-    #feedback { text-align: center; font-size: 26px; font-weight: bold; margin: 20px 0; height: 36px; }
+    #feedback { 
+      text-align: center; 
+      font-size: 26px; 
+      font-weight: bold; 
+      margin: 20px 0; 
+      height: 36px; 
+    }
     .correct { color: #86efac; animation: pulseCorrect 0.6s; }
-    .wrong { color: #fca5a5; animation: pulseWrong 0.6s; }
+    .wrong   { color: #fca5a5; animation: pulseWrong 0.6s; }
 
-    .wrong-list { font-size: 16px; line-height: 1.8; margin: 24px 0; background: rgba(254,226,226,0.9); color: #991b1b; padding: 20px; border-left: 5px solid #ef4444; border-radius:6px; }
+    @keyframes pulseCorrect { 0% { transform: scale(1); } 50% { transform: scale(1.05); } 100% { transform: scale(1); } }
+    @keyframes pulseWrong   { 0% { transform: scale(1); } 50% { transform: scale(1.1);  } 100% { transform: scale(1); } }
 
-    .footer { position: relative; z-index: 2; margin-top: 36px; font-size: 13px; color: #aaa; text-align: center; }
+    .wrong-list { 
+      font-size: 16px; 
+      line-height: 1.8; 
+      margin: 24px 0; 
+      background: rgba(254,226,226,0.9); 
+      color: #991b1b; 
+      padding: 20px; 
+      border-left: 5px solid #ef4444; 
+      border-radius:6px; 
+    }
+
+    .footer { 
+      position: relative; 
+      z-index: 2; 
+      margin-top: 36px; 
+      font-size: 13px; 
+      color: #aaa; 
+      text-align: center; 
+    }
   </style>
 </head>
 <body>
@@ -177,7 +214,7 @@
 <div id="splash">
   <div class="splash-box">
     <h1>
-      <b>여러분,</b> tetap semangat!<br>
+      <b>여러분,</b> tetap semangat!<br><br>
       Kalian semua pasti lulus EPS TOPIK, Aamiin ...
     </h1>
     <div id="splash-names">
@@ -232,7 +269,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }, 6000);
 });
 
-// Sisanya script tetap sama persis seperti kode asli kamu
+// ====================== QUIZ LOGIC ======================
 const SPREADSHEET_URL = "https://script.google.com/macros/s/AKfycbzxyVIlsyLswlfnQG618eeUZgN83dd2jfCjU0r7LsNHM3A6NNiibuCIb5e3CNs9J1vVhQ/exec";
 
 const userIdToName = {
@@ -261,6 +298,7 @@ const userIdToName = {
   "2026010069":"Yppsdi",
   "2026010024":"Satria",
   "2026010075":"Sultan"
+  // tambah sisanya sesuai kebutuhan
 };
 
 const kodeMapping = {
@@ -275,6 +313,7 @@ const kodeMapping = {
   "chuseok":"soal16.json",
   "kimbap":"soal17.json",
   "saranghae":"soal3.json"
+  // tambah kode lain jika ada
 };
 
 let questions = [], currentIndex = 0, score = 0, wrongList = [], timerInterval, timeLeft = 3000;
@@ -350,25 +389,20 @@ function submitAnswer() {
   const feedback = document.getElementById("feedback");
   const q = questions[currentIndex];
 
-  // Normalisasi jawaban user: lebih permisif terhadap typo
   const normalize = str => str
     .toLowerCase()
-    .replace(/[^a-z0-9\s]/g, '')          // hilangkan tanda baca
-    .replace(/\s+/g, ' ')                 // ganti spasi banyak jadi satu
+    .replace(/[^a-z0-9\s]/g, '')
+    .replace(/\s+/g, ' ')
     .trim();
 
-  let normUser = normalize(answer)
-    .replace(/(.)\1{2,}/g, '$1');         // hilangkan huruf duplikat beruntun (contoh: "jemmput" → "jemput")
+  let normUser = normalize(answer).replace(/(.)\1{2,}/g, '$1');
 
-  // Normalisasi semua jawaban benar (array atau string)
   let correctAnswers = Array.isArray(q.indo)
     ? q.indo.map(a => normalize(a))
     : [normalize(q.indo)];
 
-  // Cek exact match dulu
   let isCorrect = correctAnswers.includes(normUser);
 
-  // Jika belum cocok, cek toleransi typo sederhana (Levenshtein distance ≤ 2)
   if (!isCorrect) {
     const distance = (s1, s2) => {
       const track = Array(s2.length + 1).fill(null).map(() => Array(s1.length + 1).fill(null));
@@ -378,9 +412,9 @@ function submitAnswer() {
         for (let i = 1; i <= s1.length; i++) {
           const indicator = s1[i - 1] === s2[j - 1] ? 0 : 1;
           track[j][i] = Math.min(
-            track[j][i - 1] + 1,          // deletion
-            track[j - 1][i] + 1,          // insertion
-            track[j - 1][i - 1] + indicator // substitution
+            track[j][i - 1] + 1,
+            track[j - 1][i] + 1,
+            track[j - 1][i - 1] + indicator
           );
         }
       }
@@ -449,7 +483,7 @@ function finishQuiz() {
     body: formData,
     redirect: "follow"
   }).then(() => console.log("Skor terkirim"))
-  .catch(err => console.error(err));
+    .catch(err => console.error(err));
 }
 
 function restartQuiz() {
