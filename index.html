@@ -5,8 +5,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <title>TEST KOSA KATA</title>
   <style>
-    body {
+    html, body {
       margin: 0;
+      padding: 0;
+      height: 100dvh; /* dynamic height biar adapt pas bar hide/show */
+      overflow: hidden; /* cegah scroll bocor di body */
+    }
+    body {
       font-family: 'Segoe UI', Arial, sans-serif;
       background: url('https://raw.githubusercontent.com/airnetcso/eps/main/image/bg1.jpg') no-repeat center center fixed;
       background-size: cover;
@@ -16,7 +21,6 @@
       flex-direction: column;
       justify-content: center;
       align-items: center;
-      min-height: 100dvh; /* pakai dvh biar konsisten */
     }
     body::before {
       content: '';
@@ -26,12 +30,13 @@
       z-index: 0;
     }
 
-    /* ================= SPLASH PREMIUM (FULL PAGE + MOBILE FIX) ================= */
+    /* ================= SPLASH PREMIUM (FULL PAGE + NO SHIFT) ================= */
     #splash {
       position: fixed;
-      inset: 0;
+      top: 0;
+      left: 0;
       width: 100vw;
-      height: 100dvh; /* dynamic viewport height – fix address bar di HP */
+      height: 100dvh;
       background: 
         linear-gradient(rgba(0,0,0,0.82), rgba(0,0,0,0.82)),
         url("https://raw.githubusercontent.com/airnetcso/eps/main/image/bg1.jpg") center/cover no-repeat;
@@ -47,7 +52,7 @@
       overflow: hidden;
     }
 
-    /* Fallback untuk browser lama yang belum support dvh */
+    /* Fallback lama */
     @supports not (height: 100dvh) {
       #splash {
         height: 100vh;
@@ -109,9 +114,10 @@
       }
     }
 
-    /* ================= CONTAINER QUIZ & LOGIN ================= */
+    /* ================= CONTAINER QUIZ & LOGIN (CENTER TANPA SHIFT) ================= */
     .container {
-      position: relative; z-index: 2;
+      position: relative;
+      z-index: 2;
       width: 90%;
       max-width: 260px;
       padding: 30px 20px;
@@ -120,6 +126,7 @@
       border: 1px solid #555;
       box-shadow: 0 12px 28px rgba(0,0,0,0.65);
       animation: fadeIn 0.9s ease-out;
+      box-sizing: border-box;
     }
 
     h1 {
@@ -270,7 +277,7 @@
 <div class="footer">© 2026 Denzuka - Kim Jongun. All rights reserved.</div>
 
 <script>
-// Splash logic: 6 detik fade out
+// Splash fade out 6 detik
 document.addEventListener("DOMContentLoaded", () => {
   const splash = document.getElementById("splash");
   const loginPage = document.getElementById("loginPage");
@@ -284,7 +291,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }, 6000);
 });
 
-// Quiz logic (sama seperti sebelumnya)
+// Quiz script (sama)
 const SPREADSHEET_URL = "https://script.google.com/macros/s/AKfycbzxyVIlsyLswlfnQG618eeUZgN83dd2jfCjU0r7LsNHM3A6NNiibuCIb5e3CNs9J1vVhQ/exec";
 
 const userIdToName = {
