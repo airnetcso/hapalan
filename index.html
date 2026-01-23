@@ -2,7 +2,7 @@
 <html lang="id">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <title>TEST KOSA KATA</title>
   <style>
     body {
@@ -16,7 +16,7 @@
       flex-direction: column;
       justify-content: center;
       align-items: center;
-      min-height: 100vh;
+      min-height: 100dvh; /* pakai dvh biar konsisten */
     }
     body::before {
       content: '';
@@ -26,13 +26,16 @@
       z-index: 0;
     }
 
-    /* ================= SPLASH PREMIUM (FULL PAGE, NO PADDING SISI) ================= */
+    /* ================= SPLASH PREMIUM (FULL PAGE + MOBILE FIX) ================= */
     #splash {
       position: fixed;
       inset: 0;
+      width: 100vw;
+      height: 100dvh; /* dynamic viewport height – fix address bar di HP */
       background: 
         linear-gradient(rgba(0,0,0,0.82), rgba(0,0,0,0.82)),
         url("https://raw.githubusercontent.com/airnetcso/eps/main/image/bg1.jpg") center/cover no-repeat;
+      background-attachment: fixed;
       color: #fff;
       display: flex;
       justify-content: center;
@@ -41,17 +44,28 @@
       text-align: center;
       transition: opacity 1.3s ease;
       animation: fadeIn 1.2s ease-out;
+      overflow: hidden;
     }
+
+    /* Fallback untuk browser lama yang belum support dvh */
+    @supports not (height: 100dvh) {
+      #splash {
+        height: 100vh;
+      }
+    }
+
     @keyframes fadeIn {
       from { opacity: 0; transform: translateY(20px); }
       to   { opacity: 1; transform: translateY(0); }
     }
+
     .splash-box {
       max-width: 560px;
       width: 100%;
       padding: 20px;
       box-sizing: border-box;
     }
+
     #splash h1 {
       font-size: 22px;
       font-weight: 800;
@@ -82,6 +96,7 @@
     #splash-names span:last-child::after {
       content: " 🔥";
     }
+
     @media (max-width: 480px) {
       .splash-box {
         padding: 15px 20px;
@@ -223,7 +238,7 @@
   </div>
 </div>
 
-<!-- Login Page (awalnya disembunyikan) -->
+<!-- Login Page -->
 <div class="container hidden" id="loginPage">
   <h1>TEST KOSA KATA</h1>
   <input type="text" id="userId" placeholder="User ID / 아이디" autocomplete="off">
@@ -255,7 +270,7 @@
 <div class="footer">© 2026 Denzuka - Kim Jongun. All rights reserved.</div>
 
 <script>
-// Splash logic: 6 detik → fade out mulus
+// Splash logic: 6 detik fade out
 document.addEventListener("DOMContentLoaded", () => {
   const splash = document.getElementById("splash");
   const loginPage = document.getElementById("loginPage");
@@ -269,51 +284,23 @@ document.addEventListener("DOMContentLoaded", () => {
   }, 6000);
 });
 
-// ====================== QUIZ LOGIC ======================
+// Quiz logic (sama seperti sebelumnya)
 const SPREADSHEET_URL = "https://script.google.com/macros/s/AKfycbzxyVIlsyLswlfnQG618eeUZgN83dd2jfCjU0r7LsNHM3A6NNiibuCIb5e3CNs9J1vVhQ/exec";
 
 const userIdToName = {
-  "2026010001":"Uus",
-  "2026010072":"Hanarizka",
-  "2026010011":"Windi",
-  "2026010017":"Rismayayanti",
-  "2026010015":"Sita",
-  "2026010036":"Mila",
-  "2026010023":"Aini",
-  "2026010048":"Feinie",
-  "2026010009":"Hamdan",
-  "2026010010":"Heri",
-  "2026010031":"Fikrisurya",
-  "2026010062":"Mutiara",
-  "2026010043":"Wantika",
-  "2026010014":"Dini",
-  "2026010015":"Kaniarostayuni",
-  "2026010016":"Dikisetiawan",
-  "2026010064":"Aisyah",
-  "2026010018":"Rizka",
-  "2026010019":"Dinda",
-  "2026010020":"Zhafif",
-  "2026010021":"Siwon",
-  "2026010022":"Azizah",
-  "2026010069":"Yppsdi",
-  "2026010024":"Satria",
+  "2026010001":"Uus","2026010072":"Hanarizka","2026010011":"Windi","2026010017":"Rismayayanti",
+  "2026010015":"Sita","2026010036":"Mila","2026010023":"Aini","2026010048":"Feinie",
+  "2026010009":"Hamdan","2026010010":"Heri","2026010031":"Fikrisurya","2026010062":"Mutiara",
+  "2026010043":"Wantika","2026010014":"Dini","2026010015":"Kaniarostayuni","2026010016":"Dikisetiawan",
+  "2026010064":"Aisyah","2026010018":"Rizka","2026010019":"Dinda","2026010020":"Zhafif",
+  "2026010021":"Siwon","2026010022":"Azizah","2026010069":"Yppsdi","2026010024":"Satria",
   "2026010075":"Sultan"
-  // tambah sisanya sesuai kebutuhan
 };
 
 const kodeMapping = {
-  "h050126":"soal1.json",
-  "sarewae":"test.json",
-  "r43213":"soal2.json",
-  "mugunghwa":"soal11.json",
-  "kimchi":"soal12.json",
-  "seoul":"soal13.json",
-  "teokbokki":"soal14.json",
-  "kimtaehyung":"soal15.json",
-  "chuseok":"soal16.json",
-  "kimbap":"soal17.json",
-  "saranghae":"soal3.json"
-  // tambah kode lain jika ada
+  "h050126":"soal1.json","sarewae":"test.json","r43213":"soal2.json","mugunghwa":"soal11.json",
+  "kimchi":"soal12.json","seoul":"soal13.json","teokbokki":"soal14.json","kimtaehyung":"soal15.json",
+  "chuseok":"soal16.json","kimbap":"soal17.json","saranghae":"soal3.json"
 };
 
 let questions = [], currentIndex = 0, score = 0, wrongList = [], timerInterval, timeLeft = 3000;
@@ -325,7 +312,7 @@ function login() {
   kodeSoal = document.getElementById("kodeSoal").value.trim().toLowerCase();
   if (!userIdInput || !kodeSoal) { alert("Lengkapi User ID dan Kode Soal!"); return; }
   const mappedName = userIdToName[userIdInput];
-  if (!mappedName) { alert("User ID tidak terdaftar! Angka yang kamu ketik: " + userIdInput); return; }
+  if (!mappedName) { alert("User ID tidak terdaftar!"); return; }
   username = mappedName;
   const fileName = kodeMapping[kodeSoal];
   if (!fileName) { alert("Kode Soal tidak valid!"); return; }
@@ -333,7 +320,7 @@ function login() {
     document.getElementById("loginPage").classList.add("hidden");
     document.getElementById("quizPage").classList.remove("hidden");
     startQuiz();
-  }).catch(err => { alert("Gagal memuat soal: " + err.message); });
+  }).catch(err => alert("Gagal muat soal: " + err.message));
 }
 
 async function loadQuestions(fileName) {
@@ -385,24 +372,12 @@ function nextQuestion() {
 function submitAnswer() {
   const answer = document.getElementById("answerInput").value.trim();
   if (!answer) return;
-
   const feedback = document.getElementById("feedback");
   const q = questions[currentIndex];
-
-  const normalize = str => str
-    .toLowerCase()
-    .replace(/[^a-z0-9\s]/g, '')
-    .replace(/\s+/g, ' ')
-    .trim();
-
+  const normalize = str => str.toLowerCase().replace(/[^a-z0-9\s]/g, '').replace(/\s+/g, ' ').trim();
   let normUser = normalize(answer).replace(/(.)\1{2,}/g, '$1');
-
-  let correctAnswers = Array.isArray(q.indo)
-    ? q.indo.map(a => normalize(a))
-    : [normalize(q.indo)];
-
+  let correctAnswers = Array.isArray(q.indo) ? q.indo.map(a => normalize(a)) : [normalize(q.indo)];
   let isCorrect = correctAnswers.includes(normUser);
-
   if (!isCorrect) {
     const distance = (s1, s2) => {
       const track = Array(s2.length + 1).fill(null).map(() => Array(s1.length + 1).fill(null));
@@ -411,24 +386,16 @@ function submitAnswer() {
       for (let j = 1; j <= s2.length; j++) {
         for (let i = 1; i <= s1.length; i++) {
           const indicator = s1[i - 1] === s2[j - 1] ? 0 : 1;
-          track[j][i] = Math.min(
-            track[j][i - 1] + 1,
-            track[j - 1][i] + 1,
-            track[j - 1][i - 1] + indicator
-          );
+          track[j][i] = Math.min(track[j][i - 1] + 1, track[j - 1][i] + 1, track[j - 1][i - 1] + indicator);
         }
       }
       return track[s2.length][s1.length];
     };
-
     isCorrect = correctAnswers.some(correct => distance(normUser, correct) <= 2);
   }
-
   if (isCorrect) {
-    attemptCount = 0;
-    score++;
-    feedback.textContent = "Benar!";
-    feedback.className = "correct";
+    attemptCount = 0; score++;
+    feedback.textContent = "Benar!"; feedback.className = "correct";
     setTimeout(() => { currentIndex++; nextQuestion(); }, 800);
   } else {
     attemptCount++;
@@ -438,10 +405,8 @@ function submitAnswer() {
       feedback.className = "wrong";
       setTimeout(() => { attemptCount = 0; currentIndex++; nextQuestion(); }, 1500);
     } else {
-      feedback.textContent = "Salah!";
-      feedback.className = "wrong";
-      document.getElementById("answerInput").value = "";
-      document.getElementById("answerInput").focus();
+      feedback.textContent = "Salah!"; feedback.className = "wrong";
+      document.getElementById("answerInput").value = ""; document.getElementById("answerInput").focus();
     }
   }
 }
@@ -476,14 +441,8 @@ function finishQuiz() {
     keterangan: keterangan
   };
   const formData = new URLSearchParams(dataToSend);
-  fetch(SPREADSHEET_URL, {
-    method: "POST",
-    mode: "no-cors",
-    keepalive: true,
-    body: formData,
-    redirect: "follow"
-  }).then(() => console.log("Skor terkirim"))
-    .catch(err => console.error(err));
+  fetch(SPREADSHEET_URL, { method: "POST", mode: "no-cors", keepalive: true, body: formData })
+    .then(() => console.log("Skor terkirim")).catch(err => console.error(err));
 }
 
 function restartQuiz() {
