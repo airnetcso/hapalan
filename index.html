@@ -250,7 +250,7 @@
 <div id="splash">
   <div class="splash-box">
     <h1>
-      <b>여러분,</b> harus tetap semangat !<br>
+      <b>여러분,</b> harus tetap semangat !<br><br>
       Kalian semua pasti lulus ujian EPS TOPIK, Aamiin ...
     </h1>
     <div id="splash-names">
@@ -265,8 +265,8 @@
   <div class="container hidden" id="loginPage">
     <h1>TEST KOSA KATA</h1>
     <div class="info-kecil">
-    문항수 : 50문항 | 시간 : 50분
-</div>
+      문항수 : 50문항 | 시간 : 50분
+    </div>
     <input type="text" id="userId" placeholder="User ID / 아이디" autocomplete="off">
     <input type="text" id="kodeSoal" placeholder="Kode Soal / 시험코드" autocomplete="off">
     <button onclick="login()">MULAI / 시작</button>
@@ -310,7 +310,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }, 6000);
 });
 
-// Quiz logic (sama seperti sebelumnya)
+// Quiz logic
 const SPREADSHEET_URL = "https://script.google.com/macros/s/AKfycbzxyVIlsyLswlfnQG618eeUZgN83dd2jfCjU0r7LsNHM3A6NNiibuCIb5e3CNs9J1vVhQ/exec";
 
 const userIdToName = {
@@ -381,8 +381,9 @@ function updateQuestionNumber() {
 }
 
 function updateProgress() {
-  const percent = (currentIndex / questions.length) * 50;
+  const percent = questions.length > 0 ? (currentIndex / questions.length) * 100 : 0;
   document.getElementById("progressBar").style.width = percent + "%";
+  console.log("Progress update:", currentIndex, "/", questions.length, "→", percent + "%");
 }
 
 function nextQuestion() {
@@ -443,7 +444,7 @@ function finishQuiz() {
   document.getElementById("resultArea").classList.remove("hidden");
 
   const totalQuestions = questions.length;
-  const percent = Math.round((score / totalQuestions) * 100); // FIX: * 100
+  const percent = Math.round((score / totalQuestions) * 100);
 
   document.getElementById("scoreText").textContent = `Skor: ${score}/${totalQuestions} (${percent}%)`;
 
